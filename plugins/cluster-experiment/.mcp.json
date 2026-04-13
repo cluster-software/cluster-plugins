@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "cluster-experiment": {
-      "url": "https://cluster-mcp.onrender.com/mcp"
+      "url": "https://www.mcp.hello-cluster.com/mcp"
     }
   }
 }
