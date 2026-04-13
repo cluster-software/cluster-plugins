@@ -1,0 +1,8 @@
+{
+  "name": "cluster-experiment",
+  "description": "Create A/B test experiments on Shopify stores via the Cluster platform. Build variant content incrementally with DOM patches and verify visually.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Cluster"
+  }
+}
