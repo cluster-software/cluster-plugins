@@ -1,12 +1,19 @@
 {
+  "name": "cluster-plugins",
+  "owner": {
+    "name": "Cluster"
+  },
+  "metadata": {
+    "description": "Claude Code plugins for the Cluster platform"
+  },
   "plugins": [
     {
       "name": "cluster-experiment",
+      "source": "plugins/cluster-experiment",
       "description": "Create A/B test experiments on Shopify stores via the Cluster platform. Build variant content incrementally with DOM patches and verify visually.",
-      "source": {
-        "source": "path",
-        "path": "plugins/cluster-experiment"
-      }
+      "version": "0.1.0",
+      "homepage": "https://github.com/cluster-software/cluster-plugins",
+      "repository": "https://github.com/cluster-software/cluster-plugins"
     }
   ]
 }
