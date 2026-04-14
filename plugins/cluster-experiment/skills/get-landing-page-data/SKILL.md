@@ -13,13 +13,13 @@ Fetch landing page opportunities from the ad-impact pipeline and recommend what 
 
 Call `mcp__cluster-experiment__get_landing_page_data`.
 
-This returns all ad-impact opportunities ranked by ad spend, with cross-references to any existing experiments.
+This returns all ad-impact opportunities ranked by ad spend, plus a list of existing experiments.
 
 ### 2. Find the top recommendation
 
-From the returned opportunities, find the one with the **highest `spend`** that does **not** have `has_active_experiment: true`.
+Recommend the opportunity with the **highest `spend`** — this is always the top pick.
 
-If every opportunity already has an active experiment, tell the user: "All top opportunities already have experiments running or in preview. Here's the full list:" and show a summary table.
+Only skip an opportunity if there is a **running** experiment (status = `"running"`) targeting the same landing page. Draft/preview experiments do NOT count as coverage — those haven't launched yet.
 
 ### 3. Present the recommendation
 
@@ -35,9 +35,17 @@ If `changes_markdown` is available, show it under a "Suggested Changes" heading.
 
 If `rationale_markdown` is available, show it under a "Rationale" heading.
 
+### 3b. Mention draft experiments as an aside
+
+If there are draft/preview experiments that target the same landing page as the top recommendation, mention them briefly as a note — e.g.:
+
+> Note: I see you already have draft experiments for this page ({experiment names}). If those are ready to go, here are the next best opportunities: ...
+
+Then briefly list the next 1-2 opportunities by spend as alternatives the user could pursue instead.
+
 ### 4. Offer next steps
 
-Ask the user if they'd like to create an experiment for this opportunity. If yes, hand off to `/create-experiment` by telling the user to paste the recommendation or by directly proceeding with `create_experiment` using:
+Ask the user if they'd like to create an experiment for this opportunity. If yes, proceed with `create_experiment` using:
 - The opportunity's `landing_page_url` as the `surface_path`
 - Test surface = 5 (Landing Page)
 - The opportunity's `id` as `ad_targeting_recommendation_id` (if the user wants ad audience targeting)
@@ -47,8 +55,8 @@ Ask the user if they'd like to create an experiment for this opportunity. If yes
 
 After presenting the top pick, show a brief summary of the other opportunities:
 
-| # | Landing Page | Issue | Spend | Already Testing? |
-|---|-------------|-------|-------|-----------------|
+| # | Landing Page | Issue | Spend | Running Experiment? |
+|---|-------------|-------|-------|---------------------|
 | 1 | ... | ... | $... | Yes/No |
 
 This gives the user the full picture so they can override your recommendation if needed.
