@@ -15,7 +15,7 @@ MCP server for analyzing landing pages and creating A/B test experiments on Shop
 | `list_connected_stores` | List all Shopify stores connected to this API key across orgs | Yes |
 | `get_experiment_info` | List existing tests for a store (curated, no variant content) | Yes |
 | `get_landing_page_data` | Fetch ad-impact opportunities ranked by spend, cross-referenced with existing experiments | Yes |
-| `getLandingPageAnalysis` | Create or reuse a 24h-cached LP analysis for a URL and return the finished analysis, recommendations, and dashboard link | No |
+| `get_landing_page_analysis` | Create or reuse a 24h-cached LP analysis for a URL and return the finished analysis, recommendations, and dashboard link | No |
 | `get_page_structure` | Get visible elements on a page with CSS selectors | Yes |
 | `create_experiment` | Create test + control/treatment variants, with dedup check | No |
 | `write_variant_content` | Add DOM patches to a variant incrementally | No |
@@ -34,7 +34,7 @@ For ad-impact-driven testing:
 
 For direct landing page analysis:
 
-1. `getLandingPageAnalysis` -> create or reuse a recent LP analysis for a specific URL
+1. `get_landing_page_analysis` -> create or reuse a recent LP analysis for a specific URL
 2. Review the returned recommendations and choose what to test
 3. Open the returned dashboard link if deeper inspection is helpful
 4. `create_experiment` -> create the A/B test for the chosen idea

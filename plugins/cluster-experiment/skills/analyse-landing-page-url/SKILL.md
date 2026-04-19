@@ -22,7 +22,7 @@ If the user does not provide a URL, ask for it.
 
 ### 1. Call the LP analysis tool
 
-Call `mcp__cluster-experiment__getLandingPageAnalysis` with:
+Call `mcp__cluster-experiment__get_landing_page_analysis` with:
 - `lp_url` - the landing page URL
 - `competitor_urls` - if the user provided any
 - `extra_context` - if the user provided any
