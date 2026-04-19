@@ -10,8 +10,8 @@
     {
       "name": "cluster-experiment",
       "source": "./plugins/cluster-experiment",
-      "description": "Create A/B test experiments on Shopify stores via the Cluster platform. Build variant content incrementally with DOM patches and verify visually.",
-      "version": "0.1.0",
+      "description": "Analyze landing pages and create A/B test experiments on Shopify stores via the Cluster platform. Build variant content incrementally with DOM patches and verify visually.",
+      "version": "0.2.2",
       "homepage": "https://github.com/cluster-software/cluster-plugins",
       "repository": "https://github.com/cluster-software/cluster-plugins"
     }
