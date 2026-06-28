@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "ethos": {
+      "url": "https://api.ethos.hello-cluster.com/mcp"
+    }
+  }
+}
