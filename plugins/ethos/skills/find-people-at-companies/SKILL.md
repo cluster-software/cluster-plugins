@@ -12,6 +12,7 @@ Use Ethos MCP first.
 3. Have the user open the handoff URL and upload the company CSV.
 4. Poll `get_upload_handoff_status` until it returns a `result_table_id`.
 5. Inspect the table if column or view IDs are needed, using `search_ethos_tools` for `inspect table`.
-6. Call `source_people_from_company_table` with the company table, saved view, input column IDs, and targeting brief.
+6. Summarize the detected table, company identifiers, and targeting brief, then ask for confirmation before starting people sourcing.
+7. After confirmation, call `source_people_from_company_table` with the company table, saved view, input column IDs, and targeting brief.
 
 Do not ask the user to install npm or the CLI on the MCP-first path.
