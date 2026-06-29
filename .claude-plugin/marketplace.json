@@ -14,6 +14,14 @@
       "version": "0.2.2",
       "homepage": "https://github.com/cluster-software/cluster-plugins",
       "repository": "https://github.com/cluster-software/cluster-plugins"
+    },
+    {
+      "name": "ethos",
+      "source": "./plugins/ethos",
+      "description": "Use Ethos as a remote MCP surface for GTM prospecting, enrichment, tables, agent columns, and campaigns without local CLI setup.",
+      "version": "0.1.0",
+      "homepage": "https://github.com/cluster-software/cluster-plugins",
+      "repository": "https://github.com/cluster-software/cluster-plugins"
     }
   ]
 }
