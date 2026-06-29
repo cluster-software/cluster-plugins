@@ -1,0 +1,20 @@
+{
+  "name": "cluster-plugins",
+  "interface": {
+    "displayName": "Cluster Plugins"
+  },
+  "plugins": [
+    {
+      "name": "ethos",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ethos"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
