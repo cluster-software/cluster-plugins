@@ -18,8 +18,7 @@ Use Ethos MCP first. It is remote, OAuth-backed, and does not require Node, npm,
 - `source_people_from_company_table` - source people from uploaded company tables
 - `create_agent_column` - add an agent-powered column
 - `run_table_column` - run first_5, selected row_ids, empty, count, or all rows
-- `enrich_contact_info_sample` - test email/phone enrichment on sample rows
-- `enrich_remaining_contact_info` - enrich remaining empty contact-info rows
+- `enrich_contact_info` - enrich contact info for first_5, selected row_ids, empty, count, or all rows
 - `add_leads_to_campaign` - import table rows or contacts into a campaign
 
 ### Progressive Discovery
