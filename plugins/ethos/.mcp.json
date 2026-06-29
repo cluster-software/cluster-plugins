@@ -1,7 +1,11 @@
 {
   "mcpServers": {
     "ethos": {
-      "url": "https://api.ethos.hello-cluster.com/mcp"
+      "url": "https://api.ethos.hello-cluster.com/mcp",
+      "_meta": {
+        "ideToolIconPath": "./assets/ethos-icon-template.svg",
+        "ideToolIconRendersAsTemplate": true
+      }
     }
   }
 }
