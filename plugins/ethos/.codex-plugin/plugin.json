@@ -1,0 +1,40 @@
+{
+  "name": "ethos",
+  "version": "0.1.0",
+  "description": "Use Ethos as a remote MCP surface for GTM prospecting, enrichment, tables, agent columns, and campaigns without local CLI setup.",
+  "author": {
+    "name": "Cluster",
+    "url": "https://hello-cluster.com"
+  },
+  "homepage": "https://github.com/cluster-software/cluster-plugins",
+  "repository": "https://github.com/cluster-software/cluster-plugins",
+  "keywords": [
+    "gtm",
+    "prospecting",
+    "enrichment",
+    "crm",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Ethos",
+    "shortDescription": "GTM prospecting, enrichment, tables, agent columns, and campaigns.",
+    "longDescription": "Use Ethos through a remote OAuth-backed MCP server. Find prospects, upload company lists, source people, enrich contact info, create agent columns, and add leads to campaigns without installing the Ethos CLI.",
+    "developerName": "Cluster",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://hello-cluster.com",
+    "brandColor": "#111111",
+    "composerIcon": "./assets/ethos-icon-template.svg",
+    "logo": "./assets/ethos-icon-template.svg",
+    "defaultPrompt": [
+      "Use Ethos to find RevOps leaders at US B2B SaaS companies.",
+      "Use Ethos to enrich work emails for a people table.",
+      "Use Ethos to add leads from a people table to a campaign."
+    ]
+  }
+}
