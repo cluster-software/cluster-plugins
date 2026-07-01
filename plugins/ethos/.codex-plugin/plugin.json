@@ -29,8 +29,8 @@
     ],
     "websiteURL": "https://hello-cluster.com",
     "brandColor": "#111111",
-    "composerIcon": "./assets/ethos-icon-template.svg",
-    "logo": "./assets/ethos-icon-template.svg",
+    "composerIcon": "./assets/ethos-icon-white.svg",
+    "logo": "./assets/ethos-icon-white.svg",
     "defaultPrompt": [
       "Use Ethos to find RevOps leaders at US B2B SaaS companies.",
       "Use Ethos to enrich work emails for a people table.",
