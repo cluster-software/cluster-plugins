@@ -25,6 +25,8 @@ Use Ethos MCP first. It is remote, OAuth-backed, and does not require Node, npm,
 
 For lower-level operations, call `search_ethos_tools` with the user's intent, then call `call_ethos_tool` with the selected `tool_name` and JSON arguments. Use this for table creation, row/cell edits, columns, agents, lists, and campaign configuration.
 
+The full campaign lifecycle is searchable: `list_campaigns`, `get_campaign`, `create_list`, `generate_campaign_copy`, `search_copy_bank`, `create_campaign_with_sequence`, `attach_list_to_campaign`, and `launch_campaign` (destructive - starts real sends). See the `create-campaign` skill for the end-to-end playbook.
+
 ### Organization Context
 
 MCP authorization redirects through normal Ethos login. If the user authorized multiple organizations, call `list_ethos_orgs` or `get_current_ethos_org` when org context matters, and call `switch_ethos_org` before creating or modifying resources in another authorized organization.
