@@ -1,0 +1,4 @@
+interface:
+  display_name: "LinkedIn Post Engagers"
+  short_description: "Turn LinkedIn engagement into an Ethos campaign"
+  default_prompt: "Use $linkedin-post-engagers to build a customer-specific draft campaign from this LinkedIn post."
