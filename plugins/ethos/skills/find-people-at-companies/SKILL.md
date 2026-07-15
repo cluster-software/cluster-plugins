@@ -16,7 +16,7 @@ Use Ethos MCP first.
 4. Poll `get_upload_handoff_status` until it returns a `result_table_id`.
 5. Inspect the table if column or view IDs are needed, using `search_ethos_tools` for `inspect table`.
 6. Summarize the detected table, company identifiers, and targeting brief, then ask for confirmation before starting people sourcing.
-7. After confirmation, call `source_people_from_company_table` with the company table, saved view, input column IDs, and targeting brief.
+7. After confirmation, call `source_people_from_company_table` with the company table, saved view, input column IDs, and targeting brief. For a specific displayed batch, pass both `lower_range` and `upper_range` as 1-based inclusive bounds.
 8. Poll `inspect_table_summary` on the company table until `recent_runs` shows the sourcing run with a terminal status. If the run failed outright, report the failure instead of polling further.
 9. Once cells have succeeded, call `create_people_table` on the company table to materialize the linked people table. Run `enrich_contact_info` and campaign steps against that people table id, never the company table.
 
