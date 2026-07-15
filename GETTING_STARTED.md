@@ -3,7 +3,7 @@
 > This guide is written for your coding agent. Give it this link and ask it to
 > set Ethos up for you. The agent can install the Ethos plugin and CLI; you only
 > need to approve requested commands, finish browser authentication, and reload
-> or start a new task when prompted.
+> Claude Code when prompted.
 
 Ethos supports Claude Code and Codex through one marketplace plugin. The plugin
 bundles Ethos skills and the hosted OAuth-backed MCP server. The setup skill also
@@ -65,6 +65,10 @@ already installed:
 codex plugin add ethos@cluster-plugins --json
 ```
 
+Continue the setup skill in this task. It must verify the installed plugin,
+register and authenticate the MCP server, then use a fresh ephemeral Codex
+process for read-only verification without making the user switch tasks.
+
 ## Run the setup skill
 
 Continue setup in this session before reloading when possible. Invoke the fully
@@ -103,8 +107,11 @@ The setup skill will:
    command supplied in the original setup prompt. For direct guide usage, it
    falls back to the production installer.
 2. Authenticate and verify the CLI, then synchronize Ethos skills and hooks.
-3. Reload or start a new task so the plugin MCP server is available.
-4. Authenticate MCP separately and call the read-only
+3. In Codex, verify the plugin and MCP registration and run the explicit MCP
+   OAuth login.
+4. Reload Claude Code when needed, or run a fresh ephemeral Codex verification
+   process while keeping the original user task open.
+5. Call the read-only
    `get_current_ethos_org` tool.
 
 CLI and MCP authentication are separate. Setup is complete only after both
@@ -114,8 +121,10 @@ checks pass.
 
 - **Claude Code:** run `/reload-plugins`, then invoke `/ethos:setup` again in
   the same conversation.
-- **Codex:** start a new task, then invoke `$ethos:setup`. A task that was open
-  before plugin installation cannot use the new plugin.
+- **Codex:** stay in the current task. Complete the setup skill's plugin, MCP
+  registration, and `codex mcp login ethos` checks, then let the skill run its
+  read-only ephemeral `codex exec` verification. Do not ask the user to create
+  or reopen a task.
 
 If organization policy prevents adding third-party marketplaces or plugins,
 report that exact policy blocker. Do not bypass managed settings or install the
