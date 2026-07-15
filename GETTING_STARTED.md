@@ -108,7 +108,8 @@ The setup skill will:
    falls back to the production installer.
 2. Authenticate and verify the CLI, then synchronize Ethos skills and hooks.
    Fresh Codex setup uses one browser approval to provision separate CLI and
-   MCP credentials.
+   MCP credentials. Temporary approval failures are resumable from the same
+   page and must not create a second CLI claim.
 3. In Codex, verify the plugin and MCP registration. Run a standalone MCP OAuth
    login only when the CLI was already authenticated and the combined flow did
    not run.

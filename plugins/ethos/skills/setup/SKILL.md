@@ -1,7 +1,6 @@
 ---
 name: setup
 description: Set up or repair Ethos by verifying the marketplace plugin, installing and authenticating ethos-cli, synchronizing skills and hooks, and confirming the hosted MCP connection.
-allowed-tools: Bash, Read, mcp__ethos__get_current_ethos_org
 ---
 
 # Ethos setup
@@ -76,6 +75,10 @@ separate CLI and MCP credentials. Do not run a plain CLI browser login first.
 For other agents, use `ethos auth login --agent-client auto`. After approval,
 run `ethos auth status --json` again. A zero exit code alone is insufficient if
 the JSON says `authenticated: false`.
+
+If the approval page reports a temporary server failure, use its retry action
+on the same page. The combined authorization is resumable: do not start a
+second CLI claim or reopen the authorization URL.
 
 Synchronize the bundled skills and prompt hook explicitly. These commands are
 idempotent and repair a postinstall that was skipped or interrupted:
@@ -179,6 +182,7 @@ use a write tool as a connection test.
 | Marketplace or plugin command is blocked by managed policy | Report the policy restriction and ask the user's administrator to allow `cluster-software/cluster-plugins`; do not bypass it. |
 | The plugin installed but `ethos:setup` is missing | Update the marketplace/plugin, locate `skills/setup/SKILL.md` with the command in `GETTING_STARTED.md`, and follow it directly. |
 | Node.js or npm is missing | Leave the plugin installed, guide the user to install Node.js 20+ from nodejs.org, then resume this skill. |
+| Combined Codex approval reports a temporary server failure | Retry on the same approval page. Do not start a second CLI claim or recreate the authorization URL. |
 | Combined Codex approval succeeds but the automatic localhost return is blocked | Use the **Return to Codex** button on the same approval page. Do not reopen or recreate the authorization URL. |
 | CLI is already authenticated but MCP asks for auth | In Codex run `codex mcp login ethos` before the ephemeral verification. |
 | MCP tools are absent in Claude Code | Run `/reload-plugins`; if they remain absent, fully restart Claude Code and retry the skill. |
