@@ -1,13 +1,15 @@
 # Getting started with Ethos
 
 > This guide is written for your coding agent. Give it this link and ask it to
-> set Ethos up for you. The agent can install the Ethos plugin and CLI; you only
-> need to approve requested commands, finish browser authentication, and reload
-> Claude Code when prompted.
+> set Ethos up for you. The agent can install the Ethos plugin and, where the
+> host allows it, the CLI; you only need to approve requested commands, finish
+> browser authentication, and reload Claude when prompted.
 
-Ethos supports Claude Code and Codex through one marketplace plugin. The plugin
-bundles Ethos skills and the hosted OAuth-backed MCP server. The setup skill also
-installs and authenticates `ethos-cli` so both surfaces are ready.
+Ethos supports Claude and Codex through one marketplace plugin. The plugin
+bundles Ethos skills and the hosted OAuth-backed MCP server. Local Claude Code
+and Codex setup also installs and authenticates `ethos-cli`. In Claude
+Desktop/Cowork, the plugin and MCP connection are required; the CLI is optional
+because the sandbox proxy may block its installer.
 
 This runbook is maintained alongside the marketplace. The commands below resolve
 the current Ethos plugin version from marketplace metadata.
@@ -17,7 +19,7 @@ the current Ethos plugin version from marketplace metadata.
 Use the section for the agent that is running this guide. Do not ask the user to
 open a plugin directory or paste a marketplace URL into application settings.
 
-### Claude Code
+### Claude (Claude Code and Desktop/Cowork)
 
 Inspect the configured marketplaces and installed plugins first:
 
@@ -74,7 +76,7 @@ process for read-only verification without making the user switch tasks.
 Continue setup in this session before reloading when possible. Invoke the fully
 qualified skill for the current agent:
 
-- Claude Code: `/ethos:setup`
+- Claude: `/ethos:setup`
 - Codex: `$ethos:setup`
 
 If the newly installed skill is not registered in the current session, locate
@@ -83,7 +85,7 @@ use the matching client cache to locate its file and follow it directly as a
 runbook. Set `ETHOS_PLUGIN_VERSION` yourself from the command output; do not ask
 the user for it.
 
-Claude Code:
+Claude:
 
 ```bash
 ETHOS_PLUGIN_VERSION='<installed version from claude plugin list --json>'
@@ -105,11 +107,13 @@ The setup skill will:
 
 1. Preserve a working existing CLI or install the latest CLI using the install
    command supplied in the original setup prompt. For direct guide usage, it
-   falls back to the production installer.
-2. Authenticate and verify the CLI, then synchronize Ethos skills and hooks.
-   Fresh Codex setup uses one browser approval to provision separate CLI and
-   MCP credentials. Temporary approval failures are resumable from the same
-   page and must not create a second CLI claim.
+   falls back to the production installer. In Claude Desktop/Cowork only, an
+   explicit `X-Proxy-Error: blocked-by-allowlist` response makes the CLI an
+   optional skipped step; the agent will not retry or bypass the sandbox proxy.
+2. When the CLI is available, authenticate and verify it. Fresh Codex setup
+   uses one browser approval to provision separate CLI and MCP credentials.
+   Temporary approval failures are resumable from the same page and must not
+   create a second CLI claim.
 3. In Codex, verify the plugin and MCP registration. Run a standalone MCP OAuth
    login only when the CLI was already authenticated and the combined flow did
    not run.
@@ -119,13 +123,17 @@ The setup skill will:
    `get_current_ethos_org` tool.
 
 CLI and MCP use separate least-privilege credentials internally. Fresh Codex
-setup provisions both from one browser approval. Setup is complete only after
-both checks pass.
+setup provisions both from one browser approval. Local Claude Code and Codex
+setup is complete only after both CLI and MCP checks pass. Claude Desktop/Cowork
+setup is complete when the plugin is enabled and MCP returns the active
+organization; if its sandbox proxy blocks the installer, the result must say
+that the optional CLI was skipped.
 
 ## Reload and finish verification
 
-- **Claude Code:** run `/reload-plugins`, then invoke `/ethos:setup` again in
-  the same conversation.
+- **Claude:** run `/reload-plugins`, then invoke `/ethos:setup` again in the
+  same conversation. If Claude Desktop/Cowork requires an app-level reload,
+  fully quit and reopen Claude, then invoke the skill again.
 - **Codex:** stay in the current task. Complete the setup skill's plugin and MCP
   registration checks and its combined authentication flow, then let the skill
   run its read-only ephemeral `codex exec` verification. Do not ask the user to
