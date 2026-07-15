@@ -65,6 +65,10 @@ already installed:
 codex plugin add ethos@cluster-plugins --json
 ```
 
+Do not create the verification task yet. Continue the setup skill in this task;
+it must verify the installed plugin, register and authenticate the MCP server,
+and finish the OAuth callback before the new-task handoff.
+
 ## Run the setup skill
 
 Continue setup in this session before reloading when possible. Invoke the fully
@@ -103,8 +107,11 @@ The setup skill will:
    command supplied in the original setup prompt. For direct guide usage, it
    falls back to the production installer.
 2. Authenticate and verify the CLI, then synchronize Ethos skills and hooks.
-3. Reload or start a new task so the plugin MCP server is available.
-4. Authenticate MCP separately and call the read-only
+3. In Codex, verify the plugin and MCP registration and run the explicit MCP
+   OAuth login before starting a new task.
+4. Reload Claude Code or start a brand-new Codex task only after the applicable
+   pre-handoff checks pass.
+5. Call the read-only
    `get_current_ethos_org` tool.
 
 CLI and MCP authentication are separate. Setup is complete only after both
@@ -114,8 +121,10 @@ checks pass.
 
 - **Claude Code:** run `/reload-plugins`, then invoke `/ethos:setup` again in
   the same conversation.
-- **Codex:** start a new task, then invoke `$ethos:setup`. A task that was open
-  before plugin installation cannot use the new plugin.
+- **Codex:** first complete the setup skill's plugin, MCP registration, and
+  `codex mcp login ethos` checks in the current task. Only after OAuth succeeds,
+  start a brand-new task and invoke `$ethos:setup`. A task created before plugin
+  installation or OAuth cannot use the new MCP tool, even if it is reopened.
 
 If organization policy prevents adding third-party marketplaces or plugins,
 report that exact policy blocker. Do not bypass managed settings or install the
