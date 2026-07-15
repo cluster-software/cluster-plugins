@@ -87,8 +87,7 @@ to the read-only verification below. Otherwise, use the matching agent flow.
 
 ### Codex
 
-Do not create or reopen a verification task yet. Complete every pre-handoff
-check in the current task.
+Keep the user in the current task throughout setup.
 
 First inspect the plugin state:
 
@@ -98,7 +97,7 @@ codex plugin list --json
 
 Require the `ethos@cluster-plugins` entry to report `installed: true` and
 `enabled: true`. If it does not, return to the installation steps in
-`GETTING_STARTED.md`; do not continue to OAuth or create a verification task.
+`GETTING_STARTED.md`; do not continue to OAuth.
 
 Next inspect the registered MCP server:
 
@@ -121,10 +120,26 @@ Open the browser approval and wait for the callback. Require the command to
 finish successfully. Do not assume that calling an unavailable MCP tool will
 start OAuth.
 
-Only after all three checks pass, ask the user to start a brand-new Codex task
-and invoke `$ethos:setup`. Do not create the task early and do not reopen an
-older task; task tool inventories do not update retroactively. Setup is not yet
-complete at this handoff.
+After all three checks pass, launch a fresh ephemeral Codex process from this
+task to load the newly installed MCP tool and perform only the read-only
+verification:
+
+```bash
+codex exec \
+  --ephemeral \
+  --json \
+  --sandbox read-only \
+  --skip-git-repo-check \
+  -c 'mcp_servers.ethos.url="https://api.ethos.hello-cluster.com/mcp"' \
+  -c 'mcp_servers.ethos.tools.get_current_ethos_org.approval_mode="approve"' \
+  'Use only the Ethos MCP server. Call the read-only get_current_ethos_org tool with no arguments. Do not run shell commands, edit files, or call any write tool. Return whether the call succeeded and the organization name and ID.'
+```
+
+The approval override applies only to `get_current_ethos_org`; do not broaden it
+to the server or any write tool. Inspect the JSON event stream and require a
+completed `mcp_tool_call` for server `ethos`, tool `get_current_ethos_org`, with
+no error and a result whose status is `ok`. Report the returned organization in
+the original task. Do not ask the user to create, reopen, or switch tasks.
 
 ### Claude Code
 
@@ -135,9 +150,11 @@ Do not repeatedly reinstall the plugin to solve a stale task.
 
 ## 4. Authenticate and verify MCP
 
-Call the read-only `get_current_ethos_org` tool with no arguments. In Codex,
-reach this step only in the brand-new post-OAuth task. In Claude Code, the agent
-host may open a separate OAuth approval because MCP does not reuse the CLI token.
+Call the read-only `get_current_ethos_org` tool with no arguments. In Codex, use
+the direct tool when it was already available in the original task; otherwise
+use the successful ephemeral verification result above. In Claude Code, the
+agent host may open a separate OAuth approval because MCP does not reuse the CLI
+token.
 
 Setup is complete only when the tool returns the active Ethos organization.
 Report the organization name and ID along with the successful CLI status. Do not
@@ -150,6 +167,6 @@ use a write tool as a connection test.
 | Marketplace or plugin command is blocked by managed policy | Report the policy restriction and ask the user's administrator to allow `cluster-software/cluster-plugins`; do not bypass it. |
 | The plugin installed but `ethos:setup` is missing | Update the marketplace/plugin, locate `skills/setup/SKILL.md` with the command in `GETTING_STARTED.md`, and follow it directly. |
 | Node.js or npm is missing | Leave the plugin installed, guide the user to install Node.js 20+ from nodejs.org, then resume this skill. |
-| CLI auth succeeds but MCP asks for auth | Complete the separate MCP OAuth flow; in Codex run `codex mcp login ethos` before creating the verification task. CLI and MCP credentials are intentionally independent. |
+| CLI auth succeeds but MCP asks for auth | Complete the separate MCP OAuth flow; in Codex run `codex mcp login ethos` before the ephemeral verification. CLI and MCP credentials are intentionally independent. |
 | MCP tools are absent in Claude Code | Run `/reload-plugins`; if they remain absent, fully restart Claude Code and retry the skill. |
-| MCP tools are absent in Codex | Inspect `codex plugin list --json` and `codex mcp get ethos --json`, run `codex mcp login ethos`, and only after it succeeds start a brand-new task. |
+| MCP tools are absent in Codex | Inspect `codex plugin list --json` and `codex mcp get ethos --json`, run `codex mcp login ethos`, then run the scoped ephemeral verification without switching tasks. |
