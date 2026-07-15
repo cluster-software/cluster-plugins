@@ -1,7 +1,7 @@
 ---
 name: setup
 description: Set up or repair Ethos by verifying the marketplace plugin, installing and authenticating ethos-cli, synchronizing skills and hooks, and confirming the hosted MCP connection.
-allowed-tools: Bash, Read
+allowed-tools: Bash, Read, mcp__ethos__get_current_ethos_org
 ---
 
 # Ethos setup
