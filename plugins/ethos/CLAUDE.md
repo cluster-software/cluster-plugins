@@ -20,10 +20,11 @@ Use Ethos MCP first. It is remote, OAuth-backed, and does not require Node, npm,
 - `run_table_column` - run first_5, selected row_ids, empty, count, or all rows
 - `enrich_contact_info` - enrich contact info for first_5, selected row_ids, empty, count, or all rows
 - `add_leads_to_campaign` - import table rows or contacts into a campaign
+- `populate_column_from_table` - preview or copy values across related tables by ordered match keys
 
 ### Progressive Discovery
 
-For lower-level operations, call `search_ethos_tools` with the user's intent, then call `call_ethos_tool` with the selected `tool_name` and JSON arguments. Use this for table creation, row/cell edits, columns, agents, lists, and campaign configuration.
+For lower-level operations, call `search_ethos_tools` with the user's intent, then call `call_ethos_tool` with the selected `tool_name` and JSON arguments. Use this for table creation, single or bulk cell edits, columns, agents, lists, and campaign configuration.
 
 The full LinkedIn, email, and mixed campaign lifecycle is searchable: `list_campaigns`, `get_campaign`, `create_list`, `generate_campaign_copy`, `search_copy_bank`, `create_campaign_with_sequence`, `attach_list_to_campaign`, and `launch_campaign` (destructive - starts real sends). See the `create-campaign` skill for the end-to-end playbook.
 
