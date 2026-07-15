@@ -1,6 +1,9 @@
 ---
 name: find-people-at-companies
 description: Upload a company CSV and source people from it using Ethos MCP.
+catalog_title: Find people at companies
+catalog_category: Prospecting
+catalog_description: Upload or reuse a company list, define the target personas and buying signals, then source the right contacts at each account.
 ---
 
 # Find People At Companies

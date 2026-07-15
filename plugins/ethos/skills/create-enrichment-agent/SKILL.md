@@ -1,6 +1,9 @@
 ---
 name: create-enrichment-agent
 description: Add and run an Ethos agent column through MCP.
+catalog_title: Create enrichment agent
+catalog_category: Enrichment
+catalog_description: Create company, person, or people-sourcing agents and wire them into table columns with structured outputs.
 ---
 
 # Create Enrichment Agent

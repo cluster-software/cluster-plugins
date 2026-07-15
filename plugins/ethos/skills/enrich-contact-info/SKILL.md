@@ -1,6 +1,9 @@
 ---
 name: enrich-contact-info
 description: Enrich work emails and phone numbers in an Ethos people table using MCP.
+catalog_title: Enrich contact info
+catalog_category: Enrichment
+catalog_description: Add work emails and optional phone numbers to a people table using Ethos contact data enrichment and org-level credit checks.
 ---
 
 # Enrich Contact Info

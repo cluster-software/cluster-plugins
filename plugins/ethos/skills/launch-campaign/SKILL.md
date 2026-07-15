@@ -1,6 +1,9 @@
 ---
 name: launch-campaign
 description: Add leads to an existing Ethos campaign, attach lists, or launch a ready draft through MCP.
+catalog_title: Launch campaign
+catalog_category: Campaigns
+catalog_description: Add leads to an existing Ethos campaign, attach lists, or launch a ready draft.
 ---
 
 # Launch Campaign
