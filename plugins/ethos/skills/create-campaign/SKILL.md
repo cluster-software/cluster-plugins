@@ -1,6 +1,9 @@
 ---
 name: create-campaign
 description: Build and launch an Ethos LinkedIn, email, or mixed-channel campaign end to end through MCP - lead list, sequence, AI personalization variables, leads, and launch - without the UI.
+catalog_title: Create campaign
+catalog_category: Campaigns
+catalog_description: Build an Ethos LinkedIn, email, or mixed-channel campaign end to end - lead list, sequence, and AI personalization variables.
 ---
 
 # Create Campaign

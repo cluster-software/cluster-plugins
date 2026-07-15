@@ -1,6 +1,9 @@
 ---
 name: find-people
 description: Find prospects from a natural-language ICP using Ethos MCP.
+catalog_title: Find people
+catalog_category: Prospecting
+catalog_description: Find relevant prospects from scratch with a natural-language ICP. Ethos creates linked company and people tables in the background.
 ---
 
 # Find People
