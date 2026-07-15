@@ -9,9 +9,8 @@ Ethos supports Claude Code and Codex through one marketplace plugin. The plugin
 bundles Ethos skills and the hosted OAuth-backed MCP server. The setup skill also
 installs and authenticates `ethos-cli` so both surfaces are ready.
 
-This runbook is the setup contract for Ethos plugin `0.3.0`. Setup prompts must
-link to the immutable `ethos--v0.3.0` release tag rather than the mutable default
-branch.
+This runbook is maintained alongside the marketplace. The commands below resolve
+the current Ethos plugin version from marketplace metadata.
 
 ## Install or update the plugin
 
