@@ -14,8 +14,17 @@ First identify the current host as one of:
 - Codex.
 
 Use the product that is running this skill as the source of truth. Do not infer
-Claude Desktop/Cowork from a failed network request alone. If the host is
-ambiguous, use the stricter local Claude Code requirements.
+Claude Desktop/Cowork from a failed network request alone, and do not infer
+local Claude Code from the presence of a `claude` command: the Desktop/Cowork
+sandbox VM ships its own `claude` CLI whose configuration is sandbox-local,
+never read by the app, and discarded after the session. If the host is
+ambiguous, apply the stricter local Claude Code CLI requirements, but never
+trust shell `claude plugin` output until the host is confirmed to be local
+Claude Code.
+
+In every Claude host, plugin installation goes through the user — slash
+commands in Claude Code, the app plugin UI in Claude Desktop/Cowork. Never
+install the plugin by running `claude plugin ...` through the shell.
 
 The completion requirements depend on that host:
 
@@ -197,28 +206,49 @@ completed `mcp_tool_call` for server `ethos`, tool `get_current_ethos_org`, with
 no error and a result whose status is `ok`. Report the returned organization in
 the original task. Do not ask the user to create, reopen, or switch tasks.
 
-### Claude
+### Local Claude Code
 
-If the `claude` command is available, inspect the plugin state:
+Installation is the user's job — the two `/plugin` slash commands in
+`GETTING_STARTED.md`. The shell command below is read-only inspection, never a
+substitute for them.
+
+Inspect the plugin state:
 
 ```bash
 claude plugin list --json
 ```
 
-Require `ethos@cluster-plugins` to be installed and enabled. If Claude
-Desktop/Cowork does not expose the `claude` command, require the fully qualified
-`ethos:setup` skill to be registered by the running host; merely finding a
-cached `SKILL.md` does not prove that the plugin is enabled.
+Require `ethos@cluster-plugins` to be installed and enabled. If it is missing,
+show the user the exact slash commands from `GETTING_STARTED.md`
+(`/plugin marketplace add cluster-software/cluster-plugins`, then
+`/plugin install ethos@cluster-plugins`), wait for them to confirm they ran
+both, and inspect again.
 
 After the plugin check, if the MCP tool is unavailable, ask the user to run
 `/reload-plugins`, then invoke `/ethos:setup` again in this conversation. If it
 is already available, continue directly to the read-only call in step 4.
 
-Do not repeatedly reinstall the plugin to solve a stale task.
+Do not repeatedly ask the user to reinstall the plugin to solve a stale
+session.
 
-In Claude Desktop/Cowork, verify that the Ethos plugin is installed and enabled
-before requesting reload or OAuth. A skipped optional CLI does not relax this
-requirement.
+### Claude Desktop/Cowork
+
+Never run `claude plugin` commands here, not even for inspection: the shell
+executes inside a sandbox VM with its own `claude` CLI, so its output describes
+the sandbox, not the app, and can report `installed: true` while the app has no
+plugin.
+
+The plugin is verified by the running app itself: require the fully qualified
+`ethos:setup` skill to be registered by the host. Merely finding a cached
+`SKILL.md` on a filesystem does not prove that the plugin is enabled.
+
+If the skill is not registered, walk the user through the app UI install from
+`GETTING_STARTED.md`: open **Customize → Plugins**, **Add marketplace** with
+`cluster-software/cluster-plugins`, then **Browse plugins → Ethos → Install**.
+Then have the user fully quit and reopen Claude — the Desktop app has no
+`/reload-plugins` — and invoke `/ethos:setup` in a new conversation.
+
+A skipped optional CLI does not relax the plugin requirement.
 
 ## 4. Authenticate and verify MCP
 
@@ -238,11 +268,12 @@ write tool as a connection test.
 | Symptom | Action |
 | --- | --- |
 | Marketplace or plugin command is blocked by managed policy | Report the policy restriction and ask the user's administrator to allow `cluster-software/cluster-plugins`; do not bypass it. |
-| The plugin installed but `ethos:setup` is missing | Update the marketplace/plugin, locate `skills/setup/SKILL.md` with the command in `GETTING_STARTED.md`, and follow it directly. |
+| The plugin installed but `ethos:setup` is missing | In local Claude Code or Codex, update the marketplace/plugin, locate `skills/setup/SKILL.md` with the command in `GETTING_STARTED.md`, and follow it directly. In Claude Desktop/Cowork, fully quit and reopen the app; if the skill is still missing, redo the app-UI install. |
+| `claude plugin list` in Claude Desktop/Cowork reports Ethos installed but the app shows no plugin or skills | That output comes from the sandbox VM's own `claude`, not the app. Ignore it, install through **Customize → Plugins**, and fully restart Claude. |
 | Node.js or npm is missing | In local Claude Code or Codex, leave the plugin installed and guide the user to install Node.js 20+ before resuming. In Claude Desktop/Cowork, report the optional CLI as unavailable and continue to MCP. |
 | Claude Desktop/Cowork CLI request returns `X-Proxy-Error: blocked-by-allowlist` | Skip the optional CLI, do not bypass the proxy, and continue to required plugin and MCP verification. An administrator may allowlist `api.ethos.hello-cluster.com` for future conversations if CLI access is desired. |
 | Combined Codex approval reports a temporary server failure | Retry on the same approval page. Do not start a second CLI claim or recreate the authorization URL. |
 | Combined Codex approval succeeds but the automatic localhost return is blocked | Use the **Return to Codex** button on the same approval page. Do not reopen or recreate the authorization URL. |
 | CLI is already authenticated but MCP asks for auth | In Codex run `codex mcp login ethos` before the ephemeral verification. |
-| MCP tools are absent in Claude | Run `/reload-plugins`; if they remain absent, fully restart Claude and retry the skill. |
+| MCP tools are absent in Claude | In Claude Code run `/reload-plugins`; in Claude Desktop/Cowork fully quit and reopen the app. Then retry the skill. |
 | MCP tools are absent in Codex | Inspect `codex plugin list --json` and `codex mcp get ethos --json`; if the combined auth command did not already complete, run `codex mcp login ethos`, then run the scoped ephemeral verification without switching tasks. |

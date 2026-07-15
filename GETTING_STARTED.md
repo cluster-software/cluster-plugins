@@ -1,9 +1,9 @@
 # Getting started with Ethos
 
 > This guide is written for your coding agent. Give it this link and ask it to
-> set Ethos up for you. The agent can install the Ethos plugin and, where the
-> host allows it, the CLI; you only need to approve requested commands, finish
-> browser authentication, and reload Claude when prompted.
+> set Ethos up for you. The agent runs what it can itself and hands you the few
+> steps only you can perform: client slash commands or app-UI installs, command
+> approvals, browser authentication, and reloading Claude when prompted.
 
 Ethos supports Claude and Codex through one marketplace plugin. The plugin
 bundles Ethos skills and the hosted OAuth-backed MCP server. Local Claude Code
@@ -16,33 +16,55 @@ the current Ethos plugin version from marketplace metadata.
 
 ## Install or update the plugin
 
-Use the section for the agent that is running this guide. Do not ask the user to
-open a plugin directory or paste a marketplace URL into application settings.
+Use the section for the client that is running this guide.
 
-### Claude (Claude Code and Desktop/Cowork)
+**Agents: never install the Claude plugin by running `claude plugin ...`
+through the shell.** Claude Desktop/Cowork runs shell commands inside an
+isolated VM that ships its own `claude` CLI and its own throwaway `~/.claude`.
+A shell install there succeeds inside the sandbox, is never read by the app,
+and is discarded when the session ends, so `claude plugin list --json` from
+that shell can report `installed: true` while the app has no plugin. In Claude,
+plugin installation always goes through the user: slash commands in Claude
+Code, the app plugin UI in Claude Desktop/Cowork.
 
-Inspect the configured marketplaces and installed plugins first:
+### Claude Code
 
-```bash
-claude plugin marketplace list
-claude plugin list --json
+Installation is two Claude Code slash commands. The user types these at the
+Claude Code prompt; agents cannot run slash commands:
+
+```
+/plugin marketplace add cluster-software/cluster-plugins
+/plugin install ethos@cluster-plugins
 ```
 
-If `cluster-plugins` is missing, add it. Otherwise update it:
+If the marketplace is already configured, update instead:
 
-```bash
-claude plugin marketplace add cluster-software/cluster-plugins
-claude plugin marketplace update cluster-plugins
+```
+/plugin marketplace update cluster-plugins
+/plugin update ethos@cluster-plugins
 ```
 
-If `ethos@cluster-plugins` is missing, install it. Otherwise update it:
+Agents: in local Claude Code you may inspect current state with the read-only
+shell commands `claude plugin marketplace list` and `claude plugin list
+--json`, then show the user the exact slash commands their state needs and wait
+for them to confirm they ran them. Continue with the setup skill afterwards.
 
-```bash
-claude plugin install ethos@cluster-plugins
-claude plugin update ethos@cluster-plugins
-```
+### Claude Desktop and Cowork
 
-These commands install to user scope by default.
+Plugins install through the Claude app UI only; nothing an agent runs inside
+the conversation can install one. Walk the user through:
+
+1. Open **Customize** in the sidebar, then select **Plugins**.
+2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
+3. Open **Browse plugins**, find **Ethos**, and select **Install**.
+4. Fully quit and reopen the Claude app, then start a new conversation. Claude
+   Desktop has no `/reload-plugins`, so a full restart is how the plugin's
+   skills register.
+
+The hosted Ethos MCP connection is authorized at the claude.ai account level;
+approve the browser OAuth when the app prompts for the Ethos connector. If
+organization policy hides **Add marketplace**, report that policy blocker and
+ask a workspace admin to allow the marketplace; do not work around the UI.
 
 ### Codex
 
@@ -85,7 +107,7 @@ use the matching client cache to locate its file and follow it directly as a
 runbook. Set `ETHOS_PLUGIN_VERSION` yourself from the command output; do not ask
 the user for it.
 
-Claude:
+Local Claude Code:
 
 ```bash
 ETHOS_PLUGIN_VERSION='<installed version from claude plugin list --json>'
@@ -102,6 +124,12 @@ find "${CODEX_HOME:-$HOME/.codex}" \
   -type f -path "*/plugins/cache/*/ethos/${ETHOS_PLUGIN_VERSION}/skills/setup/SKILL.md" \
   -print -quit 2>/dev/null
 ```
+
+This cached-file fallback applies to local Claude Code and Codex only. In
+Claude Desktop/Cowork, a `SKILL.md` found on the sandbox filesystem is not
+evidence that the plugin is installed; the fully qualified `ethos:setup` skill
+must be registered by the app itself, and the fix for a missing skill is the
+app plugin UI plus a full app restart, not the shell.
 
 The setup skill will:
 
@@ -131,9 +159,10 @@ that the optional CLI was skipped.
 
 ## Reload and finish verification
 
-- **Claude:** run `/reload-plugins`, then invoke `/ethos:setup` again in the
-  same conversation. If Claude Desktop/Cowork requires an app-level reload,
-  fully quit and reopen Claude, then invoke the skill again.
+- **Claude Code:** run `/reload-plugins`, then invoke `/ethos:setup` again in
+  the same conversation.
+- **Claude Desktop/Cowork:** after installing the plugin in the app UI, fully
+  quit and reopen Claude, then invoke `/ethos:setup` in a new conversation.
 - **Codex:** stay in the current task. Complete the setup skill's plugin and MCP
   registration checks and its combined authentication flow, then let the skill
   run its read-only ephemeral `codex exec` verification. Do not ask the user to
