@@ -107,24 +107,28 @@ The setup skill will:
    command supplied in the original setup prompt. For direct guide usage, it
    falls back to the production installer.
 2. Authenticate and verify the CLI, then synchronize Ethos skills and hooks.
-3. In Codex, verify the plugin and MCP registration and run the explicit MCP
-   OAuth login.
+   Fresh Codex setup uses one browser approval to provision separate CLI and
+   MCP credentials.
+3. In Codex, verify the plugin and MCP registration. Run a standalone MCP OAuth
+   login only when the CLI was already authenticated and the combined flow did
+   not run.
 4. Reload Claude Code when needed, or run a fresh ephemeral Codex verification
    process while keeping the original user task open.
 5. Call the read-only
    `get_current_ethos_org` tool.
 
-CLI and MCP authentication are separate. Setup is complete only after both
-checks pass.
+CLI and MCP use separate least-privilege credentials internally. Fresh Codex
+setup provisions both from one browser approval. Setup is complete only after
+both checks pass.
 
 ## Reload and finish verification
 
 - **Claude Code:** run `/reload-plugins`, then invoke `/ethos:setup` again in
   the same conversation.
-- **Codex:** stay in the current task. Complete the setup skill's plugin, MCP
-  registration, and `codex mcp login ethos` checks, then let the skill run its
-  read-only ephemeral `codex exec` verification. Do not ask the user to create
-  or reopen a task.
+- **Codex:** stay in the current task. Complete the setup skill's plugin and MCP
+  registration checks and its combined authentication flow, then let the skill
+  run its read-only ephemeral `codex exec` verification. Do not ask the user to
+  create or reopen a task.
 
 If organization policy prevents adding third-party marketplaces or plugins,
 report that exact policy blocker. Do not bypass managed settings or install the
