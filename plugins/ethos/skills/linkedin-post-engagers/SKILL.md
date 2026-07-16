@@ -80,12 +80,16 @@ orgs.
      fields. Fix the prompt and rerun the sample until it passes.
    - Run the approved column on the remaining qualified row IDs only. Inspect the
      complete row set and require 100% nonblank coverage for every template
-     variable. Project structured fields into flat columns when needed and record
-     the exact resulting column headers.
-6. Discover `create_list`. Dry-run a table import with only qualified
-   `selected_row_ids`, mapping every campaign-copy field through
-   `column_mapping.custom_variable_columns`; then repeat it for real only after
-   mapping, coverage, and dedupe counts pass. Use `reuse_existing_contacts=true`,
+     variable. Flatten the structured column with `extract_json_columns` — it adds
+     one linked flat column per field on the SAME table — and record the exact
+     resulting column names.
+6. Discover `create_list`. Dry-run a table import from that same engager research
+   table with only qualified `selected_row_ids`, mapping every flattened
+   campaign-copy column through `column_mapping.custom_variable_columns`; then
+   repeat it for real only after mapping, coverage, and dedupe counts pass. Never
+   copy rows into a new table for the import: the source post link, the
+   audience-research link, and the table's publish/dismiss lifecycle all key off
+   the one research table the pull created. Use `reuse_existing_contacts=true`,
    `dedupe_campaigns=true`, and keep list/workspace dedupe false unless requested.
    Use the mapped aliases in the sequence, especially `{{prospect_first_name}}`
    and `{{normalized_company_name}}`. Do not use reserved top-level variables

@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "ethos": {
+      "type": "http",
       "url": "https://api.ethos.hello-cluster.com/mcp",
       "_meta": {
         "ideToolIconPath": "./assets/ethos-icon-template.svg",

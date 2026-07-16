@@ -63,12 +63,11 @@ Claude Desktop/Cowork cannot install the Ethos plugin or configure its MCP
 server from the agent session. Do not run marketplace, plugin, CLI, or MCP setup
 commands. Give the user these manual steps instead:
 
-1. Open **Claude Desktop → Settings → Plugins**.
-2. Add the marketplace
-   `https://github.com/cluster-software/cluster-plugins`.
+1. Open **Claude Desktop → Customize → Plugins**.
+2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
 3. Find **Ethos** in the marketplace and select **Install**.
-4. Start a new Claude conversation and approve the Ethos connection when
-   prompted.
+4. Fully quit and reopen Claude Desktop, start a new conversation, and approve
+   the Ethos connection when prompted.
 
 Watch the installation walkthrough:
 [Install Ethos in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
