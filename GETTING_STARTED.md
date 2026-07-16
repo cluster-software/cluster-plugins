@@ -18,16 +18,29 @@ the current Ethos plugin version from marketplace metadata.
 
 Use the section for the client that is running this guide.
 
-**Agents: never install the Claude plugin by running `claude plugin ...`
-through the shell.** Claude Desktop/Cowork runs shell commands inside an
-isolated VM that ships its own `claude` CLI and its own throwaway `~/.claude`.
-A shell install there succeeds inside the sandbox, is never read by the app,
-and is discarded when the session ends, so `claude plugin list --json` from
-that shell can report `installed: true` while the app has no plugin. In Claude,
-plugin installation always goes through the user: slash commands in Claude
-Code, the app plugin UI in Claude Desktop/Cowork.
+**Agents: shell `claude plugin` state is authoritative only when the shell
+runs on the user's real machine.** Claude Code sessions — terminal or launched
+by the Claude desktop app — run their shell on the host, so `claude plugin`
+commands there read and write the real `~/.claude`. Claude Desktop/Cowork
+conversations instead run shell commands inside an isolated Linux VM that
+ships its own `claude` CLI and its own throwaway `~/.claude`. A shell install
+there succeeds inside the sandbox, is never read by the app, and is discarded
+when the session ends, so `claude plugin list --json` from that shell can
+report `installed: true` while the app has no plugin. Never install or verify
+the plugin through the shell in Claude Desktop/Cowork.
 
-### Claude Code
+Identify the Claude flavor before installing:
+
+- **Terminal Claude Code:** the `/plugin` slash commands are available to the
+  user.
+- **Claude Code run by the Claude desktop app:** the session reports
+  `CLAUDE_CODE_ENTRYPOINT=claude-desktop` and the shell runs on the user's
+  real operating system (for example `uname -s` prints `Darwin` on a Mac).
+  The `/plugin` dialog commands are unavailable in this surface.
+- **Claude Desktop/Cowork conversation:** the shell is a Linux sandbox VM
+  behind an egress proxy, regardless of the user's real operating system.
+
+### Claude Code (terminal)
 
 Installation is two Claude Code slash commands. The user types these at the
 Claude Code prompt; agents cannot run slash commands:
@@ -44,12 +57,37 @@ If the marketplace is already configured, update instead:
 /plugin update ethos@cluster-plugins
 ```
 
-Agents: in local Claude Code you may inspect current state with the read-only
-shell commands `claude plugin marketplace list` and `claude plugin list
---json`, then show the user the exact slash commands their state needs and wait
-for them to confirm they ran them. Continue with the setup skill afterwards.
+Agents: inspect current state with the read-only shell commands
+`claude plugin marketplace list` and `claude plugin list --json`, then show
+the user the exact slash commands their state needs and wait for them to
+confirm they ran them. Continue with the setup skill afterwards.
 
-### Claude Desktop and Cowork
+### Claude Code run by the Claude desktop app
+
+The `/plugin` dialog commands do not exist in this surface, and the shell is
+the supported path because it writes to the real `~/.claude`. Agents run these
+commands themselves and let the user approve them:
+
+```bash
+claude plugin marketplace add cluster-software/cluster-plugins
+claude plugin install ethos@cluster-plugins
+```
+
+If the marketplace is already configured, update instead:
+
+```bash
+claude plugin marketplace update cluster-plugins
+claude plugin update ethos@cluster-plugins
+```
+
+Verify with `claude plugin list --json`, then ask the user to start a new
+conversation and invoke `/ethos:setup` there: this surface has no
+`/reload-plugins`, and a new conversation is how the newly installed plugin's
+skills register. If the host's permission mode declines the install commands,
+give the user the same two `claude plugin ...` commands to run in any regular
+terminal instead.
+
+### Claude Desktop and Cowork conversations
 
 Plugins install through the Claude app UI only; nothing an agent runs inside
 the conversation can install one. Walk the user through:
@@ -107,7 +145,7 @@ use the matching client cache to locate its file and follow it directly as a
 runbook. Set `ETHOS_PLUGIN_VERSION` yourself from the command output; do not ask
 the user for it.
 
-Local Claude Code:
+Claude Code (terminal or desktop-run):
 
 ```bash
 ETHOS_PLUGIN_VERSION='<installed version from claude plugin list --json>'
@@ -125,11 +163,11 @@ find "${CODEX_HOME:-$HOME/.codex}" \
   -print -quit 2>/dev/null
 ```
 
-This cached-file fallback applies to local Claude Code and Codex only. In
-Claude Desktop/Cowork, a `SKILL.md` found on the sandbox filesystem is not
-evidence that the plugin is installed; the fully qualified `ethos:setup` skill
-must be registered by the app itself, and the fix for a missing skill is the
-app plugin UI plus a full app restart, not the shell.
+This cached-file fallback applies to Claude Code and Codex only. In Claude
+Desktop/Cowork, a `SKILL.md` found on the sandbox filesystem is not evidence
+that the plugin is installed; the fully qualified `ethos:setup` skill must be
+registered by the app itself, and the fix for a missing skill is the app
+plugin UI plus a full app restart, not the shell.
 
 The setup skill will:
 
@@ -159,8 +197,10 @@ that the optional CLI was skipped.
 
 ## Reload and finish verification
 
-- **Claude Code:** run `/reload-plugins`, then invoke `/ethos:setup` again in
-  the same conversation.
+- **Claude Code (terminal):** run `/reload-plugins`, then invoke
+  `/ethos:setup` again in the same conversation.
+- **Claude Code run by the Claude desktop app:** there is no
+  `/reload-plugins`; start a new conversation and invoke `/ethos:setup` there.
 - **Claude Desktop/Cowork:** after installing the plugin in the app UI, fully
   quit and reopen Claude, then invoke `/ethos:setup` in a new conversation.
 - **Codex:** stay in the current task. Complete the setup skill's plugin and MCP
