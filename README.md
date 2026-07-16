@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <strong>Build with Ethos in your agent.</strong>
+  <strong>Give your agent access to the Ethos platform</strong>
 </p>
 
 ## Set up
