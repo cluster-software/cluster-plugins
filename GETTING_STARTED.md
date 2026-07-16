@@ -51,11 +51,9 @@ setup.
 ### 3. Give the user next steps
 
 After setup returns the active Ethos organization, tell the user Ethos is ready
-and suggest these two skills:
+and suggest this skill:
 
 - `$ethos:find-people` — find prospects from a natural-language ICP.
-- `$ethos:find-people-at-companies` — upload a company CSV and find the right
-  people at those companies.
 
 ## Claude
 
