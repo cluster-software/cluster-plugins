@@ -136,8 +136,6 @@ are enabled, and the read-only tool returns the active organization.
 Report the organization name and ID, tell the user Ethos is ready, and suggest:
 
 - `$ethos:find-people` — find prospects from a natural-language ICP.
-- `$ethos:find-people-at-companies` — upload a company CSV and find the right
-  people at those companies.
 
 ## Troubleshooting
 
