@@ -22,6 +22,13 @@ ambiguous, apply the stricter local Claude Code CLI requirements, but never
 trust shell `claude plugin` output until the host is confirmed to be local
 Claude Code.
 
+Local Claude Code includes local sessions run by the Claude desktop app: they
+use the real `~/.claude` configuration, but interactive commands such as
+`/plugin`, `/reload-plugins`, and `/mcp` can be unavailable there. Treat such a
+host as local Claude Code, and when a required interactive command is
+unavailable, use the new-conversation remediation described in step 3 instead
+of insisting on the command.
+
 In every Claude host, plugin installation goes through the user — slash
 commands in Claude Code, the app plugin UI in Claude Desktop/Cowork. Never
 install the plugin by running `claude plugin ...` through the shell.
@@ -224,12 +231,36 @@ show the user the exact slash commands from `GETTING_STARTED.md`
 `/plugin install ethos@cluster-plugins`), wait for them to confirm they ran
 both, and inspect again.
 
-After the plugin check, if the MCP tool is unavailable, ask the user to run
-`/reload-plugins`, then invoke `/ethos:setup` again in this conversation. If it
-is already available, continue directly to the read-only call in step 4.
+After the plugin check, if the MCP tool is already available, continue directly
+to the read-only call in step 4. If it is unavailable, inspect the registered
+MCP server before prescribing any remediation:
+
+```bash
+claude mcp list
+```
+
+A healthy install lists
+`plugin:ethos:ethos: https://api.ethos.hello-cluster.com/mcp (HTTP)`, typically
+marked `Needs authentication` before OAuth. Interpret the output:
+
+- The `plugin:ethos:ethos` entry is listed: the session is stale. Ask the user
+  to run `/reload-plugins`, then invoke `/ethos:setup` again in this
+  conversation. If `/reload-plugins` is unavailable in this host (Claude
+  desktop app local sessions), MCP servers load only at session start: ask the
+  user to start a new conversation and invoke `/ethos:setup` there.
+- The entry is missing even though the plugin is installed and enabled: the
+  plugin's `.mcp.json` did not register. Claude Code silently skips MCP server
+  entries it cannot parse (for example, a `url` entry without
+  `"type": "http"`), so an absent entry with no warning still means a config
+  problem, not a stale session. Have the user run
+  `/plugin marketplace update cluster-plugins` then
+  `/plugin update ethos@cluster-plugins` to pick up a fixed plugin version and
+  re-check. If the entry is still missing after the update, report the plugin
+  version and this exact symptom as a plugin configuration bug and stop.
 
 Do not repeatedly ask the user to reinstall the plugin to solve a stale
-session.
+session, and do not loop on reload for a missing-entry state that reload cannot
+fix.
 
 ### Claude Desktop/Cowork
 
@@ -275,5 +306,5 @@ write tool as a connection test.
 | Combined Codex approval reports a temporary server failure | Retry on the same approval page. Do not start a second CLI claim or recreate the authorization URL. |
 | Combined Codex approval succeeds but the automatic localhost return is blocked | Use the **Return to Codex** button on the same approval page. Do not reopen or recreate the authorization URL. |
 | CLI is already authenticated but MCP asks for auth | In Codex run `codex mcp login ethos` before the ephemeral verification. |
-| MCP tools are absent in Claude | In Claude Code run `/reload-plugins`; in Claude Desktop/Cowork fully quit and reopen the app. Then retry the skill. |
+| MCP tools are absent in Claude | In Claude Code run `claude mcp list` first: if `plugin:ethos:ethos` is listed, run `/reload-plugins` (or start a new conversation where that command is unavailable); if it is missing, update the marketplace and plugin — reload cannot fix an entry Claude skipped at parse time. In Claude Desktop/Cowork fully quit and reopen the app. Then retry the skill. |
 | MCP tools are absent in Codex | Inspect `codex plugin list --json` and `codex mcp get ethos --json`; if the combined auth command did not already complete, run `codex mcp login ethos`, then run the scoped ephemeral verification without switching tasks. |

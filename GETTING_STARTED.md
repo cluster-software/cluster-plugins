@@ -45,9 +45,16 @@ If the marketplace is already configured, update instead:
 ```
 
 Agents: in local Claude Code you may inspect current state with the read-only
-shell commands `claude plugin marketplace list` and `claude plugin list
---json`, then show the user the exact slash commands their state needs and wait
-for them to confirm they ran them. Continue with the setup skill afterwards.
+shell commands `claude plugin marketplace list`, `claude plugin list --json`,
+and `claude mcp list`, then show the user the exact slash commands their state
+needs and wait for them to confirm they ran them. Continue with the setup skill
+afterwards.
+
+Local Claude Code includes local sessions run by the Claude desktop app: they
+share the real `~/.claude` configuration, but interactive commands such as
+`/plugin` and `/reload-plugins` can be unavailable there. When they are, install
+through the app plugin UI and use a new conversation wherever this guide says
+to reload.
 
 ### Claude Desktop and Cowork
 
@@ -160,7 +167,13 @@ that the optional CLI was skipped.
 ## Reload and finish verification
 
 - **Claude Code:** run `/reload-plugins`, then invoke `/ethos:setup` again in
-  the same conversation.
+  the same conversation. If `/reload-plugins` is unavailable (local sessions
+  run by the Claude desktop app), start a new conversation and invoke
+  `/ethos:setup` there instead — MCP servers load only at session start. If the
+  Ethos MCP tool is still missing, have the agent run `claude mcp list`: a
+  listed `plugin:ethos:ethos` entry means reload/new-conversation again; a
+  missing entry means the installed plugin version's MCP config was skipped at
+  parse time, so update the marketplace and plugin rather than reloading.
 - **Claude Desktop/Cowork:** after installing the plugin in the app UI, fully
   quit and reopen Claude, then invoke `/ethos:setup` in a new conversation.
 - **Codex:** stay in the current task. Complete the setup skill's plugin and MCP
