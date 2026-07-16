@@ -1,6 +1,6 @@
 {
   "name": "ethos",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Use Ethos as a remote MCP surface for GTM prospecting, enrichment, tables, agent columns, and campaigns without local CLI setup.",
   "author": {
     "name": "Cluster",
@@ -18,7 +18,7 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Ethos",
+    "displayName": "Ethos GTM",
     "shortDescription": "GTM prospecting, enrichment, tables, agent columns, and campaigns.",
     "longDescription": "Use Ethos through a remote OAuth-backed MCP server. Find prospects, upload company lists, source people, enrich contact info, create agent columns, and build, fill, and launch LinkedIn, email, and mixed campaigns without installing the Ethos CLI.",
     "developerName": "Cluster",
