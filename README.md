@@ -11,5 +11,5 @@
 
 ## Set up
 
-Point your coding agent at **[`GETTING_STARTED.md`](./GETTING_STARTED.md)** and
+Point your agent at **[`GETTING_STARTED.md`](./GETTING_STARTED.md)** and
 ask it to set up Ethos for you.
