@@ -170,10 +170,12 @@ that the optional CLI was skipped.
   the same conversation. If `/reload-plugins` is unavailable (local sessions
   run by the Claude desktop app), start a new conversation and invoke
   `/ethos:setup` there instead — MCP servers load only at session start. If the
-  Ethos MCP tool is still missing, have the agent run `claude mcp list`: a
-  listed `plugin:ethos:ethos` entry means reload/new-conversation again; a
-  missing entry means the installed plugin version's MCP config was skipped at
-  parse time, so update the marketplace and plugin rather than reloading.
+  Ethos MCP tool is still missing, have the agent run `claude mcp list`: an
+  entry marked `Needs authentication` means finish the MCP OAuth rather than
+  reloading; a listed `plugin:ethos:ethos` entry with no Ethos server visible
+  in the session means reload/new-conversation again; a missing entry means the
+  installed plugin version's MCP config was skipped at parse time, so update
+  the marketplace and plugin rather than reloading.
 - **Claude Desktop/Cowork:** after installing the plugin in the app UI, fully
   quit and reopen Claude, then invoke `/ethos:setup` in a new conversation.
 - **Codex:** stay in the current task. Complete the setup skill's plugin and MCP

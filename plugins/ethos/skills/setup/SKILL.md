@@ -243,11 +243,17 @@ A healthy install lists
 `plugin:ethos:ethos: https://api.ethos.hello-cluster.com/mcp (HTTP)`, typically
 marked `Needs authentication` before OAuth. Interpret the output:
 
-- The `plugin:ethos:ethos` entry is listed: the session is stale. Ask the user
-  to run `/reload-plugins`, then invoke `/ethos:setup` again in this
-  conversation. If `/reload-plugins` is unavailable in this host (Claude
-  desktop app local sessions), MCP servers load only at session start: ask the
-  user to start a new conversation and invoke `/ethos:setup` there.
+- The `plugin:ethos:ethos` entry is listed and this session shows the Ethos
+  MCP server as awaiting authentication: registration is fine and the session
+  is not stale. Continue to step 4 and complete the MCP OAuth; do not ask for
+  a reload.
+- The entry is listed but this session shows no Ethos MCP server in any state:
+  the session is stale. Ask the user to run `/reload-plugins`, then invoke
+  `/ethos:setup` again in this conversation. If `/reload-plugins` is
+  unavailable in this host (Claude desktop app local sessions), MCP servers
+  load only at session start: ask the user to start a new conversation and
+  invoke `/ethos:setup` there. After the reload the server may still need
+  authentication; finish with step 4.
 - The entry is missing even though the plugin is installed and enabled: the
   plugin's `.mcp.json` did not register. Claude Code silently skips MCP server
   entries it cannot parse (for example, a `url` entry without
@@ -306,5 +312,5 @@ write tool as a connection test.
 | Combined Codex approval reports a temporary server failure | Retry on the same approval page. Do not start a second CLI claim or recreate the authorization URL. |
 | Combined Codex approval succeeds but the automatic localhost return is blocked | Use the **Return to Codex** button on the same approval page. Do not reopen or recreate the authorization URL. |
 | CLI is already authenticated but MCP asks for auth | In Codex run `codex mcp login ethos` before the ephemeral verification. |
-| MCP tools are absent in Claude | In Claude Code run `claude mcp list` first: if `plugin:ethos:ethos` is listed, run `/reload-plugins` (or start a new conversation where that command is unavailable); if it is missing, update the marketplace and plugin — reload cannot fix an entry Claude skipped at parse time. In Claude Desktop/Cowork fully quit and reopen the app. Then retry the skill. |
+| MCP tools are absent in Claude | In Claude Code run `claude mcp list` first: if `plugin:ethos:ethos` is listed and the session shows the server awaiting authentication, complete the MCP OAuth in step 4 — no reload; if it is listed but the session shows no Ethos server, run `/reload-plugins` (or start a new conversation where that command is unavailable); if it is missing, update the marketplace and plugin — reload cannot fix an entry Claude skipped at parse time. In Claude Desktop/Cowork fully quit and reopen the app. Then retry the skill. |
 | MCP tools are absent in Codex | Inspect `codex plugin list --json` and `codex mcp get ethos --json`; if the combined auth command did not already complete, run `codex mcp login ethos`, then run the scoped ephemeral verification without switching tasks. |
