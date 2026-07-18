@@ -145,6 +145,6 @@ Report the organization name and ID, tell the user Ethos is ready, and suggest:
 | The installed plugin is missing `ethos:setup` | Update the marketplace/plugin, locate the cached `skills/setup/SKILL.md` using `GETTING_STARTED.md`, and follow it directly. |
 | Node.js or npm is missing | Leave the plugin installed and guide the user to install Node.js 20+ before resuming. |
 | Combined approval reports a temporary server failure | Retry on the same approval page; do not create another CLI claim or authorization URL. |
-| Combined approval succeeds but localhost return is blocked | Use **Return to Codex** on the same approval page. |
+| Combined approval succeeds but localhost return is blocked | Use **Return to your agent** on the same approval page. |
 | CLI is authenticated but MCP asks for auth | Run `codex mcp login ethos` before ephemeral verification. |
 | MCP tools are absent | Verify `codex plugin list --json` and `codex mcp get ethos --json`, complete OAuth if needed, then run scoped ephemeral verification. |

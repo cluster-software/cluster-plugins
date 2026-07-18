@@ -1,6 +1,6 @@
 {
   "name": "ethos",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Use Ethos as a remote MCP surface for GTM prospecting, enrichment, tables, agent columns, and campaigns without local CLI setup.",
   "author": {
     "name": "Cluster",
