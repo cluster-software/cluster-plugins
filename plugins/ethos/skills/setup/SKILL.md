@@ -41,9 +41,7 @@ If a prerequisite is missing, leave the plugin installed and tell the user what
 to install from https://nodejs.org. Do not install or replace a machine-level
 Node runtime automatically.
 
-Use the installer command from the originating setup prompt and apply
-`ETHOS_AGENT_CLIENT=codex` to its installer shell. If none was provided, use the
-production installer with the Codex client selected:
+Install with the production installer and the Codex client selected:
 
 ```bash
 curl -fsSL "https://api.ethos.hello-cluster.com/v1/auth/cli/install" | ETHOS_AGENT_CLIENT=codex bash
