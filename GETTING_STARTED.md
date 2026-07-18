@@ -1,7 +1,27 @@
 # Getting started with Ethos
 
 > Follow exactly one branch based on the
-> product currently running: Codex or Claude (desktop, cowork, claude.ai).
+> product currently running: Claude (including desktop, cowork, claude.ai) or Codex.
+
+## Claude (chat app, desktop, cowork)
+
+Claude chat app, desktop, cowork cannot install the Ethos plugin or
+configure its MCP server from the agent session. Do not run marketplace,
+plugin, CLI, or MCP setup commands. Give the user these manual steps instead:
+
+1. Open **Claude → Customize → Plugins**.
+2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
+3. Find **Ethos** in the marketplace and select **Install**.
+4. Open **Customize → Plugins → Connectors**, find **Ethos**, and select
+   **Install**.
+5. Approve access in the browser.
+
+Watch the installation walkthrough:
+[Install Ethos in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
+
+Stop after presenting these instructions. The user must complete the Claude
+UI flow themselves.
+
 
 ## Codex
 
@@ -55,38 +75,3 @@ and suggest this skill:
 
 - `$ethos:find-people` — find prospects from a natural-language ICP.
 
-## Claude
-
-Claude Desktop/Cowork cannot install the Ethos plugin or
-configure its MCP server from the agent session. Do not run marketplace,
-plugin, CLI, or MCP setup commands. Give the user these manual steps instead:
-
-1. Open **Claude → Customize → Plugins**.
-2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **Ethos** in the marketplace and select **Install**.
-4. Open **Customize → Plugins → Connectors**, find **Ethos**, and select
-   **Install**.
-5. Approve access in the browser.
-
-Watch the installation walkthrough:
-[Install Ethos in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
-
-Stop after presenting these instructions. The user must complete the Claude
-UI flow themselves.
-
-## Claude chat app
-
-Claude chat app cannot install the Ethos plugin or MCP. Give the user these steps:
-
-1. Open **Claude → Customize → Plugins**.
-2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **Ethos** in the marketplace and select **Install**.
-4. Open **Customize → Plugins → Connectors**, find **Ethos**, and select
-   **Install**.
-5. Approve access in the browser.
-
-Watch the installation walkthrough:
-[Install Ethos in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
-
-Stop after presenting these instructions. The user must complete the Claude
-UI flow themselves.
