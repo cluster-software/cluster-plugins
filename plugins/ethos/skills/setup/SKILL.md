@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying the marketplace plugin and hosted MCP server, and confirming the active organization. In Claude Desktop/Cowork, direct the user to the manual plugin installation flow instead of running setup commands.
+description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying the marketplace plugin and hosted MCP server, and confirming the active organization. In Claude Desktop/Cowork and claude.ai, direct the user to the manual plugin installation flow instead of running setup commands.
 allowed-tools: Bash, Read, mcp__ethos__get_current_ethos_org
 catalog_visible: false
 ---
@@ -10,9 +10,9 @@ catalog_visible: false
 ## Route by product
 
 - **Codex:** complete the automated workflow below.
-- **Claude Desktop/Cowork:** do not run shell commands or attempt to install the
-  plugin, CLI, or MCP server. Present the Claude steps and Loom video in
-  `GETTING_STARTED.md`, then stop.
+- **Claude Desktop/Cowork and claude.ai:** do not run shell commands or attempt
+  to install the plugin, CLI, or MCP server. Present the Claude steps and Loom
+  video in `GETTING_STARTED.md`, then stop.
 
 If the current product is ambiguous, do not run setup commands until it is
 clear that this is Codex.
