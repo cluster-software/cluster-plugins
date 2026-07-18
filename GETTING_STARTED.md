@@ -6,10 +6,12 @@
 ## Claude (chat app, desktop, cowork)
 
 Claude chat app, desktop, cowork cannot install the Ethos plugin or
-configure its MCP server from the agent session. Do not run marketplace,
-plugin, CLI, or MCP setup commands. Give the user these manual steps instead:
+configure its MCP server from the agent session. Print these steps verbatim. Do not try
+to execute anything yourself. The user has to do this manually.
 
-1. Open **Claude → Customize → Plugins**.
+Print:
+```
+1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
 3. Find **Ethos** in the marketplace and select **Install**.
 4. Open **Customize → Plugins → Connectors**, find **Ethos**, and select
@@ -18,6 +20,7 @@ plugin, CLI, or MCP setup commands. Give the user these manual steps instead:
 
 Watch the installation walkthrough:
 [Install Ethos in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
+```
 
 Stop after presenting these instructions. The user must complete the Claude
 UI flow themselves.
