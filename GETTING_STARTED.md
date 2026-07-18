@@ -1,7 +1,7 @@
 # Getting started with Ethos
 
-> This guide is written for your agent. Follow exactly one branch based on the
-> product currently running: Codex or Claude.
+> Follow exactly one branch based on the
+> product currently running: Codex or Claude (desktop, cowork, claude.ai).
 
 ## Codex
 
@@ -61,7 +61,7 @@ Claude Desktop/Cowork and claude.ai cannot install the Ethos plugin or
 configure its MCP server from the agent session. Do not run marketplace,
 plugin, CLI, or MCP setup commands. Give the user these manual steps instead:
 
-1. Open **Claude Desktop → Customize → Plugins**.
+1. Open **Claude → Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
 3. Find **Ethos** in the marketplace and select **Install**.
 4. Open **Customize → Plugins → Connectors**, find **Ethos**, and select
