@@ -1,7 +1,7 @@
 {
   "name": "ethos",
-  "version": "0.3.6",
-  "description": "Use Ethos as a remote MCP surface for GTM prospecting, enrichment, campaigns, and a cross-channel LinkedIn/Gmail campaign inbox without local CLI setup.",
+  "version": "0.3.9",
+  "description": "Use Ethos for GTM prospecting, enrichment, tables, agent columns, campaigns, and a cross-channel LinkedIn/Gmail campaign inbox.",
   "author": {
     "name": "Cluster",
     "url": "https://hello-cluster.com"
@@ -18,9 +18,9 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Ethos",
-    "shortDescription": "GTM prospecting, campaigns, and campaign replies.",
-    "longDescription": "Use Ethos through a remote OAuth-backed MCP server. Find and enrich prospects, build and launch LinkedIn/email campaigns, and safely review or reply to campaign conversations across LinkedIn and Gmail without importing organic mailbox history.",
+    "displayName": "Ethos GTM",
+    "shortDescription": "GTM prospecting, enrichment, campaigns, and campaign replies.",
+    "longDescription": "Use Ethos through a remote OAuth-backed MCP server. Find prospects, enrich contacts, create agent columns, build and launch LinkedIn/email campaigns, and safely review or reply to campaign conversations across LinkedIn and Gmail without importing organic mailbox history.",
     "developerName": "Cluster",
     "category": "Productivity",
     "capabilities": [
