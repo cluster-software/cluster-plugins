@@ -29,6 +29,8 @@ For lower-level operations, call `search_ethos_tools` with the user's intent, th
 
 The full LinkedIn, email, and mixed campaign lifecycle is searchable: `list_campaigns`, `get_campaign`, `create_list`, `generate_campaign_copy`, `search_copy_bank`, `create_campaign_with_sequence`, `attach_list_to_campaign`, and `launch_campaign` (destructive - starts real sends). See the `create-campaign` skill for the end-to-end playbook.
 
+The cross-channel unibox is also searchable: `list_unibox_conversations`, `get_unibox_conversation`, and `send_unibox_message` (destructive - sends a real reply and stops pending automation for that contact). Campaign conversations are the default; use `include_all=true` only when the user explicitly asks for organic account conversations. See the `manage-unibox` skill for safe pagination, thread selection, and idempotent retries.
+
 ### Organization Context
 
 MCP authorization redirects through normal Ethos login. If the user authorized multiple organizations, call `list_ethos_orgs` or `get_current_ethos_org` when org context matters, and call `switch_ethos_org` before creating or modifying resources in another authorized organization.
