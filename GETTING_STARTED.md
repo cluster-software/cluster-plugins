@@ -10,7 +10,7 @@ configure its MCP server from the agent session. Print these steps verbatim. Do 
 to execute anything yourself. The user has to do this manually.
 
 Print:
-```
+```text
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
 3. Find **Ethos** in the marketplace and select **Install**.
