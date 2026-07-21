@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Ethos inbox"
+  short_description: "Review LinkedIn and Gmail campaign replies"
+  default_prompt: "Use $manage-inbox to review my campaign conversations and help me reply safely."

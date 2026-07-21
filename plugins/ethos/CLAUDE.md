@@ -25,9 +25,11 @@ Use Ethos MCP first. It is remote, OAuth-backed, and does not require Node, npm,
 
 ### Progressive Discovery
 
-For lower-level operations, call `search_ethos_tools` with the user's intent, then call `call_ethos_tool` with the selected `tool_name` and JSON arguments. Use this for table creation, single or bulk cell edits, columns, agents, lists, and campaign configuration.
+For lower-level operations, call `search_ethos_tools` with the user's intent, then call `call_ethos_tool` with the selected `tool_name` and JSON arguments. Use this for table creation, single or bulk cell edits, columns, agents, lists, campaign configuration, unified Inbox reads/replies, and connected-account access.
 
 The full LinkedIn, email, and mixed campaign lifecycle is searchable: `list_campaigns`, `get_campaign`, `create_list`, `generate_campaign_copy`, `search_copy_bank`, `create_campaign_with_sequence`, `attach_list_to_campaign`, and `launch_campaign` (destructive - starts real sends). See the `create-campaign` skill for the end-to-end playbook.
+
+The cross-channel campaign Inbox is searchable through `list_inbox_conversations`, `get_inbox_conversation`, `reply_to_inbox_conversation`, attachment, and account ownership/send-as delegation tools. It contains only campaign contacts and messages beginning with the first successful campaign send; it never imports organic contacts or earlier provider history. Read access never grants send permission, so use only backend-returned reply targets with `can_send_as=true`. See the `manage-inbox` skill for the safe playbook.
 
 ### Organization Context
 
