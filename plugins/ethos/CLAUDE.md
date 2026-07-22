@@ -16,6 +16,7 @@ Use Ethos MCP first. It is remote, OAuth-backed, and does not require Node, npm,
 - `create_csv_upload_handoff` - open browser CSV upload flows
 - `get_upload_handoff_status` - poll upload handoff completion
 - `source_people_from_company_table` - source people from uploaded company tables
+- `create_people_table` - materialize sourced people and retain selected exact-row company fields
 - `list_signal_definitions` - list built-in and org-scoped custom signals with their config and row schemas
 - `pull_signal` - run a sourceable signal and land its matches in an Ethos table
 - `get_signal_pull_status` - wait server-side for a signal pull and return its table and row count
@@ -39,7 +40,9 @@ The full LinkedIn, email, and mixed campaign lifecycle is searchable: `list_camp
 
 After `pull_signal`, call `get_signal_pull_status` with `wait_seconds` in the 15-180 second range for work that normally takes minutes. A successful pull with zero rows and no table is a normal no-match result. Do not substitute another signal, infer or select its Lambda/Daytona executor, or retry through a different executor after failure. The executor is an internal deployment detail and the returned table is the stable integration surface.
 
-The CLI exposes the same assignments through `ethos signals list`, `ethos signals pull <custom:key>`, `ethos signals pull-status <job-id>`, and the normal `ethos workflows` commands. Omit `--config` for managed custom signals.
+Person-scoped signals return the people table to use downstream. Company-scoped signals return a company table: inspect its view and columns, run `source_people_from_company_table` with `scope="all"` and a targeting brief, wait for the run to finish, then call `create_people_table`. Pass `source_column_ids` for non-identity signal fields needed downstream; Ethos copies them from each exact source company row onto its linked people, preserving signal context without reimplementing enrichment inside the custom signal.
+
+The CLI exposes the same assignments through `ethos signals list`, `ethos signals pull <custom:key>`, `ethos signals pull-status <job-id>`, and the normal `ethos workflows` commands. Omit `--config` for managed custom signals. For a company-scoped result, use `ethos tables source-people` followed by `ethos tables create-people-table --source-column <id>` for each signal-context column to retain.
 
 ### Organization Context
 
