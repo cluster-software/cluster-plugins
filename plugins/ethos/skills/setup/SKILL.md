@@ -1,7 +1,7 @@
 ---
 name: setup
 description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying the marketplace plugin and hosted MCP server, and confirming the active organization. In Claude Desktop/Cowork and claude.ai, direct the user to the manual plugin installation flow instead of running setup commands.
-allowed-tools: Bash, Read, mcp__ethos__get_current_ethos_org
+allowed-tools: Bash, Read, mcp__ethos_gtm__get_current_ethos_org
 catalog_visible: false
 ---
 
@@ -90,7 +90,7 @@ If it does not, return to the Codex installation branch in
 Inspect the MCP server:
 
 ```bash
-codex mcp get ethos --json
+codex mcp get ethos_gtm --json
 ```
 
 Require `enabled: true`, transport type `streamable_http`, and URL
@@ -100,7 +100,7 @@ If the combined installer did not perform MCP OAuth because the CLI was already
 authenticated, run:
 
 ```bash
-codex mcp login ethos
+codex mcp login ethos_gtm
 ```
 
 Open the browser approval and wait for the callback. Do not assume that calling
@@ -119,12 +119,12 @@ codex exec \
   --json \
   --sandbox read-only \
   --skip-git-repo-check \
-  -c 'mcp_servers.ethos.url="https://api.ethos.hello-cluster.com/mcp"' \
-  -c 'mcp_servers.ethos.tools.get_current_ethos_org.approval_mode="approve"' \
+  -c 'mcp_servers.ethos_gtm.url="https://api.ethos.hello-cluster.com/mcp"' \
+  -c 'mcp_servers.ethos_gtm.tools.get_current_ethos_org.approval_mode="approve"' \
   'Use only the Ethos MCP server. Call the read-only get_current_ethos_org tool with no arguments. Do not run shell commands, edit files, or call any write tool. Return whether the call succeeded and the organization name and ID.'
 ```
 
-For the ephemeral path, require a completed `mcp_tool_call` for server `ethos`
+For the ephemeral path, require a completed `mcp_tool_call` for server `ethos_gtm`
 and tool `get_current_ethos_org`, with no error and a result whose status is
 `ok`.
 
@@ -146,5 +146,5 @@ Report the organization name and ID, tell the user Ethos is ready, and suggest:
 | Node.js or npm is missing | Leave the plugin installed and guide the user to install Node.js 20+ before resuming. |
 | Combined approval reports a temporary server failure | Retry on the same approval page; do not create another CLI claim or authorization URL. |
 | Combined approval succeeds but localhost return is blocked | Use **Return to Codex** on the same approval page. |
-| CLI is authenticated but MCP asks for auth | Run `codex mcp login ethos` before ephemeral verification. |
-| MCP tools are absent | Verify `codex plugin list --json` and `codex mcp get ethos --json`, complete OAuth if needed, then run scoped ephemeral verification. |
+| CLI is authenticated but MCP asks for auth | Run `codex mcp login ethos_gtm` before ephemeral verification. |
+| MCP tools are absent | Verify `codex plugin list --json` and `codex mcp get ethos_gtm --json`, complete OAuth if needed, then run scoped ephemeral verification. |
