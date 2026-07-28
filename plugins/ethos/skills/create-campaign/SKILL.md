@@ -29,7 +29,7 @@ Use Ethos MCP. Campaign tools are searchable: load them with `search_ethos_tools
 
 ## Updating an existing sequence
 
-1. Call `get_campaign` and confirm the campaign is still a draft. Preserve any copy, timing, invitation note, and channel choices the user did not ask to change.
+1. Call `get_campaign` and confirm the campaign is still pre-launch (`draft` or `recommended`). Preserve any copy, timing, invitation note, and channel choices the user did not ask to change.
 2. Call `update_campaign_sequence` with `campaign_id`, explicit `first_step`, and the complete replacement `messages` array in send order. This replaces every sequence step; omitted messages are removed. The same email subject and invitation-note rules as campaign creation apply.
 3. Call `get_campaign` again and verify every saved step before launch.
 
