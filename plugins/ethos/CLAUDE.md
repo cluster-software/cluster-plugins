@@ -32,7 +32,7 @@ Use Ethos MCP first. It is remote, OAuth-backed, and does not require Node, npm,
 
 For lower-level operations, call `search_ethos_tools` with the user's intent, then call `call_ethos_tool` with the selected `tool_name` and JSON arguments. Use this for table creation, single or bulk cell edits, columns, agents, lists, and campaign configuration.
 
-The full LinkedIn, email, and mixed campaign lifecycle is searchable: `list_campaigns`, `get_campaign`, `create_list`, `generate_campaign_copy`, `search_copy_bank`, `create_campaign_with_sequence`, `attach_list_to_campaign`, and `launch_campaign` (destructive - starts real sends). See the `create-campaign` skill for the end-to-end playbook.
+The full LinkedIn, email, and mixed campaign lifecycle is searchable: `list_campaigns`, `get_campaign`, `get_campaign_performance`, `list_campaign_leads`, `lookup_linkedin_profiles`, `create_list`, `generate_campaign_copy`, `search_copy_bank`, `create_campaign_with_sequence`, `attach_list_to_campaign`, and `launch_campaign` (destructive - starts real sends). See the `ask-ethos` skill for read-only performance, reply, and lead-cohort analysis, and `create-campaign` for the end-to-end creation playbook.
 
 The cross-channel unibox is also searchable: `list_unibox_conversations`, `get_unibox_conversation`, and `send_unibox_message` (destructive - sends a real reply and stops pending automation for that contact). Campaign conversations are the default; use `include_all=true` only when the user explicitly asks for organic account conversations. See the `manage-unibox` skill for safe pagination, thread selection, and idempotent retries.
 
