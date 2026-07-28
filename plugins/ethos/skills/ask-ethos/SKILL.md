@@ -43,11 +43,22 @@ context.
    - invitations sent, invitations accepted, and acceptance rate;
    - messages/emails sent and daily activity;
    - failed, excluded, active, and completed lead counts from campaign detail.
-5. Separate observation from interpretation. A high acceptance rate with a low
-   reply rate can suggest post-acceptance copy or offer friction; high failures
-   suggest delivery or setup friction; low recent activity can mean the
-   campaign is paused, complete, waiting on delays, or constrained. Check
-   status and sequence before naming a cause.
+5. Interpret acceptance and reply rates as funnel diagnostics:
+   - Use 30% as a directional LinkedIn acceptance-rate benchmark unless the
+     customer has a more relevant historical baseline.
+   - Acceptance around or above 30% with a comparatively low reply rate points
+     more strongly to post-acceptance copy, offer, positioning, or CTA friction.
+   - Acceptance below 30% can indicate targeting the wrong audience or a sender
+     profile that needs stronger credibility signals, such as a clearer
+     headline and more relevant content/activity.
+   - For low acceptance, recommend testing an otherwise comparable campaign
+     with a concise connection note to see whether it improves acceptance.
+     Present this as an experiment, not a guaranteed fix, and do not create or
+     launch it from this read-only skill.
+6. Separate observation from interpretation. High failures suggest delivery or
+   setup friction; low recent activity can mean the campaign is paused,
+   complete, waiting on delays, or constrained. Check status and sequence
+   before naming a cause.
 
 Do not compare raw reply counts without showing contacted-lead denominators.
 Do not combine draft audience counts with launched contact counts.
