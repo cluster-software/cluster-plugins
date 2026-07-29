@@ -100,7 +100,10 @@ orgs.
    materialized in the campaign-copy column. Leave
    `exclude_existing_linkedin_connections=true` so first-degree connections of
    the selected sender are protected across the whole sequence; only disable it
-   when the user explicitly requests warm-network outreach. Do not also add the
+   when the user explicitly requests warm-network outreach. Leave
+   `linkedin_invite_withdraw_after_days` at its default (14) so invitations still
+   pending after two weeks are withdrawn automatically; adjust 1-90 or pass
+   `null` only when the user asks. Do not also add the
    same leads. Verify the sequence, mapped aliases, policy, and staged contact
    count with `get_campaign`.
 8. Never call `launch_campaign` without explicit confirmation that the user
@@ -268,6 +271,7 @@ Create the draft from the already locked template and mapped aliases:
 ```sh
 ethos campaigns create-with-sequence --name "$CAMPAIGN_NAME" --list-id "$LIST_ID" \
   --exclude-existing-linkedin-connections true \
+  --withdraw-invites-after-days 14 \
   --messages-json "$MESSAGES_JSON" --copy-play-json "$COPY_PLAY_JSON" --json
 ```
 
