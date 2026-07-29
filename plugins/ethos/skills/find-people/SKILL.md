@@ -15,6 +15,16 @@ Use Ethos MCP first.
 3. Otherwise call `get_find_people_status` until the job succeeds, fails, or needs refinement.
 4. Return the `people_table_id`, table URL, counts, and any refinement suggestions.
 
+For an empty company table that will be populated by a workflow, call
+`source_people_from_company_table` with `create_only: true`. Retain the returned
+`column_id` in the workflow configuration so the workflow can run that column
+after the rows exist. When qualification is represented by a boolean or other
+prior column, pass a column-level `run_condition`; non-matching rows are recorded
+as skipped and spend no People Finder credits. Use `filters` only to define the
+source table scope, not as a substitute for conditional workflow execution. This
+mode creates the People Finder column without sourcing people or spending run
+credits; omit `create_only` when contacts should be sourced immediately.
+
 If MCP tools are unavailable, ask the user to reconnect Ethos MCP or install the Ethos plugin.
 
 Keep responses concise: IDs, URLs, counts, status, and the next action.
