@@ -15,7 +15,7 @@ Use Ethos MCP first. It is remote, OAuth-backed, and does not require Node, npm,
 - `switch_ethos_org` - switch to another authorized organization
 - `create_csv_upload_handoff` - open browser CSV upload flows
 - `get_upload_handoff_status` - poll upload handoff completion
-- `source_people_from_company_table` - source people from uploaded company tables
+- `source_people_from_company_table` - source people from company tables, or create a reusable conditional People Finder column with `create_only` and `run_condition`
 - `create_people_table` - materialize sourced people and retain selected exact-row company fields
 - `list_signal_definitions` - list built-in and org-scoped custom signals with their config and row schemas
 - `pull_signal` - run a sourceable signal and land its matches in an Ethos table
