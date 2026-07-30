@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./plugins/ethos/assets/ethos-icon-white.svg">
-    <img src="./plugins/ethos/assets/ethos-icon-template.svg" alt="Ethos" height="64">
+    <source media="(prefers-color-scheme: dark)" srcset="./plugins/ethos-gtm/assets/ethos-icon-white.svg">
+    <img src="./plugins/ethos-gtm/assets/ethos-icon-template.svg" alt="Ethos" height="64">
   </picture>
 </p>
 

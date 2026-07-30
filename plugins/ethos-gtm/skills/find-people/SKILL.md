@@ -23,7 +23,10 @@ prior column, pass a column-level `run_condition`; non-matching rows are recorde
 as skipped and spend no People Finder credits. Use `filters` only to define the
 source table scope, not as a substitute for conditional workflow execution. This
 mode creates the People Finder column without sourcing people or spending run
-credits; omit `create_only` when contacts should be sourced immediately.
+credits; omit `create_only` when contacts should be sourced immediately. For
+company-scoped signal sourcing, follow the contract in `CLAUDE.md`: use
+`scope="all"`, include the targeting brief, and pass `source_column_ids` for
+signal fields that must be preserved on the resulting people.
 
 If MCP tools are unavailable, ask the user to reconnect Ethos MCP or install the Ethos plugin.
 
