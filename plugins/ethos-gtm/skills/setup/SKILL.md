@@ -83,7 +83,9 @@ Inspect the plugin:
 codex plugin list --json
 ```
 
-Require `ethos@cluster-plugins` to report `installed: true` and `enabled: true`.
+Require `ethos-gtm@cluster-plugins` to report `installed: true` and
+`enabled: true`. The legacy `ethos@cluster-plugins` identity should not remain
+installed.
 If it does not, return to the Codex installation branch in
 `GETTING_STARTED.md`.
 
@@ -135,14 +137,14 @@ are enabled, and the read-only tool returns the active organization.
 
 Report the organization name and ID, tell the user Ethos is ready, and suggest:
 
-- `$ethos:find-people` — find prospects from a natural-language ICP.
+- `$ethos-gtm:find-people` — find prospects from a natural-language ICP.
 
 ## Troubleshooting
 
 | Symptom | Action |
 | --- | --- |
 | Marketplace or plugin command is blocked by managed policy | Report the policy restriction and ask the user's administrator to allow `cluster-software/cluster-plugins`; do not bypass it. |
-| The installed plugin is missing `ethos:setup` | Update the marketplace/plugin, locate the cached `skills/setup/SKILL.md` using `GETTING_STARTED.md`, and follow it directly. |
+| The installed plugin is missing `ethos-gtm:setup` | Update the marketplace/plugin, locate the cached `skills/setup/SKILL.md` using `GETTING_STARTED.md`, and follow it directly. |
 | Node.js or npm is missing | Leave the plugin installed and guide the user to install Node.js 20+ before resuming. |
 | Combined approval reports a temporary server failure | Retry on the same approval page; do not create another CLI claim or authorization URL. |
 | Combined approval succeeds but localhost return is blocked | Use **Return to Codex** on the same approval page. |

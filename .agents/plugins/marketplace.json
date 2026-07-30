@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "ethos",
+      "name": "ethos-gtm",
       "source": {
         "source": "local",
-        "path": "./plugins/ethos"
+        "path": "./plugins/ethos-gtm"
       },
       "policy": {
         "installation": "AVAILABLE",

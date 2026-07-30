@@ -47,22 +47,29 @@ codex plugin marketplace add cluster-software/cluster-plugins
 codex plugin marketplace upgrade cluster-plugins
 ```
 
-Install or refresh Ethos:
+Remove the legacy Codex plugin identity when `codex plugin list --json` reports
+`ethos@cluster-plugins` as installed:
 
 ```bash
-codex plugin add ethos@cluster-plugins --json
+codex plugin remove ethos@cluster-plugins
+```
+
+Install or refresh Ethos GTM:
+
+```bash
+codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
 ### 2. Run the setup skill
 
-Invoke `$ethos:setup` in this task. If the newly installed skill is not yet
+Invoke `$ethos-gtm:setup` in this task. If the newly installed skill is not yet
 registered, read the exact installed version from the plugin JSON, locate its
 cached runbook, and follow it directly:
 
 ```bash
 ETHOS_PLUGIN_VERSION='<installed version from codex plugin add/list JSON>'
 find "${CODEX_HOME:-$HOME/.codex}" \
-  -type f -path "*/plugins/cache/*/ethos/${ETHOS_PLUGIN_VERSION}/skills/setup/SKILL.md" \
+  -type f -path "*/plugins/cache/*/ethos-gtm/${ETHOS_PLUGIN_VERSION}/skills/setup/SKILL.md" \
   -print -quit 2>/dev/null
 ```
 
@@ -76,5 +83,4 @@ setup.
 After setup returns the active Ethos organization, tell the user Ethos is ready
 and suggest this skill:
 
-- `$ethos:find-people` — find prospects from a natural-language ICP.
-
+- `$ethos-gtm:find-people` — find prospects from a natural-language ICP.
