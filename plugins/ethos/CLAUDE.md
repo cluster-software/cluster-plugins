@@ -36,6 +36,10 @@ The full LinkedIn, email, and mixed campaign lifecycle is searchable: `list_camp
 
 The cross-channel unibox is also searchable: `list_unibox_conversations`, `get_unibox_conversation`, and `send_unibox_message` (destructive - sends a real reply and stops pending automation for that contact). Campaign conversations are the default; use `include_all=true` only when the user explicitly asks for organic account conversations. See the `manage-unibox` skill for safe pagination, thread selection, and idempotent retries.
 
+### Workflow Links
+
+After `create_workflow`, share `urls.workflow` with the user by default; it opens the canvas workflow builder. Use `urls.workflow_detail` when linking specifically to run history or workflow state management.
+
 ### Custom Signals
 
 `list_signal_definitions` includes only the custom signals assigned to the active organization. They use keys such as `custom:<assignment-id>` and report `configuration_mode: "managed"`. Pass `config={}` to `pull_signal` and an empty `trigger_config` to `create_workflow`; customers and agents do not override managed configuration.
