@@ -19,15 +19,19 @@ For lower-level table or agent configuration, discover atomic tools with `search
 
 ## Credit approval
 
-`run_table_column` spends org credits per billable row. A validated sample is necessary but
-not sufficient for the full run — the user also approves the spend:
+`run_table_column` spends org credits per billable row. Validate the sample before a full run,
+then use the server's approval decision instead of asking about every paid action:
 
 1. Call `run_table_column` with `dry_run: true` and the intended full scope to get
-   `estimated_credits` and the remaining balance.
-2. Show the user the validated sample plus the estimate and ask before the full run — unless
-   the user pre-authorized the spend (a spend cap or a "don't ask about credits" instruction)
-   or this is a user-configured autonomous run. In those cases proceed and report credits
-   spent in the final summary instead. Asking for the whole table in one prompt is a scope,
+   `estimated_credits`, the remaining balance, `approval_threshold_credits`, and
+   `approval_required`.
+2. When `approval_required` is false (currently estimates at or below 100 credits), start the
+   run immediately with `dry_run: false`. Do not ask the user for confirmation; report the
+   credits spent in the final summary.
+3. When `approval_required` is true (currently estimates above 100 credits), show the user the
+   validated sample plus the estimate and ask before the full run — unless the user
+   pre-authorized the spend (a spend cap or a "don't ask about credits" instruction) or this
+   is a user-configured autonomous run. Asking for the whole table in one prompt is a scope,
    not a spend approval.
-3. Start the run with `acknowledged_credits` set to the dry-run's `estimated_credits`. Runs
-   estimated above the approval threshold will not start without it.
+4. After approval or pre-authorization, start the run with `acknowledged_credits` set to the
+   dry-run's `estimated_credits`.
