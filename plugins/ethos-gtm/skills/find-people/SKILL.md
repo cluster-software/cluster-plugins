@@ -12,7 +12,10 @@ Use Ethos MCP first.
 
 1. Call `find_people` with a specific query that includes both target companies and target people. Queries naming specific employers run against exactly those companies when they resolve.
 2. If the response status is `needs_refinement` with no `search_id`, the query was declined before a search started. Follow the response `next_action`: either rewrite the query to describe both companies and people, or pivot to `create_table` (entity_type `company`, one row per company in `data.company_names`) plus `source_people_from_company_table`. Do not retry the same query.
-3. Otherwise call `get_find_people_status` until the job succeeds, fails, or needs refinement.
+3. Otherwise call `get_find_people_status` with `wait_seconds=120`. It blocks
+   server-side until the job is terminal or that window expires; call it again
+   only when the returned status is still nonterminal. Never poll a table or
+   call the status tool in a tight loop.
 4. Return the `people_table_id`, table URL, counts, and any refinement suggestions.
 
 For an empty company table that will be populated by a workflow, call
