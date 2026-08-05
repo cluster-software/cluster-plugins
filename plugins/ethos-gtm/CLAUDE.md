@@ -40,6 +40,8 @@ The cross-channel unibox is also searchable: `list_unibox_conversations`, `get_u
 
 After `create_workflow`, share `urls.workflow` with the user by default; it opens the canvas workflow builder. Use `urls.workflow_detail` when linking specifically to run history or workflow state management.
 
+Workflow editing is searchable through `get_workflow` and `update_workflow`. For a Slack notification step, call `list_slack_channels`, preserve every existing step that should remain, then pass a `send_to_slack` step with the returned `channel_id`; supplying `steps` replaces the workflow's complete step set.
+
 ### Custom Signals
 
 `list_signal_definitions` includes only the custom signals assigned to the active organization. They use keys such as `custom:<assignment-id>` and report `configuration_mode: "managed"`. Pass `config={}` to `pull_signal` and an empty `trigger_config` to `create_workflow`; customers and agents do not override managed configuration.
