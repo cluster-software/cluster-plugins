@@ -35,6 +35,28 @@ Use Ethos MCP. Campaign tools are searchable: load them with `search_ethos_tools
 4. **Validate and launch a ready draft.** Call `get_campaign` and verify the campaign is a draft with its intended list, sequence, and sender accounts. `launch_campaign` is destructive: it enrolls the list and starts real sends on every configured channel, so confirm explicitly with the user immediately before calling it. If the tool reports a missing sender, send the user to the campaign URL to pick one and retry only after they say it is ready.
 5. **Pause or resume outreach.** `pause_campaign` and `resume_campaign` are destructive; confirm explicitly immediately before either call. Only a `running` campaign can pause and only a `paused` campaign can resume. After either operation, call `get_campaign` to verify the resulting status and return the campaign ID, counts, and campaign URL.
 
+## Updating campaign safety settings
+
+`update_campaign_settings` changes only the connection-safety fields supplied in
+the request. It supports outreach campaigns in `draft`, `running`, or `paused`
+status. Completed, archived, and recommended campaigns reject these changes.
+
+1. **Read the campaign.** Call `get_campaign` and note its status plus the current
+   `exclude_existing_linkedin_connections` and
+   `linkedin_invite_withdraw_after_days` values.
+2. **Explain live-campaign impact.** For a running or paused campaign, state the
+   requested change and confirm with the user before writing it. Connection
+   exclusion affects contacts enrolled after the update; changing invitation
+   withdrawal also affects invitations the campaign already sent that are still
+   pending.
+3. **Send only the intended fields.** Call `update_campaign_settings` with the
+   exact `campaign_id` and only the settings being changed. The exclusion field
+   is boolean. Withdrawal accepts 1-90 days; pass `null` to disable it and omit
+   it to leave it unchanged.
+4. **Verify.** Call `get_campaign` again and report the saved values and campaign
+   URL. Do not imply that enabling connection exclusion removed contacts already
+   enrolled.
+
 ## Updating an existing sequence
 
 `update_campaign_sequence` replaces the campaign's **future** outreach. It is a full replacement, not a patch: every message you omit is removed, and settings you do not resend fall back to defaults.

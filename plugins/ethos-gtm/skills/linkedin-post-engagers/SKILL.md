@@ -41,11 +41,12 @@ orgs.
 
 1. Use an existing complete engager table when supplied. Otherwise call
    `pull_signal` once with `signal_key="post_engagers"`; wait for it with
-   `get_signal_pull_status` and `wait_seconds=120`, then inspect the resulting
-   table once it is terminal. Verify all requested
-   reaction/comment sources completed. Retry only an explicitly partial pull,
-   using a canonical feed activity URL when available. Never duplicate a
-   complete pull.
+   `get_signal_pull_status` and `wait_seconds=120`. If a terminal successful
+   response has no result table, report that no matching engagers were found and
+   stop; do not attempt table inspection. Only inspect the returned table when
+   the terminal response includes one. Verify all requested reaction/comment
+   sources completed. Retry only an explicitly partial pull, using a canonical
+   feed activity URL when available. Never duplicate a complete pull.
 2. Create one structured agent column from the combined customer brief with
    `qualified:boolean`, `reasoning:text`, and `evidence:text`. State inclusions,
    exclusions, persona/seniority rules, signals, company constraints, competitor
