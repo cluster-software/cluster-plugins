@@ -13,7 +13,18 @@ intent tools and two skill fallbacks. The MCP URL is unchanged.
    schemas per session.
 
 Normal natural-language prompts do not need to change. Custom prompts and
-automations must use the new names:
+automations must use the new names in the mapping below.
+
+## Custom automation contract
+
+- Pass a fresh `idempotency_key` to every mutating intent tool whose schema
+  requires one. Reuse that key only for an exact retry of the same logical
+  operation. A quote-approval retry keeps the same arguments and key while
+  adding the returned `quote_id`; a new selection, configuration, or state
+  transition needs a new key.
+- When an asynchronous tool returns `working`, call `get_job_status` with its
+  returned job and a suitable `wait_seconds` value. Repeat only while the job
+  remains nonterminal; do not call a retired per-domain status tool.
 
 ## Client refresh
 

@@ -16,17 +16,20 @@ Use the direct intent tools; never search for or dispatch another tool.
 2. Resolve the people table/list and draft a concise channel-preserving sequence.
    Email's first message needs a subject. Use `first_step="no_invitation"` for
    email-only outreach.
-3. Generate one idempotency key and call `build_campaign_draft`. It can create a
-   list from `leads`, map custom variables, create the sequence/settings, define
-   campaign AI variables, and stage leads. It never launches.
-4. Call `analyze_campaigns` for the returned campaign to verify status,
+3. Generate a new idempotency key for this draft and call
+   `build_campaign_draft`. It can create a list from `leads`, map custom
+   variables, create the sequence/settings, define campaign AI variables, and
+   stage leads. It never launches. Reuse the key only for an exact retry.
+4. If it returns `working`, call `get_job_status` with the returned job and
+   `wait_seconds=120`. Repeat only if it remains nonterminal.
+5. Call `analyze_campaigns` for the returned campaign to verify status,
    configuration, and staged count.
 
 ## Change an existing campaign
 
-- Call `update_campaign` with exactly one change: `add_leads`,
-  `replace_sequence`, or `update_settings`. A sequence replacement is complete,
-  so include every future step that should remain.
+- Generate a new idempotency key and call `update_campaign` with exactly one
+  change: `add_leads`, `replace_sequence`, or `update_settings`. A sequence
+  replacement is complete, so include every future step that should remain.
 - For structural changes to live outreach, pause first, update, verify, then
   resume. Already-sent messages are never rewritten.
 - Reuse the same idempotency key only for an exact retry. Use a new key for a
@@ -36,5 +39,7 @@ Use the direct intent tools; never search for or dispatch another tool.
 
 `set_campaign_state` is destructive. Immediately before `launch`, `pause`, or
 `resume`, show the exact campaign and action and obtain explicit user approval.
-Launch starts real sends. After the call, verify with `analyze_campaigns` and
-report the campaign ID, URL, status, and affected lead count.
+Generate a new idempotency key for each intentional state transition and reuse
+it only for an exact retry. Launch starts real sends. After the call, verify with
+`analyze_campaigns` and report the campaign ID, URL, status, and affected lead
+count.
