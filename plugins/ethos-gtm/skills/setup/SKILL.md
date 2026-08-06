@@ -1,7 +1,7 @@
 ---
 name: setup
 description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying the marketplace plugin and hosted MCP server, and confirming the active organization. In Claude Desktop/Cowork and claude.ai, direct the user to the manual plugin installation flow instead of running setup commands.
-allowed-tools: Bash, Read, mcp__gtm_ethos__get_current_ethos_org
+allowed-tools: Bash, Read, mcp__gtm_ethos__get_workspace_overview
 catalog_visible: false
 ---
 
@@ -111,7 +111,7 @@ when the combined flow already completed.
 
 ## 3. Verify the organization
 
-If `get_current_ethos_org` is available in this task, call it directly with no
+If `get_workspace_overview` is available in this task, call it directly with no
 arguments. Otherwise run a fresh ephemeral verification process without making
 the user switch tasks:
 
@@ -122,13 +122,13 @@ codex exec \
   --sandbox read-only \
   --skip-git-repo-check \
   -c 'mcp_servers.gtm_ethos.url="https://api.ethos.hello-cluster.com/mcp"' \
-  -c 'mcp_servers.gtm_ethos.tools.get_current_ethos_org.approval_mode="approve"' \
-  'Use only the Ethos MCP server. Call the read-only get_current_ethos_org tool with no arguments. Do not run shell commands, edit files, or call any write tool. Return whether the call succeeded and the organization name and ID.'
+  -c 'mcp_servers.gtm_ethos.tools.get_workspace_overview.approval_mode="approve"' \
+  'Use only the Ethos MCP server. Call the read-only get_workspace_overview tool with no arguments. Do not run shell commands, edit files, or call any write tool. Return whether the call succeeded and the active organization name and ID.'
 ```
 
 For the ephemeral path, require a completed `mcp_tool_call` for server `gtm_ethos`
-and tool `get_current_ethos_org`, with no error and a result whose status is
-`ok`.
+and tool `get_workspace_overview`, with no error and a result whose state is
+`completed`.
 
 Setup succeeds only when CLI authentication passes, the plugin and MCP server
 are enabled, and the read-only tool returns the active organization.
