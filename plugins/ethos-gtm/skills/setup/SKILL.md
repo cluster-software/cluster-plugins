@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying Ethos plugin 0.5.0 and exactly one hosted MCP registration, and confirming the active organization. In Claude Desktop/Cowork and claude.ai, direct the user to the manual plugin installation flow instead of running setup commands.
+description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying Ethos plugin 0.5.1 and exactly one hosted MCP registration, and confirming the active organization. In Claude Desktop/Cowork and claude.ai, direct the user to the manual plugin installation flow instead of running setup commands.
 allowed-tools: Bash, Read, mcp__gtm_ethos__get_workspace_overview
 catalog_visible: false
 ---
@@ -88,7 +88,7 @@ codex plugin list --json
 ```
 
 Require `ethos-gtm@cluster-plugins` to report `installed: true` and
-`enabled: true` at version `0.5.0`. The legacy `ethos@cluster-plugins` identity
+`enabled: true` at version `0.5.1`. The legacy `ethos@cluster-plugins` identity
 should not remain installed.
 If it does not, return to the Codex installation branch in
 `GETTING_STARTED.md`.
@@ -154,7 +154,7 @@ For the ephemeral path, require a completed `mcp_tool_call` for server `gtm_etho
 and tool `get_workspace_overview`, with no error and a result whose state is
 `completed`.
 
-Setup succeeds only when CLI authentication passes, plugin 0.5.0 and exactly one
+Setup succeeds only when CLI authentication passes, plugin 0.5.1 and exactly one
 Ethos MCP registration are enabled, and the read-only tool returns the active
 organization.
 
@@ -163,6 +163,8 @@ organization.
 Report the organization name and ID, tell the user Ethos is ready, and suggest:
 
 - `$ethos-gtm:find-people` — find prospects from a natural-language ICP.
+- `$ethos-gtm:source-social-audience` — source a competitor's LinkedIn or X
+  followers into a people table.
 
 ## Troubleshooting
 
