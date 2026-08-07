@@ -13,7 +13,7 @@ Print:
 ```
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **Ethos** in the marketplace and install or update it to **0.5.0**.
+3. Find **Ethos** in the marketplace and install or update it to **0.5.1**.
 4. Open **Customize → Plugins → Connectors**. If Ethos is already connected,
    keep that connector and do not add or authenticate another Ethos server.
    Otherwise, find **Ethos**, select **Install**, and approve access in the
@@ -62,7 +62,7 @@ Install or refresh Ethos GTM:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-The expected release is `0.5.0`. Start a new task after setup so Codex discards
+The expected release is `0.5.1`. Start a new task after setup so Codex discards
 cached skill and tool schemas.
 
 ### 2. Run the setup skill
@@ -89,3 +89,5 @@ After setup returns the active Ethos organization, tell the user Ethos is ready
 and suggest this skill:
 
 - `$ethos-gtm:find-people` — find prospects from a natural-language ICP.
+- `$ethos-gtm:source-social-audience` — source a competitor's LinkedIn or X
+  followers into a people table.
