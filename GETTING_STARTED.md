@@ -13,10 +13,12 @@ Print:
 ```
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **Ethos** in the marketplace and select **Install**.
-4. Open **Customize → Plugins → Connectors**, find **Ethos**, and select
-   **Install**.
-5. Approve access in the browser.
+3. Find **Ethos** in the marketplace and install or update it to **0.5.0**.
+4. Open **Customize → Plugins → Connectors**. If Ethos is already connected,
+   keep that connector and do not add or authenticate another Ethos server.
+   Otherwise, find **Ethos**, select **Install**, and approve access in the
+   browser.
+5. Start a new chat so Claude loads the current tool and skill schemas.
 
 Watch the installation walkthrough:
 [Install Ethos in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
@@ -60,6 +62,9 @@ Install or refresh Ethos GTM:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
+The expected release is `0.5.0`. Start a new task after setup so Codex discards
+cached skill and tool schemas.
+
 ### 2. Run the setup skill
 
 Invoke `$ethos-gtm:setup` in this task. If the newly installed skill is not yet
@@ -73,8 +78,8 @@ find "${CODEX_HOME:-$HOME/.codex}" \
   -print -quit 2>/dev/null
 ```
 
-The setup skill installs and authenticates `ethos-cli`, verifies that the
-plugin and hosted MCP server are enabled, completes MCP OAuth, and calls the
+The setup skill installs and authenticates `ethos-cli`, verifies that exactly
+one hosted Ethos MCP registration is enabled, completes MCP OAuth, and calls the
 read-only `get_workspace_overview` tool. Keep the user in this task throughout
 setup.
 

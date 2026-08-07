@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying the marketplace plugin and hosted MCP server, and confirming the active organization. In Claude Desktop/Cowork and claude.ai, direct the user to the manual plugin installation flow instead of running setup commands.
+description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying Ethos plugin 0.5.0 and exactly one hosted MCP registration, and confirming the active organization. In Claude Desktop/Cowork and claude.ai, direct the user to the manual plugin installation flow instead of running setup commands.
 allowed-tools: Bash, Read, mcp__gtm_ethos__get_workspace_overview
 catalog_visible: false
 ---
@@ -19,6 +19,10 @@ clear that this is Codex.
 
 Verification must be read-only. Do not create or change Ethos tables, agents,
 campaigns, or contacts.
+
+The hosted MCP server owns the complete workflow instructions. The other local
+plugin skills are intent routers that read MCP resources or call
+`load_ethos_skill`; do not install separate copies of those workflows.
 
 ## 1. Install and authenticate the CLI
 
@@ -84,12 +88,32 @@ codex plugin list --json
 ```
 
 Require `ethos-gtm@cluster-plugins` to report `installed: true` and
-`enabled: true`. The legacy `ethos@cluster-plugins` identity should not remain
-installed.
+`enabled: true` at version `0.5.0`. The legacy `ethos@cluster-plugins` identity
+should not remain installed.
 If it does not, return to the Codex installation branch in
 `GETTING_STARTED.md`.
 
-Inspect the MCP server:
+Inspect all MCP registrations before authenticating anything:
+
+```bash
+codex mcp list --json
+```
+
+There must be exactly one enabled registration whose URL is
+`https://api.ethos.hello-cluster.com/mcp`. The canonical plugin registration is
+`gtm_ethos`. If both `gtm_ethos` and the legacy `ethos_gtm` are enabled at that
+exact URL, remove only the legacy registration, then inspect the list again:
+
+```bash
+codex mcp remove ethos_gtm
+codex mcp list --json
+```
+
+Do not remove a differently named registration or one with a different URL;
+stop and report it for manual review. Never authenticate two Ethos
+registrations.
+
+Inspect the canonical MCP server:
 
 ```bash
 codex mcp get gtm_ethos --json
@@ -130,8 +154,9 @@ For the ephemeral path, require a completed `mcp_tool_call` for server `gtm_etho
 and tool `get_workspace_overview`, with no error and a result whose state is
 `completed`.
 
-Setup succeeds only when CLI authentication passes, the plugin and MCP server
-are enabled, and the read-only tool returns the active organization.
+Setup succeeds only when CLI authentication passes, plugin 0.5.0 and exactly one
+Ethos MCP registration are enabled, and the read-only tool returns the active
+organization.
 
 ## 4. Give the user next steps
 
@@ -145,6 +170,7 @@ Report the organization name and ID, tell the user Ethos is ready, and suggest:
 | --- | --- |
 | Marketplace or plugin command is blocked by managed policy | Report the policy restriction and ask the user's administrator to allow `cluster-software/cluster-plugins`; do not bypass it. |
 | The installed plugin is missing `ethos-gtm:setup` | Update the marketplace/plugin, locate the cached `skills/setup/SKILL.md` using `GETTING_STARTED.md`, and follow it directly. |
+| Both `gtm_ethos` and `ethos_gtm` use the production URL | Remove only `ethos_gtm`, verify one enabled registration remains, and start a new task after setup. |
 | Node.js or npm is missing | Leave the plugin installed and guide the user to install Node.js 20+ before resuming. |
 | Combined approval reports a temporary server failure | Retry on the same approval page; do not create another CLI claim or authorization URL. |
 | Combined approval succeeds but localhost return is blocked | Use **Return to Codex** on the same approval page. |

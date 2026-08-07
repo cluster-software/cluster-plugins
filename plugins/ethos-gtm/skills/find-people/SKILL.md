@@ -8,23 +8,13 @@ catalog_description: Turn a natural-language ICP, search URL, CSV, or company ta
 
 # Find People
 
-1. Call `get_workspace_overview` once when the org or saved ICP matters.
-2. Generate a new idempotency key for this sourcing operation and choose exactly
-   one `find_people` request:
-   - `brief`: natural-language ICP;
-   - `search_url`: a supported saved-search URL;
-   - `csv_handoff`: secure user upload;
-   - `company_table`: source relevant roles at selected companies.
-3. For `input_required`, handle the returned action:
-   - open the secure CSV handoff and wait on its job; or
-   - show a >100-credit quote and, after approval, retry the unchanged request
-     with the original idempotency key plus `quote_id`.
-   Generate a new key only when starting a different sourcing operation.
-4. For `working`, call `get_job_status` with the returned job and
-   `wait_seconds=120`. Repeat only if it remains nonterminal.
-5. Call `inspect_table` on the returned people table for a bounded quality
-   sample. Do not paginate the entire table merely to select rows for the next
-   operation; pass filters or row IDs server-side.
+Load the current server-authored workflow before acting:
 
-Report the table IDs/URLs, matched people, credits, skipped/failed counts, and
-any refinement suggestion. A successful zero-match result is not an error.
+1. Read `skill://ethos/find-people/SKILL.md` when this client exposes MCP
+   resources.
+2. Otherwise call `load_ethos_skill` with `name="find-people"` and
+   `header_only=false`.
+3. Follow the returned workflow in full.
+
+This file is only an intent router. If neither loading path is available, ask
+the user to update or reconnect Ethos instead of improvising a workflow.
