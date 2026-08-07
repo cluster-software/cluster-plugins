@@ -75,7 +75,7 @@ find "${CODEX_HOME:-$HOME/.codex}" \
 
 The setup skill installs and authenticates `ethos-cli`, verifies that the
 plugin and hosted MCP server are enabled, completes MCP OAuth, and calls the
-read-only `get_current_ethos_org` tool. Keep the user in this task throughout
+read-only `get_workspace_overview` tool. Keep the user in this task throughout
 setup.
 
 ### 3. Give the user next steps
