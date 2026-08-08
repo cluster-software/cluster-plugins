@@ -1,6 +1,6 @@
 {
   "name": "ethos-gtm",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Use Ethos as a remote MCP surface for GTM prospecting, enrichment, tables, agent columns, campaign analytics, and cross-channel unibox conversations without local CLI setup.",
   "author": {
     "name": "Cluster",
@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "Ethos GTM",
     "shortDescription": "GTM prospecting, campaigns, analytics, and a cross-channel unibox.",
-    "longDescription": "Use Ethos through a remote OAuth-backed MCP server. The plugin registers Ethos, routes common GTM intents, and loads the current workflow instructions from MCP resources. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows without duplicating server-owned playbooks in the client.",
+    "longDescription": "Use Ethos through a remote OAuth-backed MCP server with a complete granular tool surface. The plugin's skills compose those direct tools for common GTM workflows while preserving atomic access for power users. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows without an intent-routing layer.",
     "developerName": "Cluster",
     "category": "Productivity",
     "capabilities": [
