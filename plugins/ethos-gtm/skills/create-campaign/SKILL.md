@@ -11,8 +11,11 @@ catalog_description: Create or operate an Ethos campaign - attach lists, add lea
 ## Build a draft
 
 1. Call `get_workspace_overview` once when the organization, positioning, or
-   recent source table is ambiguous. Resolve exact IDs with `list_tables`,
-   `inspect_table_summary`, and `list_campaigns`; never guess an ID.
+   recent source table is ambiguous, and treat its `active_org` as authoritative.
+   If the user explicitly chooses another authorized organization, resolve its
+   exact ID with `list_ethos_orgs`, call `switch_ethos_org`, and reload the
+   overview before resolving or changing resources. Resolve exact resource IDs
+   with `list_tables`, `inspect_table_summary`, and `list_campaigns`; never guess.
 2. Resolve the audience:
    - To create a reusable list from a table or CSV, call `create_list` with
      `dry_run=true` first. Review mapping, invalid, missing, existing-contact,
@@ -38,8 +41,11 @@ catalog_description: Create or operate an Ethos campaign - attach lists, add lea
 
 - `update_campaign_sequence` replaces the complete future sequence. Include
   every invitation/message step that should remain; already-sent messages are
-  unchanged.
+  unchanged. Immediately call `get_campaign` and confirm the complete future
+  sequence matches the requested replacement before reporting success.
 - `update_campaign_settings` changes only the supplied campaign settings.
+  Immediately call `get_campaign` and confirm every supplied setting matches the
+  requested value before reporting success.
 - Use `attach_list_to_campaign` or `add_leads_to_campaign` to expand the
   audience, and verify with `get_campaign` plus `list_campaign_leads`.
 - Before adding leads to an existing campaign, call `get_campaign`. If it is

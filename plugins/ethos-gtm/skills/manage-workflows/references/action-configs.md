@@ -11,7 +11,16 @@ Required: `campaign_id`. Optional: `table_id`, `dedupe_campaigns`,
 custom-variable mapping has `source_column`, `variable_key`, and `label`;
 standard mappings map a contact field to a source column. `row_selector` may
 specify `workflow_run_column` and a table `condition` using the structure below.
-A company-scope workflow must source campaign leads from a people table.
+A company-scope workflow must source campaign leads from a people table with
+the exact source-company provenance needed downstream. Before configuring
+`add_to_campaign`, call `source_people_from_company_table` with the required
+server-side filters, source input columns, and targeting brief. Test a
+`scope="first_5"` sample, then run the remaining relevant company rows with
+`scope="empty"` so the combined runs cover the full intended set without
+rerunning the sample. After the run is terminal, call `create_people_table` with
+`source_column_ids` for every signal-context field needed for qualification,
+campaign variables, or evidence; merely creating a people table without those
+columns does not preserve that context. Use the resulting people table ID here.
 
 ## `add_to_table`
 

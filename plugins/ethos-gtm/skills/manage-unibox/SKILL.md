@@ -8,10 +8,16 @@ catalog_description: Review and reply to campaign conversations across LinkedIn 
 
 # Manage Unibox
 
-1. Call `get_workspace_overview` when organization context is ambiguous.
-2. Call `list_unibox_conversations` with a bounded page. Continue only with its
-   cursor, and ask the user to narrow the target when several conversations
-   plausibly match.
+1. Call `get_workspace_overview` when organization context is ambiguous and
+   treat its `active_org` as authoritative. If the user explicitly selects
+   another authorized organization, resolve its exact ID with
+   `list_ethos_orgs`, call `switch_ethos_org`, and reload the overview before
+   reading or sending messages. Never switch organizations implicitly.
+2. Call `list_unibox_conversations` with a bounded page in its default
+   campaign-conversation scope. Set `include_all=true` only when the user
+   explicitly requests organic account conversations. Continue only with the
+   returned cursor, and ask the user to narrow the target when several
+   conversations plausibly match.
 3. Call `get_unibox_conversation` for the selected conversation. Its merged
    timeline and replyable threads are authoritative. Ask the user to choose
    when recipient, channel, or sender thread is ambiguous.

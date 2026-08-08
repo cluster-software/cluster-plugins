@@ -17,17 +17,27 @@ approximate an exact follower audience with `find_people`.
    exactly matches the request: company-page followers, account followers,
    first-degree connections, or post reactors/commenters. Use its returned
    `signal_key` and config schema; never invent a key or config field.
-3. Call `pull_signal` with that key, config, and `dry_run=true`. At or below 100
+3. Branch on the returned definition. For a watch-only definition
+   (`sourceable=false`), do not call `pull_signal`: create a draft standing
+   workflow with the definition's required trigger config, using
+   `trigger_config={}` only when `configuration_mode=managed`. Report the
+   returned `urls.workflow`; activate only under the fresh-approval rules in the
+   `manage-workflows` skill, and skip `get_signal_pull_status`. For a sourceable
+   definition, call `pull_signal` with its required config and `dry_run=true`,
+   using `config={}` only when configuration is managed. At or below 100
    estimated credits, repeat with `dry_run=false` without another confirmation.
-   Above 100, show the estimate and obtain approval before passing it as
-   `acknowledged_credits`. Watch-only definitions must use a standing workflow
-   instead of a one-time pull.
-4. Call `get_signal_pull_status` with `wait_seconds=120`; repeat only if it
-   remains nonterminal. Do not replace this with table-read polling.
-5. Call `inspect_table_summary` for a bounded quality sample. Preserve the
-   source table and provenance when enriching or filtering it later.
-6. Report target, source type, table ID/URL, delivered rows, and failed or
-   skipped counts. A completed zero-row result is not an error.
+   Above 100, show the estimate and obtain approval before repeating with
+   `dry_run=false` and the estimate as `acknowledged_credits`.
+4. For the sourceable branch, call `get_signal_pull_status` with
+   `wait_seconds=120`; repeat only if it remains nonterminal. Do not replace this
+   with table-read polling.
+5. For the sourceable branch, call `inspect_table_summary` for a bounded quality
+   sample. Preserve the source table and provenance when enriching or filtering
+   it later.
+6. For a one-time pull, report target, source type, table ID/URL, delivered rows,
+   and failed or skipped counts; a completed zero-row result is not an error.
+   For a watch-only definition, report the draft workflow ID and
+   `urls.workflow` instead.
 
 For LinkedIn post engagers that should be qualified and turned into outreach,
 continue with the `linkedin-post-engagers` skill. For unsupported networks or

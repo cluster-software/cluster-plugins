@@ -27,15 +27,18 @@ catalog_description: Turn a natural-language ICP, search URL, CSV, or company ta
      with `wait_seconds=120`.
    - CSV: call `create_csv_upload_handoff`, give the secure handoff to the user,
      then wait with `get_upload_handoff_status` after upload.
-   - Existing company table: inspect it with `inspect_table_summary`, call
-     `source_people_from_company_table` on a first-five sample, wait with
-     `get_column_run_status`, and inspect quality. Reuse the returned
-     `column_id` with `run_table_column` for the broader scope; first call it
-     with `dry_run=true`, proceeding automatically at or below 100 credits and
-     obtaining approval above 100 before passing `acknowledged_credits`. Wait on
-     that run with `get_column_run_status`. Once terminal, call
-     `create_people_table` with the same source column. Preserve relevant source
-     fields with `source_column_ids`.
+   - Existing company table: inspect it with `inspect_table_summary`. Call
+     `source_people_from_company_table` with the required server-side filters,
+     source input columns, a targeting brief grounded in the requested people,
+     `scope="first_5"`, and `dry_run=false`. Wait with
+     `get_column_run_status` and inspect quality. Reuse the returned `column_id`
+     with `run_table_column` for the remaining matching companies: first call it
+     with `scope="empty"` and `dry_run=true`, then repeat with
+     `scope="empty"` and `dry_run=false` automatically at or below 100 credits,
+     or obtain approval above 100 before also passing `acknowledged_credits`.
+     Wait on that run with `get_column_run_status`. Once terminal, call
+     `create_people_table` with the same source column and `source_column_ids`
+     for every source field needed as signal, qualification, or campaign context.
 3. Inspect the returned people table with `inspect_table_summary` for a bounded
    quality sample. Do not enumerate a whole table merely to select rows for the
    next operation; downstream tools accept filters or row IDs.

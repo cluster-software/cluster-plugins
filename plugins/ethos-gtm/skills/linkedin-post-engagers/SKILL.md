@@ -18,21 +18,23 @@ ICP, proof, audience, or copy.
 2. Reuse a complete engager table when supplied. Otherwise call
    `list_signal_definitions`, select the sourceable post-engagers definition,
    require its exact `signal_key="post_engagers"`, and call `pull_signal` with
-   its returned config schema, the post URL, and `dry_run=true`. Proceed without
-   another confirmation at or below 100 estimated credits; above 100, obtain
-   approval before passing the estimate as `acknowledged_credits`. Wait with
-   `get_signal_pull_status` and `wait_seconds=120`. A successful no-match result
-   ends the run.
+   its returned config schema, the post URL, and `dry_run=true`. At or below 100
+   estimated credits, repeat the same call with `dry_run=false`; above 100,
+   obtain approval before repeating with `dry_run=false` and the estimate as
+   `acknowledged_credits`. Wait with `get_signal_pull_status` and
+   `wait_seconds=120`. A successful no-match result ends the run.
 3. Inspect the source with `inspect_table_summary`. Create one qualification
    column with `create_agent_column`, using typed outputs such as
    `qualified:boolean`, `reasoning:text`, and `evidence:text`. Require company
    fit, persona fit, current employment, verified evidence, and explicit
    disqualifiers; unclear cases default to false.
-4. Run `run_table_column` with `scope="first_5"`, wait with
+4. Run `run_table_column` with `scope="first_5"` and `dry_run=false`, wait with
    `get_column_run_status`, and inspect the sample. Refine with `update_column`
-   if needed. Before the broader run, use `dry_run=true`; proceed automatically
-   at or below 100 credits, but show and obtain approval above 100 before
-   passing `acknowledged_credits`.
+   if needed. Before the broader run, call it with `scope="empty"` and
+   `dry_run=true`; proceed automatically at or below 100 credits by repeating
+   with `scope="empty"` and `dry_run=false`, but show and obtain approval above
+   100 before repeating with `scope="empty"`, `dry_run=false`, and
+   `acknowledged_credits`.
 5. If qualification is structured, call `extract_json_columns`, then verify the
    qualified cohort with filtered `inspect_table_summary` calls. Use the actual
    boolean field; blanks and arbitrary strings are not qualified.
