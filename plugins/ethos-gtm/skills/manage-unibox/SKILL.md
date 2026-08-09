@@ -8,14 +8,28 @@ catalog_description: Review and reply to campaign conversations across LinkedIn 
 
 # Manage Unibox
 
-Load the current server-authored workflow before acting:
+1. Call `get_workspace_overview` when organization context is ambiguous and
+   treat its `active_org` as authoritative. If the user explicitly selects
+   another authorized organization, resolve its exact ID with
+   `list_ethos_orgs`, call `switch_ethos_org`, and reload the overview before
+   reading or sending messages. Never switch organizations implicitly.
+2. Call `list_unibox_conversations` with a bounded page in its default
+   campaign-conversation scope. Set `include_all=true` only when the user
+   explicitly requests organic account conversations. Continue only with the
+   returned cursor, and ask the user to narrow the target when several
+   conversations plausibly match.
+3. Call `get_unibox_conversation` for the selected conversation. Its merged
+   timeline and replyable threads are authoritative. Ask the user to choose
+   when recipient, channel, or sender thread is ambiguous.
+4. Draft the reply and show the exact recipient, thread/channel, and text.
+   `send_unibox_message` sends a real external message and may stop campaign
+   automation; obtain explicit approval immediately before calling it.
+5. Generate one stable `idempotency_key` for that exact conversation, thread,
+   and text. Reuse it for an exact retry; use a new key only for a new
+   intentional send.
+6. Treat pending or unknown delivery as uncertain. Never blindly resend or
+   create a new key; call `get_unibox_conversation` to reconcile first. After a
+   failed delivery, require approval before a new attempt.
 
-1. Read `skill://ethos/manage-unibox/SKILL.md` when this client exposes MCP
-   resources.
-2. Otherwise call `load_ethos_skill` with `name="manage-unibox"` and
-   `header_only=false`.
-3. Follow the returned workflow in full, including every external-send approval
-   requirement.
-
-This file is only an intent router. If neither loading path is available, ask
-the user to update or reconnect Ethos instead of improvising a workflow.
+Only plain-text replies on existing replyable threads are supported. Do not
+claim support for attachments, cold sends, or creating a new thread.

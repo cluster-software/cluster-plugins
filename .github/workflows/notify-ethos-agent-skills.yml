@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "mcp-skills/ethos/**"
+      - "plugins/ethos-gtm/skills/**"
   workflow_dispatch:
 
 permissions: {}

@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying Ethos plugin 0.5.1 and exactly one hosted MCP registration, and confirming the active organization. In Claude Desktop/Cowork and claude.ai, direct the user to the manual plugin installation flow instead of running setup commands.
+description: Set up or repair Ethos in Codex by installing and authenticating ethos-cli, verifying Ethos plugin 0.6.0 and exactly one hosted MCP registration, and confirming the active organization. In Claude Desktop/Cowork and claude.ai, direct the user to the manual plugin installation flow instead of running setup commands.
 allowed-tools: Bash, Read, mcp__gtm_ethos__get_workspace_overview
 catalog_visible: false
 ---
@@ -20,9 +20,8 @@ clear that this is Codex.
 Verification must be read-only. Do not create or change Ethos tables, agents,
 campaigns, or contacts.
 
-The hosted MCP server owns the complete workflow instructions. The other local
-plugin skills are intent routers that read MCP resources or call
-`load_ethos_skill`; do not install separate copies of those workflows.
+The plugin's other skills contain the complete workflows for composing the
+granular MCP tools. Do not install separate CLI-managed copies.
 
 ## 1. Install and authenticate the CLI
 
@@ -88,7 +87,7 @@ codex plugin list --json
 ```
 
 Require `ethos-gtm@cluster-plugins` to report `installed: true` and
-`enabled: true` at version `0.5.1`. The legacy `ethos@cluster-plugins` identity
+`enabled: true` at version `0.6.0`. The legacy `ethos@cluster-plugins` identity
 should not remain installed.
 If it does not, return to the Codex installation branch in
 `GETTING_STARTED.md`.
@@ -151,10 +150,10 @@ codex exec \
 ```
 
 For the ephemeral path, require a completed `mcp_tool_call` for server `gtm_ethos`
-and tool `get_workspace_overview`, with no error and a result whose state is
-`completed`.
+and tool `get_workspace_overview`, with no error and a result whose status is
+`ok`.
 
-Setup succeeds only when CLI authentication passes, plugin 0.5.1 and exactly one
+Setup succeeds only when CLI authentication passes, plugin 0.6.0 and exactly one
 Ethos MCP registration are enabled, and the read-only tool returns the active
 organization.
 
