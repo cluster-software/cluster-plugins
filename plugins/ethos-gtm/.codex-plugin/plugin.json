@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "Ethos GTM",
     "shortDescription": "GTM prospecting, campaigns, analytics, and a cross-channel unibox.",
-    "longDescription": "Use Ethos through a remote OAuth-backed MCP server with a complete granular tool surface. The plugin's skills compose those direct tools for common GTM workflows while preserving atomic access for power users. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows without an intent-routing layer.",
+    "longDescription": "Use Ethos through a remote OAuth-backed MCP server. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows. Skills guide common GTM workflows while direct tools preserve precise control.",
     "developerName": "Cluster",
     "category": "Productivity",
     "capabilities": [
