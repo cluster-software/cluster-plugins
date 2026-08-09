@@ -34,8 +34,10 @@ catalog_description: Build and operate durable signal-driven Ethos automations.
    edge that should remain. Never repeat `create_workflow` after it returns a
    `workflow_id`; carry that ID into subsequent calls.
 5. Active workflows must be paused before structural edits. Explain the effect
-   and obtain explicit approval immediately before `pause_workflow`, then edit
-   and verify with `get_workflow`.
+   and obtain explicit approval immediately before `pause_workflow`, then call
+   `get_workflow`. Continue with `update_workflow` only when the returned state
+   is `paused`; otherwise stop and report that pausing failed. After the update,
+   call `get_workflow` again and verify the requested structure.
 6. `activate_workflow`, `pause_workflow`, and `archive_workflow` change standing
    automation. Obtain explicit approval immediately before each call. For
    activation, wait until the exact trigger, steps, scope, and `backfill` value
