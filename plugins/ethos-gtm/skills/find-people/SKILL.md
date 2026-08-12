@@ -35,28 +35,31 @@ catalog_description: Turn a natural-language ICP, search URL, CSV, or company ta
 
      Parse the file locally into ordered headers and JSON rows. Preserve quoted
      values and header order, discard fully blank rows, and stop on an empty or
-     malformed CSV or blank/duplicate headers. Classify rows with person-level
-     identity (for example, a person's LinkedIn URL or a name plus title/email)
-     as people; classify company/domain rows without person identity as
-     companies. Ask which shape the user intended only when the columns are
-     genuinely ambiguous.
+     malformed CSV or blank/duplicate headers. Reject more than 100,000 headers
+     as unsupported, then set
+     `batch_limit = min(500, floor(100000 / header_count))`. Classify every row
+     with person-level identity (for example, a person's LinkedIn URL or a name
+     plus title/email) as a person row, and a company/domain row without person
+     identity as a company row. If both row types occur, stop before any MCP
+     mutation and ask the user to split the file or create separate tables. Ask
+     which shape the user intended only when the rows are genuinely ambiguous.
 
-     For a table import, send at most
-     `min(500, floor(100000 / header_count))` rows per call. Create the first
-     batch with `create_table`, preserving the file name in `source_filename`,
-     and send later batches with `append_table_rows` as
-     `{"rows":[{"values": row}, ...]}`. Use `entity_type="company"` for a
-     company CSV, then continue through the existing-company-table path below.
-     Use `entity_type="people"` for a people CSV and inspect the completed
-     table directly.
+     For a company CSV, create the first batch with `create_table`, preserving
+     the file name in `source_filename` and using `entity_type="company"`. Send
+     later batches with `append_table_rows` as
+     `{"rows":[{"values": row}, ...]}`, never exceeding `batch_limit` rows per
+     call, then continue through the existing-company-table path below.
 
-     When the user explicitly wants a reusable campaign/contact list and the
-     people CSV has the person identity columns supported by `create_list`
-     (currently a mapped LinkedIn profile column for table/CSV imports), call
-     `create_list` with `source="csv"` and `dry_run=true`, review its mapping and
-     dedupe counts, then repeat the same request with `dry_run=false`. For an
-     input larger than one table batch, first build the people table in batches
-     and use `create_list` with `source="table"` instead.
+     For a people CSV without explicit reusable-list intent, use the same table
+     batching sequence with `entity_type="people"`, then inspect the completed
+     table directly. When the user explicitly wants a reusable campaign/contact
+     list and the people CSV has the identity columns supported by `create_list`
+     (currently a mapped LinkedIn profile column for table/CSV imports), use
+     `source="csv"` with `dry_run=true` and then `dry_run=false` only at or below
+     `batch_limit`. Above `batch_limit`, first build one people table in batches,
+     then call `create_list` with `source="table"` and `dry_run=true`; review the
+     mapping and dedupe counts and repeat that table-backed request with
+     `dry_run=false`, creating exactly one live list.
    - Existing company table: inspect it with `inspect_table_summary`. Call
      `source_people_from_company_table` with the required server-side filters,
      source input columns, a targeting brief grounded in the requested people,
