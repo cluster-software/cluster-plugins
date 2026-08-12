@@ -17,9 +17,28 @@ catalog_description: Create or operate an Ethos campaign - attach lists, add lea
    overview before resolving or changing resources. Resolve exact resource IDs
    with `list_tables`, `inspect_table_summary`, and `list_campaigns`; never guess.
 2. Resolve the audience:
-   - To create a reusable list from a table or CSV, call `create_list` with
-     `dry_run=true` first. Review mapping, invalid, missing, existing-contact,
-     and dedupe counts, then repeat the same mapping with `dry_run=false`.
+   - To create a reusable list from an existing table, call `create_list` with
+     `source="table"`, its exact `source_table_id`, and `dry_run=true`. Review
+     mapping, invalid, missing, existing-contact, and dedupe counts, then repeat
+     the same mapping with `dry_run=false`.
+   - To create a reusable list from a CSV, read an attached file or
+     user-provided local path directly with the client's file capabilities;
+     never open a browser upload handoff. If the user names only Desktop or
+     Downloads, inspect only that directory and ask which file to use only when
+     multiple CSVs are plausible. Ask the user to attach the file or provide an
+     accessible exact path only when the client cannot read it. Parse the CSV
+     locally into ordered headers and JSON rows, preserving quoted values and
+     rejecting empty or malformed input. Reject more than 100,000 headers as
+     unsupported, then set
+     `batch_limit = min(500, floor(100000 / header_count))`.
+
+     At or below `batch_limit`, call `create_list` with `source="csv"` and
+     `dry_run=true`. Review the preview counts and mapping, then repeat the same
+     request with `dry_run=false`. Above `batch_limit`, do not send the rows to
+     `create_list` as CSV. Build one people table in batches with `create_table`
+     and `append_table_rows`, then call `create_list` with `source="table"` and
+     `dry_run=true`. Review the preview and repeat that table-backed request
+     with `dry_run=false`, creating exactly one live list.
    - To use an existing list, pass its ID to the campaign or call
      `attach_list_to_campaign` on an existing draft.
    - To stage table rows directly, create the campaign first, then call
