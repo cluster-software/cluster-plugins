@@ -25,8 +25,38 @@ catalog_description: Turn a natural-language ICP, search URL, CSV, or company ta
      `create_salesnav_import` with `dry_run=true`; follow the same 100-credit
      approval boundary, then start it and call `get_salesnav_import_status`
      with `wait_seconds=120`.
-   - CSV: call `create_csv_upload_handoff`, give the secure handoff to the user,
-     then wait with `get_upload_handoff_status` after upload.
+   - CSV or another readable local file: read the attachment or user-provided
+     path with the client's file capabilities. When the user names only a
+     directory such as Desktop or Downloads, inspect only that directory and
+     use the single plausible CSV; ask one concise disambiguation question when
+     multiple files are plausible. Never open a browser upload handoff. If the
+     file is not readable from the current client, ask the user to attach it or
+     provide an accessible exact path.
+
+     Parse the file locally into ordered headers and JSON rows. Preserve quoted
+     values and header order, discard fully blank rows, and stop on an empty or
+     malformed CSV or blank/duplicate headers. Classify rows with person-level
+     identity (for example, a person's LinkedIn URL or a name plus title/email)
+     as people; classify company/domain rows without person identity as
+     companies. Ask which shape the user intended only when the columns are
+     genuinely ambiguous.
+
+     For a table import, send at most
+     `min(500, floor(100000 / header_count))` rows per call. Create the first
+     batch with `create_table`, preserving the file name in `source_filename`,
+     and send later batches with `append_table_rows` as
+     `{"rows":[{"values": row}, ...]}`. Use `entity_type="company"` for a
+     company CSV, then continue through the existing-company-table path below.
+     Use `entity_type="people"` for a people CSV and inspect the completed
+     table directly.
+
+     When the user explicitly wants a reusable campaign/contact list and the
+     people CSV has the person identity columns supported by `create_list`
+     (currently a mapped LinkedIn profile column for table/CSV imports), call
+     `create_list` with `source="csv"` and `dry_run=true`, review its mapping and
+     dedupe counts, then repeat the same request with `dry_run=false`. For an
+     input larger than one table batch, first build the people table in batches
+     and use `create_list` with `source="table"` instead.
    - Existing company table: inspect it with `inspect_table_summary`. Call
      `source_people_from_company_table` with the required server-side filters,
      source input columns, a targeting brief grounded in the requested people,
@@ -39,9 +69,10 @@ catalog_description: Turn a natural-language ICP, search URL, CSV, or company ta
      Wait on that run with `get_column_run_status`. Once terminal, call
      `create_people_table` with the same source column and `source_column_ids`
      for every source field needed as signal, qualification, or campaign context.
-3. Inspect the returned people table with `inspect_table_summary` for a bounded
+3. Inspect a returned people table with `inspect_table_summary` for a bounded
    quality sample. Do not enumerate a whole table merely to select rows for the
-   next operation; downstream tools accept filters or row IDs.
-4. Report company and people table IDs/URLs, matched people, skipped/failed
-   counts, and any refinement suggestion. A successful zero-match result is not
-   an error.
+   next operation; downstream tools accept filters or row IDs. For a direct
+   list import, use the `create_list` preview and final counts instead.
+4. Report the resulting table or list IDs/URLs, matched or imported people,
+   skipped/failed counts, and any refinement suggestion. A successful
+   zero-match result is not an error.

@@ -13,7 +13,7 @@ Print:
 ```
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **Ethos** in the marketplace and install or update it to **0.6.0**.
+3. Find **Ethos** in the marketplace and install or update it to **0.6.1**.
 4. Open **Customize → Plugins → Connectors**. If Ethos is already connected,
    keep that connector and do not add or authenticate another Ethos server.
    Otherwise, find **Ethos**, select **Install**, and approve access in the
@@ -62,7 +62,7 @@ Install or refresh Ethos GTM:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-The expected release is `0.6.0`. Start a new task after setup so Codex discards
+The expected release is `0.6.1`. Start a new task after setup so Codex discards
 cached skill and tool schemas.
 
 ### 2. Run the setup skill
