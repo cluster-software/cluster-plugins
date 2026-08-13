@@ -1,4 +1,0 @@
-interface:
-  display_name: "Ask Ethos"
-  short_description: "Analyze Ethos campaign performance"
-  default_prompt: "Use $ask-ethos to compare my campaign performance, replies, and lead segments."

@@ -1,0 +1,37 @@
+name: Validate Ethos Plugin
+
+on:
+  pull_request:
+    paths:
+      - ".agents/plugins/marketplace.json"
+      - ".claude-plugin/marketplace.json"
+      - ".github/workflows/validate-ethos-plugin.yml"
+      - "GETTING_STARTED.md"
+      - "plugins/ethos-gtm/**"
+      - "scripts/validate_ethos_plugin.py"
+  push:
+    branches:
+      - main
+    paths:
+      - ".agents/plugins/marketplace.json"
+      - ".claude-plugin/marketplace.json"
+      - ".github/workflows/validate-ethos-plugin.yml"
+      - "GETTING_STARTED.md"
+      - "plugins/ethos-gtm/**"
+      - "scripts/validate_ethos_plugin.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate thin package
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out plugin repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5e
+
+      - name: Validate Ethos plugin invariants
+        run: python scripts/validate_ethos_plugin.py

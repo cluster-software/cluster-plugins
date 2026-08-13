@@ -1,37 +1,33 @@
 # Getting started with Ethos
 
-> Follow exactly one branch based on the
-> product currently running: Claude (including desktop, cowork, claude.ai) or Codex.
+> Follow exactly one branch for the product running this session: Claude or
+> Codex. Ethos uses one hosted OAuth-backed MCP server. Do not configure a
+> second server at the same URL.
 
-## Claude (chat app, desktop, cowork)
+## Claude
 
-Claude chat app, desktop, cowork cannot install the Ethos plugin or
-configure its MCP server from the agent session. Print these steps verbatim. Do not try
-to execute anything yourself. The user has to do this manually.
+Claude chat, Desktop, and Cowork cannot complete their own plugin installation
+from an agent conversation. Present these steps to the user and stop so they can
+finish the UI flow:
 
-Print:
-```
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **Ethos** in the marketplace and install or update it to **0.6.1**.
+3. Find **Ethos** in the marketplace and install or update it to **0.7.0**.
 4. Open **Customize → Plugins → Connectors**. If Ethos is already connected,
    keep that connector and do not add or authenticate another Ethos server.
    Otherwise, find **Ethos**, select **Install**, and approve access in the
    browser.
-5. Start a new chat so Claude loads the current tool and skill schemas.
+5. Start a new chat so Claude loads the current MCP tools and resources.
+6. Ask: `Use Ethos to show me the active workspace.` The connection is ready
+   when the read-only `get_workspace_overview` operation returns the active
+   organization.
 
 Watch the installation walkthrough:
 [Install Ethos in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
-```
-
-Stop after presenting these instructions. The user must complete the Claude
-UI flow themselves.
-
 
 ## Codex
 
-Complete setup for the user. Do not merely explain these steps or ask the user
-to install the marketplace through the UI.
+Complete the installation for the user rather than asking them to use the UI.
 
 ### 1. Install or update the plugin
 
@@ -49,45 +45,59 @@ codex plugin marketplace add cluster-software/cluster-plugins
 codex plugin marketplace upgrade cluster-plugins
 ```
 
-Remove the legacy Codex plugin identity when `codex plugin list --json` reports
-`ethos@cluster-plugins` as installed:
+If `codex plugin list --json` reports the retired `ethos@cluster-plugins`
+identity as installed, remove only that identity:
 
 ```bash
 codex plugin remove ethos@cluster-plugins
 ```
 
-Install or refresh Ethos GTM:
+Install or refresh the current plugin:
 
 ```bash
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-The expected release is `0.6.1`. Start a new task after setup so Codex discards
-cached skill and tool schemas.
+Require version `0.7.0` and an enabled `ethos-gtm@cluster-plugins` installation.
+The marketplace authentication policy should open MCP OAuth during installation.
 
-### 2. Run the setup skill
+### 2. Verify the hosted MCP connection
 
-Invoke `$ethos-gtm:setup` in this task. If the newly installed skill is not yet
-registered, read the exact installed version from the plugin JSON, locate its
-cached runbook, and follow it directly:
+Inspect registrations:
 
 ```bash
-ETHOS_PLUGIN_VERSION='<installed version from codex plugin add/list JSON>'
-find "${CODEX_HOME:-$HOME/.codex}" \
-  -type f -path "*/plugins/cache/*/ethos-gtm/${ETHOS_PLUGIN_VERSION}/skills/setup/SKILL.md" \
-  -print -quit 2>/dev/null
+codex mcp list --json
+codex mcp get gtm_ethos --json
 ```
 
-The setup skill installs and authenticates `ethos-cli`, verifies that exactly
-one hosted Ethos MCP registration is enabled, completes MCP OAuth, and calls the
-read-only `get_workspace_overview` tool. Keep the user in this task throughout
-setup.
+Require exactly one enabled registration for
+`https://api.ethos.hello-cluster.com/mcp`. The canonical registration is
+`gtm_ethos`. If the retired `ethos_gtm` registration is also enabled at that
+exact URL, remove only the retired registration and inspect the list again:
 
-### 3. Give the user next steps
+```bash
+codex mcp remove ethos_gtm
+codex mcp list --json
+```
 
-After setup returns the active Ethos organization, tell the user Ethos is ready
-and suggest this skill:
+Do not remove a differently named registration or one with a different URL;
+report it for manual review. If the canonical server still needs authorization,
+run:
 
-- `$ethos-gtm:find-people` — find prospects from a natural-language ICP.
-- `$ethos-gtm:source-social-audience` — source a competitor's LinkedIn or X
-  followers into a people table.
+```bash
+codex mcp login gtm_ethos
+```
+
+Approve access in the browser, then start a new task so Codex loads the current
+MCP tools and resources.
+
+### 3. Confirm workspace access
+
+In the new task, ask: `Use Ethos to show me the active workspace.` The
+connection is ready when the read-only `get_workspace_overview` operation
+returns the active organization, saved GTM context, and recent workspace
+objects. Ethos exposes its complete granular tool catalog directly; Codex uses
+native progressive discovery to load the operations required for each request.
+
+If the operation is unavailable, recheck the plugin version, the canonical MCP
+registration, and OAuth. Do not add another Ethos server.
