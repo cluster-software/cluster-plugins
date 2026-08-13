@@ -11,10 +11,12 @@ from an agent conversation. Present these steps to the user and stop so they can
 finish the UI flow:
 
 1. Open **Customize → Plugins**.
-2. Add the `cluster-software/cluster-plugins` marketplace if it is missing.
-3. Install or update **Ethos** to **0.7.0**.
-4. Open **Customize → Connectors**. Keep an existing Ethos connection if one is
-   already present; otherwise install Ethos and approve access in the browser.
+2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
+3. Find **Ethos** in the marketplace and install or update it to **0.7.0**.
+4. Open **Customize → Plugins → Connectors**. If Ethos is already connected,
+   keep that connector and do not add or authenticate another Ethos server.
+   Otherwise, find **Ethos**, select **Install**, and approve access in the
+   browser.
 5. Start a new chat so Claude loads the current MCP tools and resources.
 6. Ask: `Use Ethos to show me the active workspace.` The connection is ready
    when the read-only `get_workspace_overview` operation returns the active
