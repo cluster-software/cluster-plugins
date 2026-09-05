@@ -101,3 +101,24 @@ native progressive discovery to load the operations required for each request.
 
 If the operation is unavailable, recheck the plugin version, the canonical MCP
 registration, and OAuth. Do not add another Ethos server.
+
+## Campaign conversation safety
+
+The hosted campaign tools exclude previously engaged contacts from new enrollments
+by default. Replies and manual messages stop the contact's current outreach across
+email and LinkedIn, regardless of sender. Only enable
+`allow_previously_engaged_contacts` on `create_campaign_with_sequence` or
+`update_campaign_settings` when the user explicitly requests re-engagement.
+That override applies to known history for future enrollments; a new reply or
+manual message still stops outreach. It does not resume existing stopped or
+excluded enrollments. Campaign duplication resets the override to false.
+
+For one contact excluded only for prior engagement, use **Enable** in the
+campaign's **Contacts** tab. Confirming starts that contact from the first message
+in this campaign only. Other exclusions, opted-out or already-started contacts
+cannot use it, and paused campaigns still require resume. Email replies stop
+current follow-ups while being classified; automated responses do not count as
+lasting engagement or exclude the contact from future campaigns.
+
+These optional arguments and the current campaign playbook are served by the
+hosted MCP server. No connector URL or marketplace manifest change is needed.
