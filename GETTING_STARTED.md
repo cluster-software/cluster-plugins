@@ -113,5 +113,12 @@ That override applies to known history for future enrollments; a new reply or
 manual message still stops outreach. It does not resume existing stopped or
 excluded enrollments. Campaign duplication resets the override to false.
 
+For one contact excluded only for prior engagement, use **Enable** in the
+campaign's **Contacts** tab. Confirming starts that contact from the first message
+in this campaign only. Other exclusions, opted-out or already-started contacts
+cannot use it, and paused campaigns still require resume. Email replies stop
+current follow-ups while being classified; automated responses do not count as
+lasting engagement or exclude the contact from future campaigns.
+
 These optional arguments and the current campaign playbook are served by the
 hosted MCP server. No connector URL or marketplace manifest change is needed.
