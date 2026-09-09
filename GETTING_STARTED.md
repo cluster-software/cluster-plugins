@@ -1,8 +1,8 @@
 # Getting started with Ethos
 
-> Follow exactly one branch for the product running this session: Claude or
-> Codex. Ethos uses one hosted OAuth-backed MCP server. Do not configure a
-> second server at the same URL.
+> Follow exactly one branch for the product running this session: Claude,
+> ChatGPT web, or Codex. Ethos uses one hosted OAuth-backed MCP server. Do not
+> configure a second server at the same URL.
 
 ## Claude
 
@@ -24,6 +24,28 @@ finish the UI flow:
 
 Watch the installation walkthrough:
 [Install Ethos in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
+
+## ChatGPT web
+
+In ChatGPT in a web browser, present these steps to the user and let them
+complete the connection in the UI. If Ethos is already connected, reuse that
+connection and skip to step 4.
+
+1. Open **Settings → Security and login** and enable **Developer mode**.
+   If it is unavailable, explain that account or workspace policy may restrict
+   it and offer the Claude or Codex setup path.
+2. Open [ChatGPT Plugins](https://chatgpt.com/plugins), select the **plus**
+   button, and name the connection **Ethos**.
+3. Enter `https://api.ethos.hello-cluster.com/mcp` as the MCP server URL,
+   choose OAuth authentication, and create the connection. Approve access to
+   the intended Ethos workspace in the authorization flow.
+4. Start a **new ChatGPT conversation** and select Ethos from the tools menu.
+5. Ask: `Use Ethos to show me the active workspace.` The connection is ready
+   when the read-only `get_workspace_overview` operation returns the active
+   organization.
+
+See [OpenAI's connection guide](https://developers.openai.com/plugins/deploy/connect-chatgpt)
+for the current UI flow and availability requirements.
 
 ## Codex
 
@@ -88,15 +110,24 @@ run:
 codex mcp login gtm_ethos
 ```
 
-Approve access in the browser, then start a new task so Codex loads the current
-MCP tools and resources.
+Have the user approve access in the browser if authorization is required.
 
-### 3. Confirm workspace access
+### 3. Hand off to a new Codex task
 
-In the new task, ask: `Use Ethos to show me the active workspace.` The
-connection is ready when the read-only `get_workspace_overview` operation
-returns the active organization, saved GTM context, and recent workspace
-objects. Ethos exposes its complete granular tool catalog directly; Codex uses
+Once installation and OAuth are complete, give the user this handoff and stop.
+Keep **new Codex task** bold in your response so the required next step is clear:
+
+> Ethos is installed and authorized. Start a **new Codex task** and paste:
+>
+> `Use Ethos to show me the active workspace.`
+
+The new task loads the current MCP tools and resources. Do not ask the user to
+paste the installation prompt again or repeat installation because tools are
+unavailable in the original task.
+
+In the new task, the connection is ready when the read-only
+`get_workspace_overview` operation returns the active organization, saved GTM
+context, and recent workspace objects. Ethos exposes its complete granular tool catalog directly; Codex uses
 native progressive discovery to load the operations required for each request.
 
 If the operation is unavailable, recheck the plugin version, the canonical MCP
