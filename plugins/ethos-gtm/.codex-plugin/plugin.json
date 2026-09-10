@@ -1,7 +1,7 @@
 {
   "name": "ethos-gtm",
-  "version": "0.7.0",
-  "description": "Use Ethos through its hosted MCP server for GTM prospecting, enrichment, tables, agent columns, campaign analytics, and cross-channel unibox conversations.",
+  "version": "0.7.1",
+  "description": "Use Cluster through its hosted MCP server for GTM prospecting, enrichment, tables, agent columns, campaign analytics, and cross-channel unibox conversations.",
   "author": {
     "name": "Cluster",
     "url": "https://hello-cluster.com"
@@ -17,9 +17,9 @@
   ],
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Ethos GTM",
+    "displayName": "GTM Cluster",
     "shortDescription": "GTM prospecting, campaigns, analytics, and a cross-channel unibox.",
-    "longDescription": "Use Ethos through a remote OAuth-backed MCP server. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows. The complete granular tool catalog is exposed directly, while current multi-step workflow guidance is available from live MCP resources.",
+    "longDescription": "Use Cluster through a remote OAuth-backed MCP server. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows. The complete granular tool catalog is exposed directly, while current multi-step workflow guidance is available from live MCP resources.",
     "developerName": "Cluster",
     "category": "Productivity",
     "capabilities": [
@@ -31,9 +31,9 @@
     "composerIcon": "./assets/ethos-icon-white.svg",
     "logo": "./assets/ethos-icon-white.svg",
     "defaultPrompt": [
-      "Use Ethos to find RevOps leaders at US B2B SaaS companies.",
-      "Use Ethos to enrich work emails for a people table.",
-      "Use Ethos to build an email and LinkedIn campaign from my people table."
+      "Use Cluster to find RevOps leaders at US B2B SaaS companies.",
+      "Use Cluster to enrich work emails for a people table.",
+      "Use Cluster to build an email and LinkedIn campaign from my people table."
     ]
   }
 }
