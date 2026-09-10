@@ -18,8 +18,8 @@ finish the UI flow:
    Otherwise, find **Ethos**, select **Install**, and approve access in the
    browser.
 5. Start a new chat so Claude loads the current MCP tools and resources.
-6. Ask: `Use Ethos to show me the active workspace.` The connection is ready
-   when the read-only `get_workspace_overview` operation returns the active
+6. Ask: `Use Ethos to confirm the active organization.` The connection is ready
+   when the read-only `get_current_ethos_org` operation returns the active
    organization.
 
 Watch the installation walkthrough:
@@ -40,8 +40,8 @@ connection and skip to step 4.
    choose OAuth authentication, and create the connection. Approve access to
    the intended Ethos workspace in the authorization flow.
 4. Start a **new ChatGPT conversation** and select Ethos from the tools menu.
-5. Ask: `Use Ethos to show me the active workspace.` The connection is ready
-   when the read-only `get_workspace_overview` operation returns the active
+5. Ask: `Use Ethos to confirm the active organization.` The connection is ready
+   when the read-only `get_current_ethos_org` operation returns the active
    organization.
 
 See [OpenAI's connection guide](https://developers.openai.com/plugins/deploy/connect-chatgpt)
@@ -119,16 +119,18 @@ Keep **new Codex task** bold in your response so the required next step is clear
 
 > Ethos is installed and authorized. Start a **new Codex task** and paste:
 >
-> `Use Ethos to show me the active workspace.`
+> `Use Ethos to confirm the active organization.`
 
 The new task loads the current MCP tools and resources. Do not ask the user to
 paste the installation prompt again or repeat installation because tools are
 unavailable in the original task.
 
 In the new task, the connection is ready when the read-only
-`get_workspace_overview` operation returns the active organization, saved GTM
-context, and recent workspace objects. Ethos exposes its complete granular tool catalog directly; Codex uses
-native progressive discovery to load the operations required for each request.
+`get_current_ethos_org` operation returns the expected active organization. This
+check does not read recent workspace objects. Use `get_workspace_overview` when
+saved GTM context or recent objects are also needed. Ethos exposes its complete
+granular tool catalog directly; Codex uses native progressive discovery to load
+the operations required for each request.
 
 If the operation is unavailable, recheck the plugin version, the canonical MCP
 registration, and OAuth. Do not add another Ethos server.
