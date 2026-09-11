@@ -1,7 +1,12 @@
-# Getting started with Ethos
+# Getting started with Cluster
+
+Cluster was formerly known as Ethos. Both names refer to the same product and
+hosted MCP server, now displayed as **GTM Cluster**. Existing plugin identifiers,
+MCP registrations, and the hosted URL retain their `ethos` names, so reuse an
+existing connection rather than creating a duplicate.
 
 > Follow exactly one branch for the product running this session: Claude,
-> ChatGPT web, or Codex. Ethos uses one hosted OAuth-backed MCP server. Do not
+> ChatGPT web, or Codex. Cluster uses one hosted OAuth-backed MCP server. Do not
 > configure a second server at the same URL.
 
 ## Claude
@@ -12,35 +17,35 @@ finish the UI flow:
 
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **Ethos** in the marketplace and install or update it to **0.7.0**.
-4. Open **Customize → Plugins → Connectors**. If Ethos is already connected,
-   keep that connector and do not add or authenticate another Ethos server.
-   Otherwise, find **Ethos**, select **Install**, and approve access in the
-   browser.
+3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.1**.
+4. Open **Customize → Plugins → Connectors**. If Cluster is already connected,
+   keep that connector and do not add or authenticate another Cluster server.
+   Otherwise, find the existing **ethos** / **GTM Cluster** connector, select
+   **Install**, and approve access in the browser.
 5. Start a new chat so Claude loads the current MCP tools and resources.
-6. Ask: `Use Ethos to confirm the active organization.` The connection is ready
+6. Ask: `Use Cluster to confirm the active organization.` The connection is ready
    when the read-only `get_current_ethos_org` operation returns the active
    organization.
 
 Watch the installation walkthrough:
-[Install Ethos in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
+[Install Cluster in Claude Desktop](https://www.loom.com/embed/ae9f539200d04947acccb0e2e1086b6c)
 
 ## ChatGPT web
 
 In ChatGPT in a web browser, present these steps to the user and let them
-complete the connection in the UI. If Ethos is already connected, reuse that
+complete the connection in the UI. If Cluster is already connected, reuse that
 connection and skip to step 4.
 
 1. Open **Settings → Security and login** and enable **Developer mode**.
    If it is unavailable, explain that account or workspace policy may restrict
    it and offer the Claude or Codex setup path.
 2. Open [ChatGPT Plugins](https://chatgpt.com/plugins), select the **plus**
-   button, and name the connection **Ethos**.
+   button, and name the connection **Cluster**.
 3. Enter `https://api.ethos.hello-cluster.com/mcp` as the MCP server URL,
    choose OAuth authentication, and create the connection. Approve access to
-   the intended Ethos workspace in the authorization flow.
-4. Start a **new ChatGPT conversation** and select Ethos from the tools menu.
-5. Ask: `Use Ethos to confirm the active organization.` The connection is ready
+   the intended Cluster workspace in the authorization flow.
+4. Start a **new ChatGPT conversation** and select Cluster from the tools menu.
+5. Ask: `Use Cluster to confirm the active organization.` The connection is ready
    when the read-only `get_current_ethos_org` operation returns the active
    organization.
 
@@ -80,7 +85,7 @@ Install or refresh the current plugin:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-Require version `0.7.0` and an enabled `ethos-gtm@cluster-plugins` installation.
+Require version `0.7.1` and an enabled `ethos-gtm@cluster-plugins` installation.
 The marketplace authentication policy should open MCP OAuth during installation.
 
 ### 2. Verify the hosted MCP connection
@@ -117,9 +122,9 @@ Have the user approve access in the browser if authorization is required.
 Once installation and OAuth are complete, give the user this handoff and stop.
 Keep **new Codex task** bold in your response so the required next step is clear:
 
-> Ethos is installed and authorized. Start a **new Codex task** and paste:
+> Cluster is installed and authorized. Start a **new Codex task** and paste:
 >
-> `Use Ethos to confirm the active organization.`
+> `Use Cluster to confirm the active organization.`
 
 The new task loads the current MCP tools and resources. Do not ask the user to
 paste the installation prompt again or repeat installation because tools are
@@ -128,9 +133,9 @@ unavailable in the original task.
 In the new task, the connection is ready when the read-only
 `get_current_ethos_org` operation returns the expected active organization. This
 check does not read recent workspace objects. Use `get_workspace_overview` when
-saved GTM context or recent objects are also needed. Ethos exposes its complete
+saved GTM context or recent objects are also needed. Cluster exposes its complete
 granular tool catalog directly; Codex uses native progressive discovery to load
 the operations required for each request.
 
 If the operation is unavailable, recheck the plugin version, the canonical MCP
-registration, and OAuth. Do not add another Ethos server.
+registration, and OAuth. Do not add another Cluster server.

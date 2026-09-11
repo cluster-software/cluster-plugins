@@ -2,7 +2,7 @@ import json
 import re
 from pathlib import Path
 
-PLUGIN_VERSION = "0.7.0"
+PLUGIN_VERSION = "0.7.1"
 MCP_URL = "https://api.ethos.hello-cluster.com/mcp"
 FORBIDDEN_AGENT_GUIDANCE = (
     re.compile(r"\bethos-cli\b", re.IGNORECASE),
@@ -28,11 +28,11 @@ def main() -> int:
     mcp_config = json.loads((plugin_path / ".mcp.json").read_text(encoding="utf-8"))
 
     if (plugin_path / "skills").exists():
-        raise ValueError("Ethos 0.7.0 must not ship plugin-local skills")
+        raise ValueError("Cluster 0.7.1 must not ship plugin-local skills")
     if "skills" in codex_manifest:
         raise ValueError("The Codex manifest must not declare plugin-local skills")
     if codex_manifest["name"] != "ethos-gtm" or claude_manifest["name"] != "ethos":
-        raise ValueError("Ethos plugin identities changed unexpectedly")
+        raise ValueError("Cluster plugin identities changed unexpectedly")
     if codex_manifest["version"] != PLUGIN_VERSION or claude_manifest["version"] != PLUGIN_VERSION:
         raise ValueError(f"Both plugin manifests must use version {PLUGIN_VERSION}")
     if codex_manifest.get("mcpServers") != "./.mcp.json":
@@ -42,7 +42,7 @@ def main() -> int:
 
     claude_entries = [entry for entry in claude_marketplace["plugins"] if entry["name"] == "ethos"]
     if len(claude_entries) != 1 or claude_entries[0]["version"] != PLUGIN_VERSION:
-        raise ValueError(f"The Claude marketplace must expose exactly one Ethos {PLUGIN_VERSION} entry")
+        raise ValueError(f"The Claude marketplace must expose exactly one Cluster {PLUGIN_VERSION} entry")
     codex_entries = [entry for entry in codex_marketplace["plugins"] if entry["name"] == "ethos-gtm"]
     if len(codex_entries) != 1:
         raise ValueError("The Codex marketplace must expose exactly one ethos-gtm entry")
@@ -54,7 +54,7 @@ def main() -> int:
 
     mcp_servers = mcp_config.get("mcpServers", {})
     if set(mcp_servers) != {"gtm_ethos"} or mcp_servers["gtm_ethos"].get("url") != MCP_URL:
-        raise ValueError("The plugin must define exactly one canonical hosted Ethos MCP server")
+        raise ValueError("The plugin must define exactly one canonical hosted Cluster MCP server")
 
     agent_facing_paths = [
         repository_path / "README.md",
@@ -69,7 +69,7 @@ def main() -> int:
             if pattern.search(content):
                 raise ValueError(f"{path.relative_to(repository_path)} contains prohibited guidance: {pattern.pattern}")
 
-    print(f"Validated thin Ethos plugin {PLUGIN_VERSION}")
+    print(f"Validated thin Cluster plugin {PLUGIN_VERSION}")
     return 0
 
 
