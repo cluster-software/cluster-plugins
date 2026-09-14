@@ -139,3 +139,12 @@ the operations required for each request.
 
 If the operation is unavailable, recheck the plugin version, the canonical MCP
 registration, and OAuth. Do not add another Cluster server.
+
+## Unibox thread metadata
+
+`list_unibox_conversations` and `get_unibox_conversation` return a nullable
+`linkedin_product` on each thread. Only `recruiter` identifies LinkedIn Recruiter;
+`classic`, `sales_navigator`, `organization`, and `null` must not be labeled
+Recruiter. A contact's conversation can contain both regular and Recruiter
+threads, so use the selected thread's value when describing a reply target.
+Older threads remain `null` until a webhook or chat sync supplies the product.
