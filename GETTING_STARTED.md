@@ -147,6 +147,10 @@ Ask Cluster to compare outreach by campaign, sequence, sender account, and chann
 `query_analytics` combines groupings, compares periods, and returns totals, trends,
 breakdowns, and rate components.
 
+Comparison trend points use the same relative date spans as the selected period.
+Each series row includes `labels.date_start` and `labels.date_end` for its actual
+bucket dates, including partial weeks and months. Count values remain integers.
+
 Use `list_analytics_records` to inspect contributors, retaining the query and
 adding exact dimension/value pairs to `scope`. All scope conditions must match.
 Rates expose numerator or denominator. Activity counts use event dates; conversion
