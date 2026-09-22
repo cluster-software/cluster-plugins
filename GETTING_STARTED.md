@@ -17,7 +17,7 @@ finish the UI flow:
 
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.1**.
+3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.2**.
 4. Open **Customize → Plugins → Connectors**. If Cluster is already connected,
    keep that connector and do not add or authenticate another Cluster server.
    Otherwise, find the existing **ethos** / **GTM Cluster** connector, select
@@ -85,7 +85,7 @@ Install or refresh the current plugin:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-Require version `0.7.1` and an enabled `ethos-gtm@cluster-plugins` installation.
+Require version `0.7.2` and an enabled `ethos-gtm@cluster-plugins` installation.
 The marketplace authentication policy should open MCP OAuth during installation.
 
 ### 2. Verify the hosted MCP connection
@@ -139,3 +139,23 @@ the operations required for each request.
 
 If the operation is unavailable, recheck the plugin version, the canonical MCP
 registration, and OAuth. Do not add another Cluster server.
+
+## Analytics
+
+Ask Cluster to compare outreach by campaign, sequence, sender account, and channel.
+`get_analytics_schema` describes metrics, formulas, dimensions, and labels.
+`query_analytics` combines groupings, compares periods, and returns totals, trends,
+breakdowns, and rate components.
+
+Comparison trend points use the same relative date spans as the selected period.
+Each series row includes `labels.date_start` and `labels.date_end` for its actual
+bucket dates, including partial weeks and months. Count values remain integers.
+
+Use `list_analytics_records` to inspect contributors, retaining the query and
+adding exact dimension/value pairs to `scope`. All scope conditions must match.
+Rates expose numerator or denominator. Activity counts use event dates; conversion
+rates include subsequent matching outcomes up to now for people reached in the
+selected period, without a response deadline.
+
+These three reads match the app. All tools honor the active workspace and require
+the corresponding backend deployment.
