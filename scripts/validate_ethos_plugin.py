@@ -2,7 +2,7 @@ import json
 import re
 from pathlib import Path
 
-PLUGIN_VERSION = "0.7.1"
+PLUGIN_VERSION = "0.7.2"
 MCP_URL = "https://api.ethos.hello-cluster.com/mcp"
 FORBIDDEN_AGENT_GUIDANCE = (
     re.compile(r"\bethos-cli\b", re.IGNORECASE),
@@ -28,7 +28,7 @@ def main() -> int:
     mcp_config = json.loads((plugin_path / ".mcp.json").read_text(encoding="utf-8"))
 
     if (plugin_path / "skills").exists():
-        raise ValueError("Cluster 0.7.1 must not ship plugin-local skills")
+        raise ValueError("Cluster 0.7.2 must not ship plugin-local skills")
     if "skills" in codex_manifest:
         raise ValueError("The Codex manifest must not declare plugin-local skills")
     if codex_manifest["name"] != "ethos-gtm" or claude_manifest["name"] != "ethos":

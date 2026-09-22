@@ -17,7 +17,7 @@ finish the UI flow:
 
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.1**.
+3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.2**.
 4. Open **Customize → Plugins → Connectors**. If Cluster is already connected,
    keep that connector and do not add or authenticate another Cluster server.
    Otherwise, find the existing **ethos** / **GTM Cluster** connector, select
@@ -85,7 +85,7 @@ Install or refresh the current plugin:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-Require version `0.7.1` and an enabled `ethos-gtm@cluster-plugins` installation.
+Require version `0.7.2` and an enabled `ethos-gtm@cluster-plugins` installation.
 The marketplace authentication policy should open MCP OAuth during installation.
 
 ### 2. Verify the hosted MCP connection
@@ -139,3 +139,22 @@ the operations required for each request.
 
 If the operation is unavailable, recheck the plugin version, the canonical MCP
 registration, and OAuth. Do not add another Cluster server.
+
+## Analytics
+
+Ask Cluster to compare outreach by campaign, user, sender, and channel.
+`get_analytics_schema` describes metrics, formulas, supported dimensions, and
+filter options. `query_analytics` combines groupings and AND/OR filters, compares
+periods, and returns cohort-rate components, coverage, and an app link.
+
+Use `list_analytics_records` to inspect contributors, retaining the query and
+adding group constraints to `scope`. Rates can expose either numerator or
+denominator. `export_analytics` returns CSV for up to 10,000 groups. Saved reports
+have separate list, get, create, update, and delete tools.
+
+Activity counts use event dates; conversion rates include subsequent outcomes
+up to now for the reached cohort, with no time limit after outreach. Report
+incomplete classification. Omit the retired `observation_days` query setting.
+Sending-user grouping uses explicit ownership assignments; use
+`assign_analytics_sender_owner` only for confirmed ownership. All tools honor
+the active workspace. These capabilities require the corresponding backend deployment.

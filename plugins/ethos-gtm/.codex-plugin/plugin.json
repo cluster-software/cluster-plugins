@@ -1,7 +1,7 @@
 {
   "name": "ethos-gtm",
-  "version": "0.7.1",
-  "description": "Use Cluster through its hosted MCP server for GTM prospecting, enrichment, tables, agent columns, campaign analytics, and cross-channel unibox conversations.",
+  "version": "0.7.2",
+  "description": "Use Cluster through its hosted MCP server for GTM prospecting, enrichment, tables, agent columns, multi-dimensional analytics, saved reports, and cross-channel unibox conversations.",
   "author": {
     "name": "Cluster",
     "url": "https://hello-cluster.com"
@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "GTM Cluster",
     "shortDescription": "GTM prospecting, campaigns, analytics, and a cross-channel unibox.",
-    "longDescription": "Use Cluster through a remote OAuth-backed MCP server. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows. The complete granular tool catalog is exposed directly, while current multi-step workflow guidance is available from live MCP resources.",
+    "longDescription": "Use Cluster through a remote OAuth-backed MCP server. Find prospects, enrich contact info, build and operate campaigns, compare campaigns, users, and channels with canonical metric definitions, drill into contributors, save reports, manage replies, and configure workflows. The complete granular tool catalog is exposed directly, while current multi-step workflow guidance is available from live MCP resources.",
     "developerName": "Cluster",
     "category": "Productivity",
     "capabilities": [
