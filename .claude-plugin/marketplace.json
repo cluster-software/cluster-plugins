@@ -10,7 +10,7 @@
     {
       "name": "ethos",
       "source": "./plugins/ethos-gtm",
-      "description": "Use Cluster through its hosted MCP server for GTM prospecting, enrichment, tables, agent columns, multi-dimensional analytics, saved reports, and cross-channel unibox conversations.",
+      "description": "Use Cluster through its hosted MCP server for GTM prospecting, enrichment, tables, agent columns, read-only multi-dimensional analytics, and cross-channel unibox conversations.",
       "version": "0.7.2",
       "homepage": "https://github.com/cluster-software/cluster-plugins",
       "repository": "https://github.com/cluster-software/cluster-plugins"

@@ -142,19 +142,16 @@ registration, and OAuth. Do not add another Cluster server.
 
 ## Analytics
 
-Ask Cluster to compare outreach by campaign, user, sender, and channel.
-`get_analytics_schema` describes metrics, formulas, supported dimensions, and
-filter options. `query_analytics` combines groupings and AND/OR filters, compares
-periods, and returns cohort-rate components, coverage, and an app link.
+Ask Cluster to compare outreach by campaign, sequence, sender account, and channel.
+`get_analytics_schema` describes metrics, formulas, dimensions, and labels.
+`query_analytics` combines groupings, compares periods, and returns totals, trends,
+breakdowns, and rate components.
 
 Use `list_analytics_records` to inspect contributors, retaining the query and
-adding group constraints to `scope`. Rates can expose either numerator or
-denominator. `export_analytics` returns CSV for up to 10,000 groups. Saved reports
-have separate list, get, create, update, and delete tools.
+adding exact dimension/value pairs to `scope`. All scope conditions must match.
+Rates expose numerator or denominator. Activity counts use event dates; conversion
+rates include subsequent matching outcomes up to now for people reached in the
+selected period, without a response deadline.
 
-Activity counts use event dates; conversion rates include subsequent outcomes
-up to now for the reached cohort, with no time limit after outreach. Report
-incomplete classification. Omit the retired `observation_days` query setting.
-Sending-user grouping uses explicit ownership assignments; use
-`assign_analytics_sender_owner` only for confirmed ownership. All tools honor
-the active workspace. These capabilities require the corresponding backend deployment.
+These three reads match the app. All tools honor the active workspace and require
+the corresponding backend deployment.
