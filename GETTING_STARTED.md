@@ -139,3 +139,17 @@ the operations required for each request.
 
 If the operation is unavailable, recheck the plugin version, the canonical MCP
 registration, and OAuth. Do not add another Cluster server.
+
+## Fast workspace discovery
+
+Use `list_tables`, `list_lists`, and `list_campaigns` to discover resources.
+These tools return bounded summary pages without loading table cells, recipient
+records, or sending history. Pass `search` to resolve names on the server;
+`list_campaigns` also accepts `status`. Each response includes `data.page` with
+`has_more` and `next_offset`. Pass that offset with the same search/filter to
+continue only when more results are needed. List summaries include contact
+counts, so counting recipients does not require `get_list`.
+
+Request detail tools only after choosing the relevant resource. The hosted
+server exposes the current tool schemas directly; reconnect if a client has
+cached an older schema.
