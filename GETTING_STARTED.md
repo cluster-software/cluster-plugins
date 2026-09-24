@@ -17,7 +17,7 @@ finish the UI flow:
 
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.1**.
+3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.2**.
 4. Open **Customize → Plugins → Connectors**. If Cluster is already connected,
    keep that connector and do not add or authenticate another Cluster server.
    Otherwise, find the existing **ethos** / **GTM Cluster** connector, select
@@ -85,7 +85,7 @@ Install or refresh the current plugin:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-Require version `0.7.1` and an enabled `ethos-gtm@cluster-plugins` installation.
+Require version `0.7.2` and an enabled `ethos-gtm@cluster-plugins` installation.
 The marketplace authentication policy should open MCP OAuth during installation.
 
 ### 2. Verify the hosted MCP connection
