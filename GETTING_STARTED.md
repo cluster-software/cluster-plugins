@@ -17,7 +17,7 @@ finish the UI flow:
 
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.1**.
+3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.2**.
 4. Open **Customize → Plugins → Connectors**. If Cluster is already connected,
    keep that connector and do not add or authenticate another Cluster server.
    Otherwise, find the existing **ethos** / **GTM Cluster** connector, select
@@ -85,7 +85,7 @@ Install or refresh the current plugin:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-Require version `0.7.1` and an enabled `ethos-gtm@cluster-plugins` installation.
+Require version `0.7.2` and an enabled `ethos-gtm@cluster-plugins` installation.
 The marketplace authentication policy should open MCP OAuth during installation.
 
 ### 2. Verify the hosted MCP connection
@@ -139,3 +139,17 @@ the operations required for each request.
 
 If the operation is unavailable, recheck the plugin version, the canonical MCP
 registration, and OAuth. Do not add another Cluster server.
+
+## Fast workspace discovery
+
+Use `list_tables`, `list_lists`, and `list_campaigns` to discover resources.
+These tools return bounded summary pages without loading table cells, recipient
+records, or sending history. Pass `search` to resolve names on the server;
+`list_campaigns` also accepts `status`. Each response includes `data.page` with
+`has_more` and `next_offset`. Pass that offset with the same search/filter to
+continue only when more results are needed. List summaries include contact
+counts, so counting recipients does not require `get_list`.
+
+Request detail tools only after choosing the relevant resource. The hosted
+server exposes the current tool schemas directly; reconnect if a client has
+cached an older schema.
