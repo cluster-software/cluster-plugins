@@ -1,7 +1,7 @@
 {
   "name": "ethos",
-  "description": "Use Cluster through its hosted MCP server for prospecting, enrichment, fast paginated table/list/campaign summaries, analytics, and cross-channel unibox conversations.",
-  "version": "0.7.2",
+  "description": "Use Cluster through its hosted MCP server for prospecting, enrichment, campaigns, human calling, analytics, and cross-channel conversations.",
+  "version": "0.8.0",
   "author": {
     "name": "Cluster"
   }

@@ -17,7 +17,7 @@ finish the UI flow:
 
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.2**.
+3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.8.0**.
 4. Open **Customize → Plugins → Connectors**. If Cluster is already connected,
    keep that connector and do not add or authenticate another Cluster server.
    Otherwise, find the existing **ethos** / **GTM Cluster** connector, select
@@ -85,7 +85,7 @@ Install or refresh the current plugin:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-Require version `0.7.2` and an enabled `ethos-gtm@cluster-plugins` installation.
+Require version `0.8.0` and an enabled `ethos-gtm@cluster-plugins` installation.
 The marketplace authentication policy should open MCP OAuth during installation.
 
 ### 2. Verify the hosted MCP connection
@@ -153,3 +153,31 @@ counts, so counting recipients does not require `get_list`.
 Request detail tools only after choosing the relevant resource. The hosted
 server exposes the current tool schemas directly; reconnect if a client has
 cached an older schema.
+
+## Human calling with Cluster Dialer
+
+Cluster Dialer is a sequence channel alongside LinkedIn and email. The human
+speaks on each call; the agent initiates and controls it through Cluster.
+Availability depends on calling being enabled for the workspace.
+
+1. Use `get_dialer_readiness` for setup status, the dashboard URL, and credit prices.
+2. Use `list_dialer_numbers`. After explicit approval of the recurring monthly
+   credit price, `purchase_dialer_number` can acquire a number. Keep its
+   `request_key` unchanged when retrying. `release_dialer_number` stops renewal.
+3. Ask the human to open Cluster Dialer and enable their microphone. Keep that
+   tab open. `list_dialer_audio_sessions` returns their connected session.
+4. Use `list_dialer_tasks` for due sequence calls, or choose a contact directly.
+   Call `start_dialer_call` with the contact, calling number, connected session,
+   optional sequence task, and the human-approved maximum credit cost.
+5. Use `control_dialer_call` to mute, unmute, or request hangup.
+   `get_dialer_call_status(wait_seconds=15)` waits for completion; increase to
+   180 seconds for a longer call. `list_dialer_calls` shows recent history.
+6. Use `record_dialer_outcome` to save the outcome and continue the sequence.
+   Set `stop_outreach=true` when the contact opts out.
+
+Call costs reserve a maximum and settle against verified duration. Unused
+reserved credits are refunded. Never retry an uncertain operation with a new
+request key, switch providers, or treat a disconnected microphone as permission
+to place a new call. Open the existing call status instead. For custom audio
+clients, `create_dialer_audio_session` issues a short-lived connection capability;
+never publish that capability or persist it in shared documents.

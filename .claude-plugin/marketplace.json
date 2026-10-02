@@ -10,8 +10,8 @@
     {
       "name": "ethos",
       "source": "./plugins/ethos-gtm",
-      "description": "Hosted Cluster MCP with fast, searchable table, contact-list, and campaign summaries.",
-      "version": "0.7.2",
+      "description": "Hosted Cluster MCP with prospecting, campaigns, human calling, and workspace summaries.",
+      "version": "0.8.0",
       "homepage": "https://github.com/cluster-software/cluster-plugins",
       "repository": "https://github.com/cluster-software/cluster-plugins"
     }
