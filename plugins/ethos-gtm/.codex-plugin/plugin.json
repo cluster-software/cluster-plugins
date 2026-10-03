@@ -1,6 +1,6 @@
 {
   "name": "ethos-gtm",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Use Cluster through its hosted MCP server for prospecting, enrichment, campaigns, human calling, analytics, and cross-channel conversations.",
   "author": {
     "name": "Cluster",
@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "GTM Cluster",
     "shortDescription": "GTM prospecting, campaigns, human calling, and analytics.",
-    "longDescription": "Use Cluster through a remote OAuth-backed MCP server. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows. The complete granular tool catalog is exposed directly, while current multi-step workflow guidance is available from live MCP resources. Cluster Dialer adds human cold calls to sequences. Connect your microphone in the Cluster dashboard, then let your agent initiate and control calls with your approved credit budget.",
+    "longDescription": "Use Cluster through a remote OAuth-backed MCP server. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows. The complete granular tool catalog is exposed directly, while current multi-step workflow guidance is available from live MCP resources. Cluster Dialer adds human cold calls to sequences. Use the local Cluster Audio companion for native microphone access from desktop and terminal agents, or connect in the dashboard. Your agent initiates and controls calls with your approved credit budget.",
     "developerName": "Cluster",
     "category": "Productivity",
     "capabilities": [

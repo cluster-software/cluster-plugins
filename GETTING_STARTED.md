@@ -17,7 +17,7 @@ finish the UI flow:
 
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.8.0**.
+3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.8.1**.
 4. Open **Customize → Plugins → Connectors**. If Cluster is already connected,
    keep that connector and do not add or authenticate another Cluster server.
    Otherwise, find the existing **ethos** / **GTM Cluster** connector, select
@@ -85,7 +85,7 @@ Install or refresh the current plugin:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-Require version `0.8.0` and an enabled `ethos-gtm@cluster-plugins` installation.
+Require version `0.8.1` and an enabled `ethos-gtm@cluster-plugins` installation.
 The marketplace authentication policy should open MCP OAuth during installation.
 
 ### 2. Verify the hosted MCP connection
@@ -164,8 +164,12 @@ Availability depends on calling being enabled for the workspace.
 2. Use `list_dialer_numbers`. After explicit approval of the recurring monthly
    credit price, `purchase_dialer_number` can acquire a number. Keep its
    `request_key` unchanged when retrying. `release_dialer_number` stops renewal.
-3. Ask the human to open Cluster Dialer and enable their microphone. Keep that
-   tab open. `list_dialer_audio_sessions` returns their connected session.
+3. For desktop and terminal agents, use the local **Cluster Audio** companion
+   on the human's computer. With explicit microphone consent, call hosted
+   `create_dialer_audio_session` and pass its capability directly to local
+   `connect_cluster_microphone`. Wait for `state=ready`.
+   `list_dialer_audio_sessions` returns the same connected session. No dashboard
+   tab is required. The dashboard microphone remains available for web clients.
 4. Use `list_dialer_tasks` for due sequence calls, or choose a contact directly.
    Call `start_dialer_call` with the contact, calling number, connected session,
    optional sequence task, and the human-approved maximum credit cost.
@@ -181,3 +185,62 @@ request key, switch providers, or treat a disconnected microphone as permission
 to place a new call. Open the existing call status instead. For custom audio
 clients, `create_dialer_audio_session` issues a short-lived connection capability;
 never publish that capability or persist it in shared documents.
+
+
+### Native microphone setup for desktop and terminal agents
+
+Cluster Audio is an optional local MCP server alongside the existing hosted
+Cluster connection. It opens the microphone and speakers on the human's computer;
+installing it in a remote development workspace cannot access the laptop's audio.
+The hosted connection still owns authentication, contacts, calls, and billing.
+
+Install the companion from the feature checkout on the human's computer using
+`uv tool install ./cluster-audio`. The companion is not yet published to a public
+registry. Use the [companion source and installation guide](https://github.com/cluster-software/ethos/tree/codex/cluster-dialer/cluster-audio)
+for the reviewed source, platform requirements, and test gateway configuration.
+It needs no provider credentials or additional API key.
+
+Add the installed executable as a local stdio MCP server named `cluster_audio`.
+Use its absolute path. For Codex:
+
+```sh
+codex mcp add cluster_audio -- /absolute/path/to/cluster-audio mcp
+```
+
+For Claude Code:
+
+```sh
+claude mcp add --transport stdio --scope user cluster_audio -- /absolute/path/to/cluster-audio mcp
+```
+
+For Claude Desktop, merge this into its local MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "cluster_audio": {
+      "command": "/absolute/path/to/cluster-audio",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+Reload the client's MCP connections. The four local tools are
+`list_cluster_audio_devices`, `connect_cluster_microphone`,
+`get_cluster_microphone_status`, and `disconnect_cluster_microphone`.
+On macOS, allow the hosting application under System Settings → Privacy &
+Security → Microphone when prompted. Use headphones; native acoustic echo
+cancellation is not included. Capture stops automatically after the call or
+two idle minutes, and on device/network failure. Explicit disconnect also
+requests hangup. Do not leave capture open after the user cancels.
+
+Example: “Enable my microphone using Cluster Audio; I approve microphone access.
+Call my selected contact through Cluster for at most one minute and three credits.
+I will speak on the call.” Check the current configured credit price first.
+
+The hosted MCP must have the dialer feature deployed, or use a separate test
+backend connection before merge. Never switch a test call to the production
+connection silently. Clients that only support remote connectors cannot launch
+the native companion; explain that limitation rather than claiming their
+built-in dictation microphone is available to an MCP tool.
