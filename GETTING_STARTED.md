@@ -164,8 +164,14 @@ values in one read.
 
 Use `preview_audience` to inspect matches, revise draft filters or rejection
 feedback, and preview again. Save with `create_audience` or `update_audience`.
-Creating with signals enables scheduled collection. `queue_audience_pull`
-requests collection immediately; `get_audience_pull_status` waits server-side
+Creating with signals enables scheduled collection. Before creating, changing
+signals, or requesting a pull, use the same tool with `dry_run=true`. Quotes are
+conservative per-pull credit ceilings, not lifetime budgets for the schedule.
+Above 100 credits, obtain approval unless already authorized and repeat with
+`acknowledged_credits` from the quote; lower estimates do not require another
+spend confirmation. `queue_audience_pull`
+requests collection immediately and can deliver leads to live campaigns, so
+the user must authorize that delivery; `get_audience_pull_status` waits server-side
 with `wait_seconds=120`, even before the scheduler assigns a run ID.
 `list_audience_pull_runs` and `get_audience_pull_run` expose collection history
 and detailed reports.
