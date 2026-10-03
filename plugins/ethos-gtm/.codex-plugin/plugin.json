@@ -1,7 +1,7 @@
 {
   "name": "ethos-gtm",
-  "version": "0.7.2",
-  "description": "Use Cluster through its hosted MCP server for prospecting, enrichment, fast paginated table/list/campaign summaries, analytics, and cross-channel unibox conversations.",
+  "version": "0.8.0",
+  "description": "Use Cluster through its hosted MCP server for prospecting, saved audience building and management, enrichment, campaigns, analytics, and cross-channel unibox conversations.",
   "author": {
     "name": "Cluster",
     "url": "https://hello-cluster.com"
@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "GTM Cluster",
     "shortDescription": "GTM prospecting, campaigns, analytics, and a cross-channel unibox.",
-    "longDescription": "Use Cluster through a remote OAuth-backed MCP server. Find prospects, enrich contact info, build and operate campaigns, analyze performance, manage replies, and configure workflows. The complete granular tool catalog is exposed directly, while current multi-step workflow guidance is available from live MCP resources.",
+    "longDescription": "Use Cluster through a remote OAuth-backed MCP server. Find prospects, build saved audiences with filters and signals, preview and manage members, track audience collection, enrich contact info, operate campaigns, analyze performance, manage replies, and configure workflows. The complete granular tool catalog is exposed directly, while current multi-step workflow guidance is available from live MCP resources.",
     "developerName": "Cluster",
     "category": "Productivity",
     "capabilities": [
@@ -33,7 +33,8 @@
     "defaultPrompt": [
       "Use Cluster to find RevOps leaders at US B2B SaaS companies.",
       "Use Cluster to enrich work emails for a people table.",
-      "Use Cluster to build an email and LinkedIn campaign from my people table."
+      "Use Cluster to build an email and LinkedIn campaign from my people table.",
+      "Use Cluster to build an audience with lead filters and buying signals."
     ]
   }
 }

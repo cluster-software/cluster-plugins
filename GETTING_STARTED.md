@@ -17,7 +17,7 @@ finish the UI flow:
 
 1. Open **Customize → Plugins**.
 2. Select **Add marketplace** and enter `cluster-software/cluster-plugins`.
-3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.7.2**.
+3. Find **ethos** (Cluster) in the marketplace and install or update it to **0.8.0**.
 4. Open **Customize → Plugins → Connectors**. If Cluster is already connected,
    keep that connector and do not add or authenticate another Cluster server.
    Otherwise, find the existing **ethos** / **GTM Cluster** connector, select
@@ -85,7 +85,7 @@ Install or refresh the current plugin:
 codex plugin add ethos-gtm@cluster-plugins --json
 ```
 
-Require version `0.7.2` and an enabled `ethos-gtm@cluster-plugins` installation.
+Require version `0.8.0` and an enabled `ethos-gtm@cluster-plugins` installation.
 The marketplace authentication policy should open MCP OAuth during installation.
 
 ### 2. Verify the hosted MCP connection
@@ -153,3 +153,30 @@ counts, so counting recipients does not require `get_list`.
 Request detail tools only after choosing the relevant resource. The hosted
 server exposes the current tool schemas directly; reconnect if a client has
 cached an older schema.
+
+
+## Saved audiences
+
+The hosted server exposes separate tools for saved audience construction and
+management. Use `list_audiences` and `get_audience` to inspect saved configurations;
+`get_audience_signal_catalog` and `get_audience_filter_options` provide valid
+signal configurations and filter values. `search_audience_companies` resolves
+company pages, and `suggest_audience_filters` uses saved workspace context.
+
+Use `preview_audience` and `reject_audience_preview_lead` to refine a draft, then
+`create_audience` or `update_audience` to save it. Creating with signals enables
+scheduled collection. `queue_audience_pull` requests collection immediately;
+`get_audience_pull_status` waits server-side with `wait_seconds=120`, even before
+the scheduler assigns a run ID. `list_audience_pull_runs` and
+`get_audience_pull_run` expose collection history and detailed reports.
+
+`list_audience_members` pages active or backlog members with evidence;
+`reject_audience_member` records feedback. `detach_audience_campaigns` and
+`delete_audience` are separate operations. Existing campaign leads remain after
+detachment. Campaign attachment uses the existing `audience_id` parameter on
+campaign creation/settings tools. The live `source-social-audience` skill
+resource describes the complete workflow and separates saved audiences from
+one-time social pulls into tables.
+
+These tools require the corresponding hosted backend release. Start a fresh
+chat after deployment to load the updated catalog.
