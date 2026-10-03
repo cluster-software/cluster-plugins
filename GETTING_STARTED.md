@@ -157,26 +157,27 @@ cached an older schema.
 
 ## Saved audiences
 
-The hosted server exposes separate tools for saved audience construction and
-management. Use `list_audiences` and `get_audience` to inspect saved configurations;
-`get_audience_signal_catalog` and `get_audience_filter_options` provide valid
-signal configurations and filter values. `search_audience_companies` resolves
-company pages, and `suggest_audience_filters` uses saved workspace context.
+The hosted server exposes 13 tools for saved audience construction and management.
+Use `list_audiences` and `get_audience` to inspect saved configurations;
+`get_audience_config_catalog` provides signal configurations and exact filter
+values in one read.
 
-Use `preview_audience` and `reject_audience_preview_lead` to refine a draft, then
-`create_audience` or `update_audience` to save it. Creating with signals enables
-scheduled collection. `queue_audience_pull` requests collection immediately;
-`get_audience_pull_status` waits server-side with `wait_seconds=120`, even before
-the scheduler assigns a run ID. `list_audience_pull_runs` and
-`get_audience_pull_run` expose collection history and detailed reports.
+Use `preview_audience` to inspect matches, revise draft filters or rejection
+feedback, and preview again. Save with `create_audience` or `update_audience`.
+Creating with signals enables scheduled collection. `queue_audience_pull`
+requests collection immediately; `get_audience_pull_status` waits server-side
+with `wait_seconds=120`, even before the scheduler assigns a run ID.
+`list_audience_pull_runs` and `get_audience_pull_run` expose collection history
+and detailed reports.
 
 `list_audience_members` pages active or backlog members with evidence;
-`reject_audience_member` records feedback. `detach_audience_campaigns` and
-`delete_audience` are separate operations. Existing campaign leads remain after
-detachment. Campaign attachment uses the existing `audience_id` parameter on
-campaign creation/settings tools. The live `source-social-audience` skill
-resource describes the complete workflow and separates saved audiences from
-one-time social pulls into tables.
+`reject_audience_member` records persistent feedback. `delete_audience` refuses
+while non-archived campaigns are attached. For requested detachment, use the
+existing `update_campaign_settings` tool with `audience_id=null` for each linked
+campaign; existing leads and sending state remain. Campaign attachment uses the
+existing `audience_id` parameter on campaign creation/settings tools. The live
+`source-social-audience` skill resource describes the complete workflow and
+separates saved audiences from one-time social pulls into tables.
 
 These tools require the corresponding hosted backend release. Start a fresh
 chat after deployment to load the updated catalog.
