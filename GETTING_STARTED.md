@@ -167,6 +167,8 @@ feedback, and preview again. Save with `create_audience` or `update_audience`.
 Creating with signals enables scheduled collection. Before creating, changing
 signals, or requesting a pull, use the same tool with `dry_run=true`. Quotes are
 conservative per-pull credit ceilings, not lifetime budgets for the schedule.
+Creation and updates declare external collection effects in their MCP metadata;
+credit thresholds do not replace the host's approval policy.
 Above 100 credits, obtain approval unless already authorized and repeat with
 `acknowledged_credits` from the quote; lower estimates do not require another
 spend confirmation. `queue_audience_pull`
