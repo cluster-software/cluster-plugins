@@ -1,3 +1,7 @@
+> **Historical document: the Cluster plugin is retired.** Follow the
+> [current MCP/CLI setup and migration guide](../../GETTING_STARTED.md) instead
+> of the plugin installation instructions below.
+
 # Ethos plugin 0.4.0 migration
 
 Ethos 0.4.0 replaces the previous atomic/discovery MCP catalog with 18 direct
