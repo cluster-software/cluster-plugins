@@ -1,3 +1,7 @@
+> **Historical document: the Cluster plugin is retired.** Follow the
+> [current MCP/CLI setup and migration guide](../../GETTING_STARTED.md) instead
+> of the plugin installation instructions below.
+
 # Migrating to Ethos 0.6.1
 
 Ethos 0.6.1 removes CSV browser handoffs from the agent-facing MCP workflow.

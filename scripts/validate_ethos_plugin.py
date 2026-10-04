@@ -1,17 +1,8 @@
 import json
-import re
 from pathlib import Path
 
 PLUGIN_VERSION = "0.7.2"
 MCP_URL = "https://api.ethos.hello-cluster.com/mcp"
-FORBIDDEN_AGENT_GUIDANCE = (
-    re.compile(r"\bethos-cli\b", re.IGNORECASE),
-    re.compile(r"\bCLI\b"),
-    re.compile(r"\bcommand-line\b", re.IGNORECASE),
-    re.compile(r"(?:\$|/)ethos:setup\b", re.IGNORECASE),
-    re.compile(r"\bNode\.js\b", re.IGNORECASE),
-    re.compile(r"\bnpm\s+install\b", re.IGNORECASE),
-)
 
 
 def main() -> int:
@@ -56,20 +47,15 @@ def main() -> int:
     if set(mcp_servers) != {"gtm_ethos"} or mcp_servers["gtm_ethos"].get("url") != MCP_URL:
         raise ValueError("The plugin must define exactly one canonical hosted Cluster MCP server")
 
-    agent_facing_paths = [
-        repository_path / "README.md",
-        repository_path / "GETTING_STARTED.md",
-        repository_path / ".claude-plugin" / "marketplace.json",
-        repository_path / ".agents" / "plugins" / "marketplace.json",
-        *sorted(path for path in plugin_path.rglob("*") if path.is_file()),
-    ]
-    for path in agent_facing_paths:
-        content = path.read_text(encoding="utf-8")
-        for pattern in FORBIDDEN_AGENT_GUIDANCE:
-            if pattern.search(content):
-                raise ValueError(f"{path.relative_to(repository_path)} contains prohibited guidance: {pattern.pattern}")
+    for name in ("README.md", "GETTING_STARTED.md"):
+        content = (repository_path / name).read_text(encoding="utf-8")
+        if "retired" not in content or MCP_URL not in content:
+            raise ValueError(f"{name} must explain retirement and direct MCP setup")
+        if any(command in content for command in ("plugin marketplace add", "/plugin install", "codex plugin add")):
+            raise ValueError(f"{name} must not recommend installing the retired plugin")
 
-    print(f"Validated thin Cluster plugin {PLUGIN_VERSION}")
+    print(f"Validated retired Cluster plugin {PLUGIN_VERSION} and migration guidance")
+
     return 0
 
 

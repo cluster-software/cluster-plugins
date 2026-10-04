@@ -1,3 +1,7 @@
+> **Historical document: the Cluster plugin is retired.** Follow the
+> [current MCP/CLI setup and migration guide](../../GETTING_STARTED.md) instead
+> of the plugin installation instructions below.
+
 # Migrating to Ethos 0.7.0
 
 Ethos 0.7.0 is a thin hosted-MCP plugin. Workflow guidance now comes from live
