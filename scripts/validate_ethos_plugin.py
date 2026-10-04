@@ -2,7 +2,7 @@ import json
 import re
 from pathlib import Path
 
-PLUGIN_VERSION = "0.8.1"
+PLUGIN_VERSION = "0.8.2"
 MCP_URL = "https://api.ethos.hello-cluster.com/mcp"
 FORBIDDEN_AGENT_GUIDANCE = (
     re.compile(r"\bethos-cli\b", re.IGNORECASE),

@@ -11,7 +11,7 @@
       "name": "ethos",
       "source": "./plugins/ethos-gtm",
       "description": "Hosted Cluster MCP with prospecting, campaigns, human calling, and workspace summaries.",
-      "version": "0.8.1",
+      "version": "0.8.2",
       "homepage": "https://github.com/cluster-software/cluster-plugins",
       "repository": "https://github.com/cluster-software/cluster-plugins"
     }
